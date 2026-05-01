@@ -1463,8 +1463,8 @@ a.nt-badge:hover {
 
     .nt-mobile-only-rating .nt-rating-sep { opacity: 0.5; }
 
-    /* Sidebar mobilde gizlenir — duplicate'leri main'de göstereriz */
-    .nt-sidebar { display: none !important; }
+    /* Sidebar mobilde gösterilir */
+    .nt-sidebar { display: block !important; margin-bottom: 24px; }
 
     /* Synopsis altındaki ekstralar — Katkıda Bulunanlar + İlgili Noveller */
     .nt-synopsis-extras {
