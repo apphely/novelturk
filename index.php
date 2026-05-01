@@ -370,9 +370,9 @@
                 <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
                     <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Popüler Novellar</h3>
                     <div id="popular-novels-tabs" style="display:flex; gap:8px; margin-bottom:16px;">
-                        <button type="button" class="popular-tab-btn" data-period="week" style="background:#3b82f6; color:#fff; padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">Bu Hafta</button>
-                        <button type="button" class="popular-tab-btn" data-period="month" style="background:transparent; color:var(--text-dim); padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">3 Ay</button>
-                        <button type="button" class="popular-tab-btn" data-period="all" style="background:transparent; color:var(--text-dim); padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">Tüm Zamanlar</button>
+                        <button type="button" class="popular-tab-btn" data-period="week" style="background:#3b82f6; color:#fff; padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">Bu Hafta</button>
+                        <button type="button" class="popular-tab-btn" data-period="month" style="background:transparent; color:var(--text-dim); padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">3 Ay</button>
+                        <button type="button" class="popular-tab-btn" data-period="all" style="background:transparent; color:var(--text-dim); padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">Tüm Zamanlar</button>
                     </div>
                     <div id="popular-novels-content" style="display:flex; flex-direction:column; gap:12px;">
                         <?php
@@ -403,8 +403,17 @@
                             </div>
                             <div style="padding:12px; display:flex; align-items:center; flex:1;">
                                 <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
-                                    <h4 style="font-size:13px; font-weight:700; margin:0; color:var(--text-main);"><?php the_title(); ?></h4>
-                                    <span style="font-size:12px; color:var(--text-dim);">💬 <?php echo get_comments_number(); ?></span>
+                                    <h4 style="font-size:12px; font-weight:700; margin:0; color:var(--text-main); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;"><?php the_title(); ?></h4>
+                                    <div style="font-size:11px; color:var(--text-dim); display:flex; gap:8px;">
+                                        <?php
+                                        $rating_avg = get_post_meta(get_the_ID(), '_novel_rating_avg', true);
+                                        $rating_count = get_post_meta(get_the_ID(), '_novel_rating_count', true);
+                                        if ($rating_avg) :
+                                        ?>
+                                        <span>⭐ <?php echo number_format((float)$rating_avg, 1); ?> (<?php echo (int)$rating_count; ?>)</span>
+                                        <?php endif; ?>
+                                        <span>💭 <?php echo get_comments_number(); ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </a>

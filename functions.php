@@ -3587,8 +3587,15 @@ function webnovel_ajax_fetch_popular_novels() {
             $html .= '</div>';
             $html .= '<div style="padding:12px; display:flex; align-items:center; flex:1;">';
             $html .= '<div style="display:flex; flex-direction:column; gap:4px; width:100%;">';
-            $html .= '<h4 style="font-size:13px; font-weight:700; margin:0; color:var(--text-main);">' . get_the_title() . '</h4>';
-            $html .= '<span style="font-size:12px; color:var(--text-dim);">💬 ' . get_comments_number() . '</span>';
+            $html .= '<h4 style="font-size:12px; font-weight:700; margin:0; color:var(--text-main); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">' . get_the_title() . '</h4>';
+            $rating_avg = get_post_meta(get_the_ID(), '_novel_rating_avg', true);
+            $rating_count = get_post_meta(get_the_ID(), '_novel_rating_count', true);
+            $html .= '<div style="font-size:11px; color:var(--text-dim); display:flex; gap:8px;">';
+            if ($rating_avg) {
+                $html .= '<span>⭐ ' . number_format((float)$rating_avg, 1) . ' (' . (int)$rating_count . ')</span>';
+            }
+            $html .= '<span>💭 ' . get_comments_number() . '</span>';
+            $html .= '</div>';
             $html .= '</div></div></a>';
         }
     } else {
