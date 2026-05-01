@@ -3423,7 +3423,7 @@ function webnovel_ajax_refresh_sidebar_novels() {
             $html .= '<a href="' . get_permalink() . '" class="sidebar-novel-card" style="display:flex; background-color:var(--bg-card); border-radius:8px; overflow:hidden; text-decoration:none; color:var(--text-main); height:110px; border:1px solid var(--border); box-shadow:var(--shadow-sm); transition:transform 0.2s;">';
             $html .= '<div style="width:75px; flex-shrink:0; position:relative;">';
             if ($thumb) {
-                $html .= '<img src="' . esc_url($thumb) . '" style="width:100%; height:100%; object-fit:cover;" alt="' . get_the_title_attribute() . '">';
+                $html .= '<img src="' . esc_url($thumb) . '" style="width:100%; height:100%; object-fit:cover;" alt="' . esc_attr(get_the_title()) . '">';
             } else {
                 $html .= '<div style="width:100%; height:100%; background:var(--bg-surface);"></div>';
             }
