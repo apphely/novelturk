@@ -316,6 +316,23 @@
                     </dl>
 
                     <!-- Kategori -->
+                    <style>
+                        #dd-kategori > div::-webkit-scrollbar {
+                            width: 8px;
+                        }
+                        #dd-kategori > div::-webkit-scrollbar-track {
+                            background: var(--bg-surface);
+                            border-radius: 4px;
+                        }
+                        #dd-kategori > div::-webkit-scrollbar-thumb {
+                            background: var(--accent);
+                            border-radius: 4px;
+                            transition: background 0.3s;
+                        }
+                        #dd-kategori > div::-webkit-scrollbar-thumb:hover {
+                            background: var(--text-main);
+                        }
+                    </style>
                     <dl style="display:grid; align-items:center; flex:1; position:relative;">
                         <dt class="filter-toggle" data-target="dd-kategori" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
                             Kategori
