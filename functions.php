@@ -3315,9 +3315,9 @@ function webnovel_custom_comment_layout($comment, $args, $depth) {
     <?php
 }
 
-// Close comments on non-homepage pages
+// Close comments on non-homepage pages (except novels and chapters)
 add_filter('comments_open', function($open) {
-    if (!is_home() && !is_front_page()) {
+    if (!is_home() && !is_front_page() && !in_array(get_post_type(), array('novel', 'chapter'))) {
         return false;
     }
     return $open;
