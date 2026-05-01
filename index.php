@@ -468,6 +468,75 @@
                     </div>
                 </div>
 
+                <!-- Dostlar Siteleri Section -->
+                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Dostlar Siteleri</h3>
+                    <style>
+.dost-site-link {
+    align-items: center;
+    background-image: linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151,65,252,0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    max-width: 100%;
+    min-width: 140px;
+    max-height: 80px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.dost-site-logo {
+    width: 60px;
+    height: 60px;
+}
+.dost-site-metin {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.dost-site-yazi {
+    margin-top: unset;
+    margin-bottom: unset;
+}
+                    </style>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <a class="dost-site-link" target="_blank" href="https://lnmakineceviri.blogspot.com/">
+<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
+  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfkYEF7zq82_XWA-gONRlP_w8LGwiRBhgshsNqtR3ll9ImnFeZ430Ry6FLuM4EBPA120qrzuV39Gc5D65uOUYors0A-2cgQ_Z0LXNXAW2KuwXD2Pl6pybX6lITiExafcynzexwsOlSR0QcTImAX9_vTDLAXwl5W50SwrK7O4mkXJIsPuw/s1600/lnmakineceviri%202.png"/>
+  <span class="dost-site-metin">
+    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">LN Makine Çeviri</p>
+    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Novel Makine Çeviri</p>
+  </span>
+</button>
+                        </a>
+                        <a class="dost-site-link" target="_blank" href="https://turkcenoveloku.blogspot.com/">
+<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
+  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/a/AVvXsEhLSKPMPx2FInqS7Szc02_peWF93hUZm9ngIckwnlxZXQYNRQ9RVQcE1j7RpdtTz9lCdJ4ArIKr26Ur8CFFR2q0scGH2zqO7x6jVJRkRnKoXyyQHahtXcE5s9mzxRfxVtmYJPRMxGYZfKqPCdmx3xtHSo-19RJqU9bi_uOef8jgzFrxgr7MgY4VyeFWdBVc=s0"/>
+  <span class="dost-site-metin">
+    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">Türkçe Novel Oku</p>
+    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Novel Yapay Zeka Çeviri</p>
+  </span>
+</button>
+                        </a>
+                        <a class="dost-site-link" target="_blank" href="https://culturesubs.com/">
+<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
+  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpL_KEdWpIt3W43RztLPZevpcqjVnsgl2yjRkvUs-9T4ggOu-tECuxBvqTCgfKsfLVGTsXuEzaG-u7ZxIH5mNBbcusqDMQAUPVuVtE6qylFWksTYKqSRR6uJiVwNegcePL2JuVQc7-5MXfks_mZxH_TKte74a-p09kxTP1HjcaxlHZXNQ/s1600/2d99fe28-57f9-4c9a-b025-3fa44396de6b_1%20(1).png"/>
+  <span class="dost-site-metin">
+    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">Culture Subs</p>
+    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Manga ve Anime</p>
+  </span>
+</button>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
