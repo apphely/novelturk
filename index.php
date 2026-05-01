@@ -301,7 +301,7 @@
                         }
                         ?>
                     </div>
-                    <button type="button" onclick="location.reload()" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
+                    <button type="button" id="refresh-sidebar-novels" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                     </button>
                 </div>
@@ -742,6 +742,34 @@ document.addEventListener('DOMContentLoaded', function() {
         if (values.length > 0) url += '&filter_labels=' + encodeURIComponent(values.join('+'));
 
         window.location.href = url;
+    });
+
+    // Refresh sidebar novels for active tab only
+    document.getElementById('refresh-sidebar-novels').addEventListener('click', function() {
+        var activeTab = document.querySelector('.sidebar-novel-list[style*="display: flex"]');
+        if (!activeTab) activeTab = document.querySelector('.sidebar-novel-list[style*="display:flex"]');
+        if (!activeTab) {
+            var tabId = document.querySelector('.sidebar-tab-btn[style*="#3b82f6"]');
+            if (tabId) {
+                var targetId = tabId.getAttribute('data-target');
+                activeTab = document.getElementById(targetId);
+            }
+        }
+
+        if (!activeTab) return;
+
+        var tabId = activeTab.id;
+        var genreSlug = tabId.replace('sidebar-tab-', '');
+
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=refresh_sidebar_novels&genre=' + encodeURIComponent(genreSlug)
+        })
+        .then(r => r.text())
+        .then(html => {
+            activeTab.innerHTML = html;
+        });
     });
 });
 </script>
