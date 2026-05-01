@@ -148,14 +148,57 @@
                 <h2 style="font-size: 20px; font-weight:700;">Noveller ve Bölümleri</h2>
                 <a href="<?php echo home_url('/novel/'); ?>" style="background:#2563eb; color:#fff; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:bold;">Tüm Noveller</a>
             </div>
-            
-            <!-- Novels Grid -->
-            <div id="novels-grid" class="nt-novels-grid">
+
+            <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
+                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold; font-style:italic;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+            </div>
+
+            <!-- Devam Edenler Tab -->
+            <div id="tab-devam" class="novels-tab-content nt-novels-grid is-visible">
                 <?php
-                $args = array('post_type' => 'novel', 'posts_per_page' => 15);
-                $query = new WP_Query($args);
-                if ($query->have_posts()) :
-                    while ($query->have_posts()) : $query->the_post();
+                $args_devam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'ongoing')));
+                $query_devam = new WP_Query($args_devam);
+                if ($query_devam->have_posts()) :
+                    while ($query_devam->have_posts()) : $query_devam->the_post();
+                        get_template_part('template-parts/content', 'novel-card-novelturk');
+                    endwhile;
+                else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
+                ?>
+            </div>
+
+            <!-- Tamamlananlar -->
+            <div id="tab-tamamlandi" class="novels-tab-content nt-novels-grid">
+                <?php
+                $args_tamam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'completed')));
+                $query_tamam = new WP_Query($args_tamam);
+                if ($query_tamam->have_posts()) :
+                    while ($query_tamam->have_posts()) : $query_tamam->the_post();
+                        get_template_part('template-parts/content', 'novel-card-novelturk');
+                    endwhile;
+                else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
+                ?>
+            </div>
+
+            <!-- Diğer (Türkiye & Genel/Global) -->
+            <div id="tab-diger" class="novels-tab-content nt-novels-grid">
+                <?php
+                $args_all = array(
+                    'post_type' => 'novel',
+                    'posts_per_page' => 15,
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'novel_origin',
+                            'field' => 'slug',
+                            'terms' => array('turkiye', 'genel', 'global', 'turkey'),
+                            'operator' => 'IN'
+                        )
+                    )
+                );
+                $query_all = new WP_Query($args_all);
+                if ($query_all->have_posts()) :
+                    while ($query_all->have_posts()) : $query_all->the_post();
                         get_template_part('template-parts/content', 'novel-card-novelturk');
                     endwhile;
                 else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
@@ -913,6 +956,21 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(e => console.error('Popular novels error:', e));
         });
     });
+
+    // Tab switching function
+    window.showTab = function(tabName, btn) {
+        var tabs = document.querySelectorAll('.novels-tab-content');
+        tabs.forEach(tab => tab.classList.remove('is-visible'));
+        document.getElementById('tab-' + tabName).classList.add('is-visible');
+
+        var buttons = document.querySelectorAll('.custom-btn');
+        buttons.forEach(b => {
+            b.style.background = 'var(--bg-card)';
+            b.style.color = 'var(--text-main)';
+        });
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#fff';
+    };
 });
 </script>
 
