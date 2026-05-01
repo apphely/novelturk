@@ -179,55 +179,46 @@
         <div id="Filtreleme" class="nt-card" style="background-color: var(--bg-surface); border:none;">
             <div class="nt-card-body">
                 <h3 class="nt-text-xl nt-font-bold nt-mb-4" style="color:var(--text-main);">Novel Filtreleme</h3>
-                
-                <form action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:12px;">
+
+                <form id="sidebar-filter-form" action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:12px;">
                     <input type="hidden" name="post_type" value="novel">
-                    
+
                     <!-- Text Search -->
                     <div style="position:relative;">
                         <input type="text" name="s" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
                         <svg style="position:absolute; left:14px; top:12px; color:var(--text-dim);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     </div>
 
-                    <!-- Dropdowns x 2 Columns -->
-                    <div style="display:flex; gap:12px;">
-                        <select name="nstatus" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Durum 📋</option>
-                            <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
-                                <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <select name="novel_type" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Tür 🏷️</option>
-                            <?php 
-                            $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
-                            if (!is_wp_error($types)) {
-                                foreach($types as $t) {
-                                    $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div style="display:flex; gap:12px;">
-                        <select name="novel_origin" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Ülke 🌐</option>
-                            <?php
-                            $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
-                            if (!is_wp_error($origins)) {
-                                foreach($origins as $o) {
-                                    $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
+                    <!-- Filter Buttons Grid 2x2 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <!-- Durum Button -->
+                        <button type="button" class="filter-btn" data-filter="status" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <span>📋</span> Durum
+                        </button>
+
+                        <!-- Tür Button -->
+                        <button type="button" class="filter-btn" data-filter="type" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <span>🏷️</span> Tür
+                        </button>
+
+                        <!-- Ülke Button -->
+                        <button type="button" class="filter-btn" data-filter="origin" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <span>🌐</span> Ülke
+                        </button>
+
+                        <!-- Kategori Button -->
+                        <button type="button" class="filter-btn" data-filter="genre" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <span>📁</span> Kategori
+                        </button>
                     </div>
 
-                    <!-- Category Multi-Select -->
+                    <!-- Hidden inputs for form submission -->
+                    <input type="hidden" name="nstatus" id="hidden-status" value="<?php echo isset($_GET['nstatus']) ? esc_attr($_GET['nstatus']) : ''; ?>">
+                    <input type="hidden" name="novel_type" id="hidden-type" value="<?php echo isset($_GET['novel_type']) ? esc_attr($_GET['novel_type']) : ''; ?>">
+                    <input type="hidden" name="novel_origin" id="hidden-origin" value="<?php echo isset($_GET['novel_origin']) ? esc_attr($_GET['novel_origin']) : ''; ?>">
+
+                    <!-- Category Multi-Select Dropdown -->
                     <div style="position: relative;">
-                        <label style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Kategori</label>
                         <button class="sidebar-category-toggle" type="button" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
                             <span>Seç</span>
                             <span style="font-size: 12px;">▼</span>
@@ -250,7 +241,7 @@
                     </div>
 
                     <!-- Submit -->
-                    <button type="submit" style="width:100%; padding:12px; border-radius:24px; background:linear-gradient(to right, #6366f1, #3b82f6); color:#fff; border:none; font-weight:bold; font-size:16px; cursor:pointer; margin-top:8px;">
+                    <button type="submit" style="width:100%; padding:12px; border-radius:8px; background:linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
                         🔍 Filtrele
                     </button>
                 </form>
@@ -676,37 +667,135 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Sidebar Category Multi-Select
+// Sidebar Filter System
 document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
     const sidebarToggle = document.querySelector('.sidebar-category-toggle');
     const sidebarOptions = document.querySelector('.sidebar-category-options');
     const sidebarCheckboxes = document.querySelectorAll('.sidebar-category-checkbox');
-    const filterForm = document.querySelector('.nt-sidebar form');
+    const filterForm = document.getElementById('sidebar-filter-form');
+    const hiddenStatus = document.getElementById('hidden-status');
+    const hiddenType = document.getElementById('hidden-type');
+    const hiddenOrigin = document.getElementById('hidden-origin');
 
-    if (!sidebarToggle) return;
+    const filterData = {
+        status: [
+            {name: 'Güncel', value: 'ongoing'},
+            {name: 'Tamamlandı', value: 'completed'},
+            {name: 'Devam Ediyor', value: 'ongoing'},
+            {name: 'Çok Yakında', value: 'upcoming'},
+            {name: 'Terk Edildi', value: 'discontinued'},
+            {name: 'Süresizlik', value: 'hiatus'}
+        ],
+        type: [],
+        origin: []
+    };
 
-    // Toggle dropdown
-    sidebarToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        sidebarOptions.style.display = sidebarOptions.style.display === 'none' ? 'block' : 'none';
+    // Load types
+    const typeSelect = document.querySelector('select[name="novel_type"]');
+    if (typeSelect) {
+        Array.from(typeSelect.options).forEach(opt => {
+            if (opt.value) filterData.type.push({name: opt.text, value: opt.value});
+        });
+    }
+
+    // Load origins
+    const originSelect = document.querySelector('select[name="novel_origin"]');
+    if (originSelect) {
+        Array.from(originSelect.options).forEach(opt => {
+            if (opt.value) filterData.origin.push({name: opt.text, value: opt.value});
+        });
+    }
+
+    // Create modal
+    const modal = document.createElement('div');
+    modal.id = 'filter-modal';
+    modal.style.cssText = 'display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:1000;';
+    modal.innerHTML = `
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--bg-surface); border-radius:12px; padding:20px; max-width:400px; width:90%; max-height:70vh; overflow-y:auto;">
+            <h3 id="modal-title" style="font-size:16px; font-weight:700; color:var(--text-main); margin:0 0 16px 0;"></h3>
+            <div id="modal-content" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;"></div>
+            <button id="modal-close" style="width:100%; padding:10px; background:linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700;">Kapat</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalClose = document.getElementById('modal-close');
+
+    // Filter button clicks
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const filterType = this.dataset.filter;
+            showFilterModal(filterType);
+        });
     });
 
-    // Close dropdown when clicking outside
+    function showFilterModal(type) {
+        const labels = {status: 'Durum', type: 'Tür', origin: 'Ülke'};
+        const options = filterData[type];
+        const currentValue = type === 'status' ? hiddenStatus.value : (type === 'type' ? hiddenType.value : hiddenOrigin.value);
+
+        modalTitle.textContent = labels[type];
+        modalContent.innerHTML = '';
+
+        options.forEach(opt => {
+            const label = document.createElement('label');
+            label.style.cssText = 'display:flex; align-items:center; padding:10px; border-radius:6px; cursor:pointer; background:var(--bg-card); border:1px solid var(--border);';
+            label.innerHTML = `
+                <input type="radio" name="filter-${type}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
+                <span style="color:var(--text-main);">${opt.name}</span>
+            `;
+            label.querySelector('input').addEventListener('change', function() {
+                if (type === 'status') hiddenStatus.value = this.value;
+                else if (type === 'type') hiddenType.value = this.value;
+                else if (type === 'origin') hiddenOrigin.value = this.value;
+                modal.style.display = 'none';
+            });
+            modalContent.appendChild(label);
+        });
+
+        modal.style.display = 'flex';
+    }
+
+    // Modal close
+    modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+
+    // Category toggle
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidebarOptions.style.display = sidebarOptions.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
+    // Close category dropdown when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.sidebar-category-options') && !e.target.closest('.sidebar-category-toggle')) {
-            sidebarOptions.style.display = 'none';
+            if (sidebarOptions) sidebarOptions.style.display = 'none';
         }
     });
 
-    // Update label on change
+    // Update category label
     sidebarCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateSidebarLabel);
+        checkbox.addEventListener('change', updateCategoryLabel);
     });
+
+    function updateCategoryLabel() {
+        const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).length;
+        if (sidebarToggle) {
+            sidebarToggle.querySelector('span:first-child').textContent = selected > 0 ? selected + ' Seçildi' : 'Seç';
+        }
+    }
 
     // Handle form submission
     if (filterForm) {
         filterForm.addEventListener('submit', function(e) {
-            // Create hidden inputs for selected categories
             const existingInputs = filterForm.querySelectorAll('input[name="novel_genre"]');
             existingInputs.forEach(input => input.remove());
 
@@ -721,17 +810,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateSidebarLabel() {
-        const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).length;
-        if (selected > 0) {
-            sidebarToggle.querySelector('span:first-child').textContent = selected + ' Seçildi';
-        } else {
-            sidebarToggle.querySelector('span:first-child').textContent = 'Seç';
-        }
-    }
-
-    // Set initial label
-    updateSidebarLabel();
+    updateCategoryLabel();
 });
 </script>
 
