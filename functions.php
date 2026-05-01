@@ -3231,7 +3231,7 @@ function webnovel_theme_options_page() {
                                 ?>
                                 <li style="margin-bottom:12px; display:flex; gap:8px; align-items:center;">
                                     <input type="text" name="webnovel_quick_access_labels[]" value="<?php echo $label; ?>" class="regular-text" style="width: 40%;" placeholder="Buton İsmi..." required>
-                                    <input type="url" name="webnovel_quick_access_urls[]" value="<?php echo $url; ?>" class="regular-text" style="width: 55%;" placeholder="URL..." required>
+                                    <input type="text" name="webnovel_quick_access_urls[]" value="<?php echo $url; ?>" class="regular-text" style="width: 55%;" placeholder="URL veya #Bağlantı..." required>
                                     <button type="button" class="button remove-quick-access">Sil</button>
                                 </li>
                                 <?php endforeach; ?>
@@ -3279,7 +3279,7 @@ function webnovel_theme_options_page() {
                 li.style.gap = '8px';
                 li.style.alignItems = 'center';
                 li.innerHTML = '<input type="text" name="webnovel_quick_access_labels[]" value="" class="regular-text" style="width: 40%;" placeholder="Buton İsmi..." required> ' +
-                               '<input type="url" name="webnovel_quick_access_urls[]" value="" class="regular-text" style="width: 55%;" placeholder="URL..." required> ' +
+                               '<input type="text" name="webnovel_quick_access_urls[]" value="" class="regular-text" style="width: 55%;" placeholder="URL veya #Bağlantı..." required> ' +
                                '<button type="button" class="button remove-quick-access">Sil</button>';
                 qaContainer.appendChild(li);
             });
