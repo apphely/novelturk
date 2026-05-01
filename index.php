@@ -468,6 +468,27 @@
                     </div>
                 </div>
 
+                <!-- Dostlar Siteleri Section -->
+                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Dostlar Siteleri</h3>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <a class="dost-site-link" target="_blank" href="https://lnmakineceviri.blogspot.com/" style="align-items:center; background-image:linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB); border:0; border-radius:8px; box-shadow:rgba(151,65,252,0.2) 0 15px 30px -5px; box-sizing:border-box; display:flex; justify-content:flex-start; gap:16px; padding:12px 16px; max-width:100%; text-decoration:none; user-select:none; -webkit-user-select:none; touch-action:manipulation; cursor:pointer; min-height:80px;">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfkYEF7zq82_XWA-gONRlP_w8LGwiRBhgshsNqtR3ll9ImnFeZ430Ry6FLuM4EBPA120qrzuV39Gc5D65uOUYors0A-2cgQ_Z0LXNXAW2KuwXD2Pl6pybX6lITiExafcynzexwsOlSR0QcTImAX9_vTDLAXwl5W50SwrK7O4mkXJIsPuw/s1600/lnmakineceviri%202.png" style="width:60px; height:60px; flex-shrink:0;">
+                            <div style="display:flex; flex-direction:column; justify-content:center; gap:2px;">
+                                <p style="margin:0; font-weight:700; color:#fff; font-size:14px;">LN Makine Çeviri</p>
+                                <p style="margin:0; font-size:12px; color:#fff; opacity:0.95;">Türkçe Novel Makine Çeviri</p>
+                            </div>
+                        </a>
+                        <a class="dost-site-link" target="_blank" href="https://turkcenoveloku.blogspot.com/" style="align-items:center; background-image:linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB); border:0; border-radius:8px; box-shadow:rgba(151,65,252,0.2) 0 15px 30px -5px; box-sizing:border-box; display:flex; justify-content:flex-start; gap:16px; padding:12px 16px; max-width:100%; text-decoration:none; user-select:none; -webkit-user-select:none; touch-action:manipulation; cursor:pointer; min-height:80px;">
+                            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhLSKPMPx2FInqS7Szc02_peWF93hUZm9ngIckwnlxZXQYNRQ9RVQcE1j7RpdtTz9lCdJ4ArIKr26Ur8CFFR2q0scGH2zqO7x6jVJRkRnKoXyyQHahtXcE5s9mzxRfxVtmYJPRMxGYZfKqPCdmx3xtHSo-19RJqU9bi_uOef8jgzFrxgr7MgY4VyeFWdBVc=s0" style="width:60px; height:60px; flex-shrink:0;">
+                            <div style="display:flex; flex-direction:column; justify-content:center; gap:2px;">
+                                <p style="margin:0; font-weight:700; color:#fff; font-size:14px;">Türkçe Novel Oku</p>
+                                <p style="margin:0; font-size:12px; color:#fff; opacity:0.95;">Türkçe Novel Yapay Zeka Çeviri</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
