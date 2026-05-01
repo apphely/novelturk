@@ -187,10 +187,7 @@
                 $cover_url = webnovel_get_cover_url($novel_id, 'large');
                 $chapter_count = wp_count_posts('chapter');
         ?>
-        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 300px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
-            <!-- Background Image -->
-            <div style="position: absolute; inset: 0; opacity: 0.4; background-image: url('<?php echo esc_url($cover_url); ?>'); background-size: cover; background-position: right center; z-index: 1;"></div>
-
+        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 280px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
             <!-- Content -->
             <div style="position: relative; z-index: 2; padding: 2rem; max-width: 600px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
