@@ -121,12 +121,12 @@
 
         <!-- Hızlı Erişim Grid -->
         <div class="nt-quick-access" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 24px;">
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">Destek/Bağış</a>
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">En Popülerler</a>
-            <a href="/#Fİltreleme" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">Filtreleme</a>
-            <a href="/#SiteYorumlari" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">Site Yorumları</a>
-            <a href="/#SonYorumlar" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">Son Yorumlar</a>
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 40px;">Tema Ayarları</a>
+            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Destek/Bağış</a>
+            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">En Popülerler</a>
+            <a href="/#Fİltreleme" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Filtreleme</a>
+            <a href="/#SiteYorumlari" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Site Yorumları</a>
+            <a href="/#SonYorumlar" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Son Yorumlar</a>
+            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Tema Ayarları</a>
         </div>
 
         <style>
@@ -136,11 +136,11 @@
             }
             @media (max-width: 768px) {
                 .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 6px; margin-bottom: 20px; }
-                .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 36px; }
+                .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 28px; }
             }
             @media (max-width: 480px) {
                 .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 4px; }
-                .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 32px; }
+                .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 24px; }
             }
         </style>
         <section class="tabbed-novels">
