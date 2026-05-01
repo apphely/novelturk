@@ -18,6 +18,14 @@
 <?php wp_body_open(); ?>
 
 <!-- NovelTurk-Style Navbar -->
+<style>
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <nav class="site-header bg-accent dark:bg-gray-950" id="site-header">
     <div class="header-container">
         <!-- Mobil: Sol taraftaki Arama butonu (mobil arama çubuğunu açar) -->
