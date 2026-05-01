@@ -132,14 +132,14 @@
         <style>
             .nt-quick-access a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
             @media (max-width: 1200px) {
-                .nt-quick-access { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+                .nt-quick-access { grid-template-columns: repeat(4, 1fr) !important; gap: 8px; }
             }
             @media (max-width: 768px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 20px; }
+                .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 6px; margin-bottom: 20px; }
                 .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 36px; }
             }
             @media (max-width: 480px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+                .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 4px; }
                 .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 32px; }
             }
         </style>
