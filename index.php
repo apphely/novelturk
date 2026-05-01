@@ -493,9 +493,8 @@
     cursor: pointer;
 }
 .dost-site-kapali {
-    background-image: none !important;
-    background: linear-gradient(144deg, #1f2937, #111827) !important;
-    box-shadow: rgba(0,0,0,0.3) 0 15px 30px -5px !important;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
 }
 .dost-site-logo {
     width: 60px;
