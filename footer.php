@@ -109,13 +109,13 @@
         </nav>
 
         <!-- Legal Disclaimer -->
-        <p style="opacity: 0.5; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6;">
+        <p style="opacity: 0.5; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6; text-align: center;">
             Yasal Uyarı: <?php bloginfo('name'); ?> sunucumuzda herhangi bir dosya saklamaz, yalnızca 3. taraf hizmetlerde barındırılan medyaya bağlantı veririz. Türkiye'de resmî olarak satışa sunulan novel ve benzeri eserleri satın alarak, ilgili sanatçılara ve yayıncılara destek olmanızı önemle tavsiye ederiz. Buradaki içerikler, orijinal eserlerin tanıtımına katkı sağlama amacı taşımaktadır. Tüm içerikler, bağlı olmayan üçüncü şahıslar tarafından sağlanmaktadır. Telif haklarını ihlal ettiğini düşündüğünüz herhangi bir içerikle karşılaşmanız durumunda, lütfen benimle iletişime geçiniz.<br>
             <?php bloginfo('name'); ?> - Türkçe Novel Oku
         </p>
 
         <!-- Copyright -->
-        <p style="opacity: 0.5; margin: 0; font-size: 0.875rem;">
+        <p style="opacity: 0.5; margin: 0 0 2rem 0; font-size: 0.875rem; text-align: center;">
             Telif Hakkı &copy; 2023-<script>document.write(new Date().getFullYear())</script> <?php bloginfo('name'); ?>
         </p>
     </div>
