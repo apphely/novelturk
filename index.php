@@ -250,9 +250,9 @@
             </div>
 
             <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
-                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+                <button class="custom-btn active" style="flex:1; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
+                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
+                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
             </div>
 
             <!-- Devam Edenler Tab -->
