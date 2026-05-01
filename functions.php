@@ -2147,10 +2147,7 @@ function webnovel_render_comments() {
         echo '<div class="comments-embed">' . $embed . '</div>';
         echo '</div>';
     } else {
-        // Fallback to Native WP comments
-        if ( comments_open() || get_comments_number() ) {
-            comments_template();
-        }
+        comments_template();
     }
 }
 
@@ -3295,6 +3292,21 @@ function webnovel_theme_options_page() {
     <?php
 }
 
+// Force comments open for novel and chapter post types
+add_filter('comments_open', function($open, $post_id) {
+    if (in_array(get_post_type($post_id), array('novel', 'chapter'))) {
+        return true;
+    }
+    return $open;
+}, 999, 2);
+
+// When creating novel/chapter posts, default comment_status to 'open'
+add_filter('wp_insert_post_data', function($data) {
+    if (in_array($data['post_type'], array('novel', 'chapter')) && $data['comment_status'] === 'closed') {
+        $data['comment_status'] = 'open';
+    }
+    return $data;
+});
 
 // Register status field in REST API for novel posts
 add_action('rest_api_init', function() {
