@@ -192,24 +192,36 @@
                     <!-- Filter Buttons Grid 2x2 -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                         <!-- Durum Button -->
-                        <button type="button" class="filter-btn" data-filter="status" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <span>📋</span> Durum
-                        </button>
+                        <div style="position: relative;">
+                            <button type="button" class="filter-btn" data-filter="status" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <span>📋</span> Durum
+                            </button>
+                            <div class="filter-dropdown" data-filter="status" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                        </div>
 
                         <!-- Tür Button -->
-                        <button type="button" class="filter-btn" data-filter="type" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <span>🏷️</span> Tür
-                        </button>
+                        <div style="position: relative;">
+                            <button type="button" class="filter-btn" data-filter="type" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <span>🏷️</span> Tür
+                            </button>
+                            <div class="filter-dropdown" data-filter="type" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                        </div>
 
                         <!-- Ülke Button -->
-                        <button type="button" class="filter-btn" data-filter="origin" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <span>🌐</span> Ülke
-                        </button>
+                        <div style="position: relative;">
+                            <button type="button" class="filter-btn" data-filter="origin" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <span>🌐</span> Ülke
+                            </button>
+                            <div class="filter-dropdown" data-filter="origin" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                        </div>
 
                         <!-- Kategori Button -->
-                        <button type="button" class="filter-btn" data-filter="genre" style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <span>📁</span> Kategori
-                        </button>
+                        <div style="position: relative;">
+                            <button type="button" class="filter-btn" data-filter="genre" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <span>📁</span> Kategori
+                            </button>
+                            <div class="filter-dropdown" data-filter="genre" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                        </div>
                     </div>
 
                     <!-- Hidden inputs for form submission -->
@@ -670,6 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sidebar Filter System
 document.addEventListener('DOMContentLoaded', function() {
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterDropdowns = document.querySelectorAll('.filter-dropdown');
     const sidebarToggle = document.querySelector('.sidebar-category-toggle');
     const sidebarOptions = document.querySelector('.sidebar-category-options');
     const sidebarCheckboxes = document.querySelectorAll('.sidebar-category-checkbox');
@@ -707,79 +720,68 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Create modal
-    const modal = document.createElement('div');
-    modal.id = 'filter-modal';
-    modal.style.cssText = 'display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:1000;';
-    modal.innerHTML = `
-        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--bg-surface); border-radius:12px; padding:20px; max-width:400px; width:90%; max-height:70vh; overflow-y:auto;">
-            <h3 id="modal-title" style="font-size:16px; font-weight:700; color:var(--text-main); margin:0 0 16px 0;"></h3>
-            <div id="modal-content" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;"></div>
-            <button id="modal-close" style="width:100%; padding:10px; background:linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700;">Kapat</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
+    // Populate dropdowns
+    filterDropdowns.forEach(dropdown => {
+        const filterType = dropdown.dataset.filter;
+        if (filterType === 'genre') return; // Skip genre, it has its own dropdown
 
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-    const modalClose = document.getElementById('modal-close');
+        const options = filterData[filterType];
+        const currentValue = filterType === 'status' ? hiddenStatus.value : (filterType === 'type' ? hiddenType.value : hiddenOrigin.value);
+
+        options.forEach(opt => {
+            const label = document.createElement('label');
+            label.style.cssText = 'display:flex; align-items:center; padding:10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px;';
+            label.innerHTML = `
+                <input type="radio" name="filter-${filterType}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
+                <span style="color:var(--text-main);">${opt.name}</span>
+            `;
+            label.querySelector('input').addEventListener('change', function() {
+                if (filterType === 'status') hiddenStatus.value = this.value;
+                else if (filterType === 'type') hiddenType.value = this.value;
+                else if (filterType === 'origin') hiddenOrigin.value = this.value;
+                dropdown.style.display = 'none';
+            });
+            dropdown.appendChild(label);
+        });
+    });
 
     // Filter button clicks
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const filterType = this.dataset.filter;
-            showFilterModal(filterType);
+            const dropdown = this.parentElement.querySelector('.filter-dropdown');
+            if (!dropdown) return;
+
+            // Close other dropdowns
+            filterDropdowns.forEach(d => {
+                if (d !== dropdown) d.style.display = 'none';
+            });
+            if (sidebarOptions) sidebarOptions.style.display = 'none';
+
+            // Toggle current dropdown
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
         });
     });
 
-    function showFilterModal(type) {
-        const labels = {status: 'Durum', type: 'Tür', origin: 'Ülke'};
-        const options = filterData[type];
-        const currentValue = type === 'status' ? hiddenStatus.value : (type === 'type' ? hiddenType.value : hiddenOrigin.value);
-
-        modalTitle.textContent = labels[type];
-        modalContent.innerHTML = '';
-
-        options.forEach(opt => {
-            const label = document.createElement('label');
-            label.style.cssText = 'display:flex; align-items:center; padding:10px; border-radius:6px; cursor:pointer; background:var(--bg-card); border:1px solid var(--border);';
-            label.innerHTML = `
-                <input type="radio" name="filter-${type}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
-                <span style="color:var(--text-main);">${opt.name}</span>
-            `;
-            label.querySelector('input').addEventListener('change', function() {
-                if (type === 'status') hiddenStatus.value = this.value;
-                else if (type === 'type') hiddenType.value = this.value;
-                else if (type === 'origin') hiddenOrigin.value = this.value;
-                modal.style.display = 'none';
-            });
-            modalContent.appendChild(label);
-        });
-
-        modal.style.display = 'flex';
-    }
-
-    // Modal close
-    modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.filter-btn') && !e.target.closest('.filter-dropdown')) {
+            filterDropdowns.forEach(d => d.style.display = 'none');
+        }
+        if (!e.target.closest('.sidebar-category-toggle') && !e.target.closest('.sidebar-category-options')) {
+            if (sidebarOptions) sidebarOptions.style.display = 'none';
+        }
     });
 
     // Category toggle
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function(e) {
             e.preventDefault();
+            filterDropdowns.forEach(d => d.style.display = 'none');
             sidebarOptions.style.display = sidebarOptions.style.display === 'none' ? 'block' : 'none';
         });
     }
-
-    // Close category dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.sidebar-category-options') && !e.target.closest('.sidebar-category-toggle')) {
-            if (sidebarOptions) sidebarOptions.style.display = 'none';
-        }
-    });
 
     // Update category label
     sidebarCheckboxes.forEach(checkbox => {
