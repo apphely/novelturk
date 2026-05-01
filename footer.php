@@ -71,17 +71,52 @@
 </div>
 <?php endif; ?>
 
-<footer class="site-footer" id="site-footer">
-    <div class="container" style="text-align:center; padding: 2rem 1rem;">
-        <p style="color: var(--text-dim); font-size: 0.875rem;">
-            &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. Tüm hakları saklıdır.
+<footer class="bg-accent text-white text-center" style="background-color: var(--accent);">
+    <div class="max-w-screen-xl mx-auto py-8 px-2">
+        <!-- Logo Section -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+            <a href="<?php echo home_url(); ?>">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgm71FrQ0cBNrdwoaTb_2qWAyNu0uGyhSxhtvojgN6LUM4Lv-bGwg8bVvpZK7dZkZ8Td7E42YYQRtcWlasu4Ox9Iv-PHv2EL0mW6U-4PV15SVJdnziS0TWL3w5iuCIKUIrR2cxdtyHmx16CFi59zm5M6AzAiZ2NT6ALM--lcIa9K5jx9YqihLPw396HzD6r=s500" alt="<?php bloginfo('name'); ?>" style="height: 3.5rem; width: auto; max-width: 200px;">
+            </a>
+            <div style="text-align: left;">
+                <h1 style="font-size: 1.875rem; font-weight: bold; margin: 0; position: relative;">
+                    <a href="<?php echo home_url(); ?>" style="color: white; text-decoration: none;">NT Novel Türk</a><sup style="color: #fecc00; font-size: 0.875rem; position: absolute; top: 0;">v2</sup>
+                </h1>
+                <p style="color: #fecc00; margin: 0; font-size: 0.875rem;">Türkçe Novel Oku</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav style="margin-bottom: 1.5rem;">
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem;">
+                <li><a href="<?php echo home_url('/novel-evrenleri/'); ?>" style="color: white; text-decoration: none;">Novel Evrenleri</a></li>
+                <li><a href="<?php echo home_url('/alfabetik-liste/'); ?>" style="color: white; text-decoration: none;">Alfabetik Liste</a></li>
+                <li><a href="<?php echo home_url('/destek/'); ?>" style="color: white; text-decoration: none;">Destek</a></li>
+                <li><a href="<?php echo home_url('/terimler/'); ?>" style="color: white; text-decoration: none;">Terimler</a></li>
+                <li><a href="<?php echo home_url('/hakkimda/'); ?>" style="color: white; text-decoration: none;">Hakkımda</a></li>
+                <li><a href="<?php echo home_url('/iletisim/'); ?>" style="color: white; text-decoration: none;">İletişim</a></li>
+                <li><a href="<?php echo home_url('/manga-webtoon-iyilestirme/'); ?>" style="color: white; text-decoration: none;">Manga/Webtoon İyileştirilmiş Sahneler</a></li>
+            </ul>
+        </nav>
+
+        <!-- Policy Links -->
+        <nav style="margin-bottom: 1.5rem;">
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem;">
+                <li><a href="<?php echo home_url('/gizlilik-politikasi/'); ?>" style="color: white; text-decoration: none;">Gizlilik Politikası</a></li>
+                <li><a href="<?php echo home_url('/kullanim-kosullari/'); ?>" style="color: white; text-decoration: none;">Kullanım Koşulları</a></li>
+                <li><a href="<?php echo home_url('/cerez-politikasi/'); ?>" style="color: white; text-decoration: none;">Çerez Politikası</a></li>
+            </ul>
+        </nav>
+
+        <!-- Legal Disclaimer -->
+        <p style="opacity: 0.5; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6;">
+            Yasal Uyarı: <?php bloginfo('name'); ?> sunucumuzda herhangi bir dosya saklamaz, yalnızca 3. taraf hizmetlerde barındırılan medyaya bağlantı veririz. Türkiye'de resmî olarak satışa sunulan novel ve benzeri eserleri satın alarak, ilgili sanatçılara ve yayıncılara destek olmanızı önemle tavsiye ederiz. Buradaki içerikler, orijinal eserlerin tanıtımına katkı sağlama amacı taşımaktadır. Tüm içerikler, bağlı olmayan üçüncü şahıslar tarafından sağlanmaktadır. Telif haklarını ihlal ettiğini düşündüğünüz herhangi bir içerikle karşılaşmanız durumunda, lütfen benimle iletişime geçiniz.<br>
+            <?php bloginfo('name'); ?> - Türkçe Novel Oku
         </p>
-        <p style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
-            <a href="<?php echo home_url(); ?>">Ana Sayfa</a> &middot;
-            <a href="<?php echo get_post_type_archive_link('novel'); ?>">Romanlar</a> &middot;
-            <a href="<?php echo home_url('/categories'); ?>">Kategoriler</a> &middot;
-            <a href="<?php echo home_url('/random-novel/'); ?>">🎲 Rastgele</a> &middot;
-            <a href="<?php echo home_url('/bagis/'); ?>">💝 Bağış</a>
+
+        <!-- Copyright -->
+        <p style="opacity: 0.5; margin: 0; font-size: 0.875rem;">
+            Telif Hakkı &copy; 2023-<script>document.write(new Date().getFullYear())</script> <?php bloginfo('name'); ?>
         </p>
     </div>
 </footer>
