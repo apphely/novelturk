@@ -409,9 +409,13 @@
                 </div>
                 </div>
 
-                <!-- Popüler Novellar Section -->
-                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
-                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Popüler Novellar</h3>
+            </div>
+        </div>
+
+        <!-- Popüler Novellar Card -->
+        <div class="nt-card" style="background-color: var(--bg-surface); border:none; margin-bottom:24px;">
+            <div class="nt-card-body">
+                <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Popüler Novellar</h3>
                     <div id="popular-novels-tabs" style="display:flex; gap:8px; margin-bottom:16px;">
                         <button type="button" class="popular-tab-btn" data-period="week" style="background:#3b82f6; color:#fff; padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">Bu Hafta</button>
                         <button type="button" class="popular-tab-btn" data-period="month" style="background:transparent; color:var(--text-dim); padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">3 Ay</button>
@@ -467,10 +471,13 @@
                         ?>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Dostlar Siteleri Section -->
-                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
-                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Dostlar Siteleri</h3>
+        <!-- Dostlar Siteleri Card -->
+        <div class="nt-card" style="background-color: var(--bg-surface); border:none; margin-bottom:24px;">
+            <div class="nt-card-body">
+                <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Dostlar Siteleri</h3>
                     <div style="display:flex; flex-direction:column; gap:12px;">
                         <a class="dost-site-link" target="_blank" href="https://lnmakineceviri.blogspot.com/" style="align-items:center; background-image:linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB); border:0; border-radius:8px; box-shadow:rgba(151,65,252,0.2) 0 15px 30px -5px; box-sizing:border-box; display:flex; justify-content:flex-start; gap:16px; padding:12px 16px; max-width:100%; text-decoration:none; user-select:none; -webkit-user-select:none; touch-action:manipulation; cursor:pointer; min-height:80px;">
                             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfkYEF7zq82_XWA-gONRlP_w8LGwiRBhgshsNqtR3ll9ImnFeZ430Ry6FLuM4EBPA120qrzuV39Gc5D65uOUYors0A-2cgQ_Z0LXNXAW2KuwXD2Pl6pybX6lITiExafcynzexwsOlSR0QcTImAX9_vTDLAXwl5W50SwrK7O4mkXJIsPuw/s1600/lnmakineceviri%202.png" style="width:60px; height:60px; flex-shrink:0;">
@@ -488,7 +495,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
 
