@@ -197,13 +197,20 @@
             </div>
 
             <!-- Diagonal Grid Pattern Overlay - Full Width -->
-            <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2;" preserveAspectRatio="none" viewBox="0 0 400 400">
+            <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; filter: drop-shadow(0 0 8px rgba(0,0,0,0.6));" preserveAspectRatio="none" viewBox="0 0 400 400">
                 <defs>
                     <pattern id="diagonal-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                        <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.7)" stroke-width="30"/>
+                        <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.7)" stroke-width="30" stroke-linecap="round"/>
                     </pattern>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#diagonal-grid)"/>
+                <rect width="100%" height="100%" fill="url(#diagonal-grid)" filter="url(#glow)"/>
             </svg>
 
             <!-- Content -->
