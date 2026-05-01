@@ -259,7 +259,7 @@
                             <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.505a.5.5 0 0 1 .5-.5h1.29l.221-1.102a.5.5 0 0 1 .98.197l-.18.905h.98l.22-1.101a.5.5 0 0 1 .98.195l-.18.906h.94a.5.5 0 0 1 0 1h-1.14l-.2 1h1.09a.5.5 0 1 1 0 1h-1.289l-.218 1.093a.5.5 0 0 1-.98-.196l.178-.897H9.21l-.219 1.093a.5.5 0 1 1-.98-.196l.18-.897h-.938a.5.5 0 0 1 0-1H8.39l.2-1H7.5a.5.5 0 0 1-.5-.5m3.392 1.5l.2-1H9.61l-.2 1zM6 2h8.004a2 2 0 0 1 2 2v11.501a.5.5 0 0 1-.5.5H5A1 1 0 0 0 6 17h9.504a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2M5 15.001h10.004V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1z" fill="currentColor"/></svg>
                         </dt>
                         <dd id="dd-kategori" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:100; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:200px;">
-                            <div style="padding:12px;">
+                            <div style="padding:12px; max-height:288px; overflow-y:auto;">
                                 <?php
                                 $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
                                 if (!is_wp_error($genres)) :
