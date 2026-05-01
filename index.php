@@ -244,7 +244,7 @@
                     <div style="display:flex; gap:12px;">
                         <select name="novel_origin" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
                             <option value="">Ülke 🌐</option>
-                            <?php 
+                            <?php
                             $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
                             if (!is_wp_error($origins)) {
                                 foreach($origins as $o) {
@@ -254,18 +254,30 @@
                             }
                             ?>
                         </select>
-                        <select name="novel_genre" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Kategori 📁</option>
-                            <?php 
+                    </div>
+
+                    <!-- Category Multi-Select -->
+                    <div style="position: relative;">
+                        <label style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Kategori</label>
+                        <button class="sidebar-category-toggle" type="button" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Seç</span>
+                            <span style="font-size: 12px;">▼</span>
+                        </button>
+                        <div class="sidebar-category-options" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; display: none; z-index: 10;">
+                            <?php
                             $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
                             if (!is_wp_error($genres)) {
-                                foreach($genres as $g) {
-                                    $selected = (isset($_GET['novel_genre']) && $_GET['novel_genre'] == $g->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($g->slug).'" '.$selected.'>'.esc_html($g->name).'</option>';
+                                foreach ($genres as $genre) {
+                                    $checked = (isset($_GET['novel_genre']) && is_array($_GET['novel_genre']) && in_array($genre->slug, $_GET['novel_genre'])) ? 'checked' : '';
+                                    echo '<label style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;">
+                                        <input type="checkbox" class="sidebar-category-checkbox" value="' . esc_attr($genre->slug) . '" ' . $checked . ' style="margin-right: 8px; cursor: pointer;">
+                                        <span style="flex: 1;">' . esc_html($genre->name) . '</span>
+                                        <span style="color: var(--text-dim); font-size: 12px;">(' . $genre->count . ')</span>
+                                    </label>';
                                 }
                             }
                             ?>
-                        </select>
+                        </div>
                     </div>
 
                     <!-- Submit -->
@@ -756,6 +768,64 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+});
+
+// Sidebar Category Multi-Select
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.querySelector('.sidebar-category-toggle');
+    const sidebarOptions = document.querySelector('.sidebar-category-options');
+    const sidebarCheckboxes = document.querySelectorAll('.sidebar-category-checkbox');
+    const filterForm = document.querySelector('.nt-sidebar form');
+
+    if (!sidebarToggle) return;
+
+    // Toggle dropdown
+    sidebarToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        sidebarOptions.style.display = sidebarOptions.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.sidebar-category-options') && !e.target.closest('.sidebar-category-toggle')) {
+            sidebarOptions.style.display = 'none';
+        }
+    });
+
+    // Update label on change
+    sidebarCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSidebarLabel);
+    });
+
+    // Handle form submission
+    if (filterForm) {
+        filterForm.addEventListener('submit', function(e) {
+            // Create hidden inputs for selected categories
+            const existingInputs = filterForm.querySelectorAll('input[name="novel_genre"]');
+            existingInputs.forEach(input => input.remove());
+
+            const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+            selected.forEach(value => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'novel_genre';
+                input.value = value;
+                filterForm.appendChild(input);
+            });
+        });
+    }
+
+    function updateSidebarLabel() {
+        const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).length;
+        if (selected > 0) {
+            sidebarToggle.querySelector('span:first-child').textContent = selected + ' Seçildi';
+        } else {
+            sidebarToggle.querySelector('span:first-child').textContent = 'Seç';
+        }
+    }
+
+    // Set initial label
+    updateSidebarLabel();
 });
 </script>
 
