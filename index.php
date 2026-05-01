@@ -200,7 +200,7 @@
                                 foreach ($statuses as $label => $val) :
                                 ?>
                                 <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" id="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" type="checkbox" value="<?php echo esc_attr($val); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <input class="genre" name="filter_durum" id="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" type="radio" value="<?php echo esc_attr($val); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
                                     <label for="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($label); ?></label>
                                 </div>
                                 <?php endforeach; ?>
@@ -222,7 +222,7 @@
                                     foreach ($types as $t) :
                                 ?>
                                 <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" id="t-<?php echo esc_attr($t->slug); ?>" type="checkbox" value="<?php echo esc_attr($t->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <input class="genre" name="filter_tur" id="t-<?php echo esc_attr($t->slug); ?>" type="radio" value="<?php echo esc_attr($t->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
                                     <label for="t-<?php echo esc_attr($t->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($t->name); ?></label>
                                 </div>
                                 <?php endforeach; endif; ?>
@@ -244,7 +244,7 @@
                                     foreach ($origins as $o) :
                                 ?>
                                 <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" id="o-<?php echo esc_attr($o->slug); ?>" type="checkbox" value="<?php echo esc_attr($o->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <input class="genre" name="filter_ulke" id="o-<?php echo esc_attr($o->slug); ?>" type="radio" value="<?php echo esc_attr($o->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
                                     <label for="o-<?php echo esc_attr($o->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($o->name); ?></label>
                                 </div>
                                 <?php endforeach; endif; ?>
