@@ -486,6 +486,17 @@ $bc_origin  = ($bc_origins && !is_wp_error($bc_origins)) ? $bc_origins[0] : null
         </section>
         <?php endif; ?>
 
+        <!-- Yorumlar Bölümü -->
+        <section class="nt-card">
+            <div class="nt-card-body">
+                <?php
+                if (comments_open() || get_comments_number()) {
+                    comments_template();
+                }
+                ?>
+            </div>
+        </section>
+
         <!-- SEO Hidden -->
         <div style="display:none">
             <b><?php the_title(); ?> Türkçe Novel Oku, </b>
