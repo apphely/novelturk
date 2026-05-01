@@ -197,20 +197,18 @@
             </div>
 
             <!-- Diagonal Grid Pattern Overlay - Full Width -->
-            <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; filter: drop-shadow(0 0 8px rgba(0,0,0,0.6));" preserveAspectRatio="none" viewBox="0 0 400 400">
+            <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; filter: blur(1px);" preserveAspectRatio="none" viewBox="0 0 400 400">
                 <defs>
                     <pattern id="diagonal-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                         <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.7)" stroke-width="30" stroke-linecap="round"/>
                     </pattern>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
+                    <linearGradient id="fade-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:white;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:white;stop-opacity:0.3" />
+                    </linearGradient>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#diagonal-grid)" filter="url(#glow)"/>
+                <rect width="100%" height="100%" fill="url(#diagonal-grid)"/>
+                <rect width="100%" height="100%" fill="url(#fade-gradient)" opacity="0.4"/>
             </svg>
 
             <!-- Content -->
