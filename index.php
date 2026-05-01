@@ -193,14 +193,14 @@
                 <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: 0.8;">
             </div>
 
-            <!-- Grid Pattern Overlay -->
-            <svg style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; z-index: 2; opacity: 0.3;" preserveAspectRatio="none">
+            <!-- Diagonal Grid Pattern Overlay -->
+            <svg style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; z-index: 2;" preserveAspectRatio="none" viewBox="0 0 400 400">
                 <defs>
-                    <pattern id="grid-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    <pattern id="diagonal-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                        <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.5)" stroke-width="15"/>
                     </pattern>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+                <rect width="100%" height="100%" fill="url(#diagonal-grid)"/>
             </svg>
 
             <!-- Content -->
