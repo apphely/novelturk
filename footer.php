@@ -71,7 +71,7 @@
 </div>
 <?php endif; ?>
 
-<footer class="bg-accent text-white text-center" style="background-color: var(--accent);">
+<footer class="bg-accent text-white text-center" style="background-color: var(--accent); padding-bottom: 2rem;">
     <div class="max-w-screen-xl mx-auto py-4 px-2">
         <!-- Logo Section -->
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
@@ -115,7 +115,7 @@
         </p>
 
         <!-- Copyright -->
-        <p style="opacity: 0.5; margin: 0 0 2rem 0; font-size: 0.875rem; text-align: center;">
+        <p style="opacity: 0.5; margin: 0; font-size: 0.875rem; text-align: center;">
             Telif Hakkı &copy; 2023-<script>document.write(new Date().getFullYear())</script> <?php bloginfo('name'); ?>
         </p>
     </div>
