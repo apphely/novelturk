@@ -180,61 +180,106 @@
             <div class="nt-card-body">
                 <h3 class="nt-text-xl nt-font-bold nt-mb-4" style="color:var(--text-main);">Novel Filtreleme</h3>
 
-                <form id="sidebar-filter-form" action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:12px;">
-                    <input type="hidden" name="post_type" value="novel">
-
-                    <!-- Text Search -->
-                    <div style="position:relative;">
-                        <input type="text" name="s" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
+                <div class="nt-filters" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+                    <!-- Search -->
+                    <div style="position:relative; flex:1 1 100%;">
+                        <input type="text" id="nt-filter-search" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
                         <svg style="position:absolute; left:14px; top:12px; color:var(--text-dim);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     </div>
 
-                    <!-- Filter Buttons Grid 2x2 -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <!-- Durum Button -->
-                        <div style="position: relative;">
-                            <button type="button" class="filter-btn" data-filter="status" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <span>📋</span> Durum
-                            </button>
-                            <div class="filter-dropdown" data-filter="status" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
-                        </div>
+                    <!-- Durum -->
+                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
+                        <dt class="filter-toggle" data-target="dd-durum" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
+                            Durum
+                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zM9.455 6.293a.5.5 0 0 0-.902-.017L7.19 9H6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 .447-.276L8.98 7.66l2.066 4.546a.5.5 0 0 0 .884.05L13.283 10h.217a.5.5 0 0 0 0-1H13a.5.5 0 0 0-.429.243l-1.01 1.683z" fill="currentColor"/></svg>
+                        </dt>
+                        <dd id="dd-durum" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+                            <div style="padding:12px;">
+                                <?php
+                                $statuses = array('Tamamlandı' => 'completed', 'Güncel' => 'ongoing', 'Devam Ediyor' => 'ongoing', 'Çok Yakında' => 'upcoming', 'Terk Edildi' => 'discontinued', 'Süresizlik' => 'hiatus');
+                                foreach ($statuses as $label => $val) :
+                                ?>
+                                <div style="display:flex; align-items:center; margin-bottom:4px;">
+                                    <input class="genre" id="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" type="checkbox" value="<?php echo esc_attr($val); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <label for="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($label); ?></label>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </dd>
+                    </dl>
 
-                        <!-- Tür Button -->
-                        <div style="position: relative;">
-                            <button type="button" class="filter-btn" data-filter="type" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <span>🏷️</span> Tür
-                            </button>
-                            <div class="filter-dropdown" data-filter="type" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
-                        </div>
+                    <!-- Tür -->
+                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
+                        <dt class="filter-toggle" data-target="dd-tur" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
+                            Tür
+                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zm-8 7.25q.001-.114.031-.218q.218.165.453.3A5.1 5.1 0 0 0 10 12c.982 0 1.863-.293 2.516-.669q.235-.135.453-.299q.03.105.031.218c0 .3-.182.55-.33.71a2.8 2.8 0 0 1-.653.505A4.1 4.1 0 0 1 10 13a4.1 4.1 0 0 1-2.017-.535a2.8 2.8 0 0 1-.654-.504C7.182 11.8 7 11.55 7 11.25m.031-2.218A.8.8 0 0 0 7 9.25c0 .3.182.551.33.71a2.8 2.8 0 0 0 .653.505A4.1 4.1 0 0 0 10 11c.788 0 1.498-.236 2.017-.535c.26-.15.485-.322.654-.504c.147-.16.329-.41.329-.71a.8.8 0 0 0-.031-.219q-.218.165-.453.3A5.1 5.1 0 0 1 10 10a5.1 5.1 0 0 1-2.516-.669a4 4 0 0 1-.453-.299M8 7c0-.213.126-.448.483-.655C8.841 6.137 9.374 6 10 6s1.159.137 1.517.345S12 6.787 12 7s-.126.448-.483.655C11.159 7.863 10.626 8 10 8s-1.159-.137-1.517-.345S8 7.213 8 7m2-2c-.755 0-1.472.163-2.019.48C7.434 5.798 7 6.313 7 7s.434 1.202.981 1.52C8.528 8.837 9.245 9 10 9s1.472-.163 2.019-.48C12.566 8.202 13 7.687 13 7s-.434-1.202-.981-1.52C11.472 5.163 10.755 5 10 5" fill="currentColor"/></svg>
+                        </dt>
+                        <dd id="dd-tur" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+                            <div style="padding:12px;">
+                                <?php
+                                $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
+                                if (!is_wp_error($types)) :
+                                    foreach ($types as $t) :
+                                ?>
+                                <div style="display:flex; align-items:center; margin-bottom:4px;">
+                                    <input class="genre" id="t-<?php echo esc_attr($t->slug); ?>" type="checkbox" value="<?php echo esc_attr($t->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <label for="t-<?php echo esc_attr($t->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($t->name); ?></label>
+                                </div>
+                                <?php endforeach; endif; ?>
+                            </div>
+                        </dd>
+                    </dl>
 
-                        <!-- Ülke Button -->
-                        <div style="position: relative;">
-                            <button type="button" class="filter-btn" data-filter="origin" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <span>🌐</span> Ülke
-                            </button>
-                            <div class="filter-dropdown" data-filter="origin" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
-                        </div>
+                    <!-- Ülke -->
+                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
+                        <dt class="filter-toggle" data-target="dd-ulke" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
+                            Ülke
+                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zM7.041 8h.973c.045-.773.192-1.485.42-2.059A3.002 3.002 0 0 0 7.04 8M6 8.5a4 4 0 1 1 8 0a4 4 0 0 1-8 0m6.959-.5a3.002 3.002 0 0 0-1.392-2.059c.227.574.374 1.286.419 2.059zm-.973 1c-.045.773-.192 1.486-.42 2.059A3.002 3.002 0 0 0 12.96 9zm-1.002-1c-.046-.707-.189-1.324-.383-1.778c-.12-.28-.25-.474-.368-.591c-.117-.115-.195-.131-.233-.131c-.038 0-.116.016-.233.13c-.118.118-.248.312-.368.592c-.194.454-.337 1.07-.383 1.778zM9.016 9c.046.707.189 1.324.383 1.778c.12.28.25.474.368.591c.117.115.195.131.233.131c.038 0 .116-.016.233-.13c.118-.118.248-.312.368-.592c.194-.454.336-1.07.383-1.778zM8.014 9h-.973a3.01 3.01 0 0 0 1.392 2.059c-.227-.573-.374-1.286-.419-2.059" fill="currentColor"/></svg>
+                        </dt>
+                        <dd id="dd-ulke" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+                            <div style="padding:12px;">
+                                <?php
+                                $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
+                                if (!is_wp_error($origins)) :
+                                    foreach ($origins as $o) :
+                                ?>
+                                <div style="display:flex; align-items:center; margin-bottom:4px;">
+                                    <input class="genre" id="o-<?php echo esc_attr($o->slug); ?>" type="checkbox" value="<?php echo esc_attr($o->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <label for="o-<?php echo esc_attr($o->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($o->name); ?></label>
+                                </div>
+                                <?php endforeach; endif; ?>
+                            </div>
+                        </dd>
+                    </dl>
 
-                        <!-- Kategori Button -->
-                        <div style="position: relative;">
-                            <button type="button" class="filter-btn" data-filter="genre" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <span>📁</span> Kategori
-                            </button>
-                            <div class="filter-dropdown" data-filter="genre" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
-                        </div>
-                    </div>
+                    <!-- Kategori -->
+                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
+                        <dt class="filter-toggle" data-target="dd-kategori" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
+                            Kategori
+                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.505a.5.5 0 0 1 .5-.5h1.29l.221-1.102a.5.5 0 0 1 .98.197l-.18.905h.98l.22-1.101a.5.5 0 0 1 .98.195l-.18.906h.94a.5.5 0 0 1 0 1h-1.14l-.2 1h1.09a.5.5 0 1 1 0 1h-1.289l-.218 1.093a.5.5 0 0 1-.98-.196l.178-.897H9.21l-.219 1.093a.5.5 0 1 1-.98-.196l.18-.897h-.938a.5.5 0 0 1 0-1H8.39l.2-1H7.5a.5.5 0 0 1-.5-.5m3.392 1.5l.2-1H9.61l-.2 1zM6 2h8.004a2 2 0 0 1 2 2v11.501a.5.5 0 0 1-.5.5H5A1 1 0 0 0 6 17h9.504a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2M5 15.001h10.004V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1z" fill="currentColor"/></svg>
+                        </dt>
+                        <dd id="dd-kategori" style="display:none; position:absolute; top:100%; left:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:280px; right:auto;">
+                            <div style="display:grid; grid-template-columns:repeat(3, 1fr); padding:12px; gap:2px;">
+                                <?php
+                                $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                                if (!is_wp_error($genres)) :
+                                    foreach ($genres as $g) :
+                                ?>
+                                <div style="display:flex; align-items:center;">
+                                    <input class="genre" id="g-<?php echo esc_attr($g->slug); ?>" type="checkbox" value="<?php echo esc_attr($g->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
+                                    <label for="g-<?php echo esc_attr($g->slug); ?>" style="font-size:13px; font-weight:500; flex:1; padding:4px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($g->name); ?>(<?php echo $g->count; ?>)</label>
+                                </div>
+                                <?php endforeach; endif; ?>
+                            </div>
+                        </dd>
+                    </dl>
 
-                    <!-- Hidden inputs for form submission -->
-                    <input type="hidden" name="nstatus" id="hidden-status" value="<?php echo isset($_GET['nstatus']) ? esc_attr($_GET['nstatus']) : ''; ?>">
-                    <input type="hidden" name="novel_type" id="hidden-type" value="<?php echo isset($_GET['novel_type']) ? esc_attr($_GET['novel_type']) : ''; ?>">
-                    <input type="hidden" name="novel_origin" id="hidden-origin" value="<?php echo isset($_GET['novel_origin']) ? esc_attr($_GET['novel_origin']) : ''; ?>">
-
-
-                    <!-- Submit -->
-                    <button type="submit" style="width:100%; padding:12px; border-radius:8px; background:linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                        🔍 Filtrele
+                    <!-- Filtrele Button -->
+                    <button type="button" id="nt-filtrele-btn" style="flex:1 1 100%; padding:12px; border-radius:24px; background:linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9.5a.5.5 0 0 0 0-1H6a1 1 0 0 1-1-1h10a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2zm5.586 7.879l1.268 1.267a.5.5 0 0 1-.708.708l-1.267-1.268a2.5 2.5 0 1 1 .707-.707M8 8.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0" fill="currentColor"/></svg>
+                        Filtrele
                     </button>
-                </form>
+                </div>
 
                 <!-- Sidebar Genre Tabs / Pills -->
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
@@ -657,172 +702,47 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Sidebar Filter System
+// Sidebar Filter System — Blogger-style dropdowns
 document.addEventListener('DOMContentLoaded', function() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const filterDropdowns = document.querySelectorAll('.filter-dropdown');
-    const filterForm = document.getElementById('sidebar-filter-form');
-    const hiddenStatus = document.getElementById('hidden-status');
-    const hiddenType = document.getElementById('hidden-type');
-    const hiddenOrigin = document.getElementById('hidden-origin');
+    const toggles = document.querySelectorAll('.filter-toggle');
+    const allDDs = document.querySelectorAll('.nt-filters dd');
 
-    const filterData = {
-        status: [
-            {name: 'Güncel', value: 'ongoing'},
-            {name: 'Tamamlandı', value: 'completed'},
-            {name: 'Devam Ediyor', value: 'ongoing'},
-            {name: 'Çok Yakında', value: 'upcoming'},
-            {name: 'Terk Edildi', value: 'discontinued'},
-            {name: 'Süresizlik', value: 'hiatus'}
-        ],
-        type: [],
-        origin: [],
-        genre: []
-    };
+    // Toggle dropdowns
+    toggles.forEach(dt => {
+        dt.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const targetId = this.dataset.target;
+            const dd = document.getElementById(targetId);
+            if (!dd) return;
 
-    // Load types
-    const typeSelect = document.querySelector('select[name="novel_type"]');
-    if (typeSelect) {
-        Array.from(typeSelect.options).forEach(opt => {
-            if (opt.value) filterData.type.push({name: opt.text, value: opt.value});
-        });
-    }
+            // Close others
+            allDDs.forEach(d => { if (d.id !== targetId) d.style.display = 'none'; });
 
-    // Load origins
-    const originSelect = document.querySelector('select[name="novel_origin"]');
-    if (originSelect) {
-        Array.from(originSelect.options).forEach(opt => {
-            if (opt.value) filterData.origin.push({name: opt.text, value: opt.value});
-        });
-    }
-
-    // Load genres via AJAX
-    fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webnovel_get_genre_counts')
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                filterData.genre = data.data;
-                populateGenreDropdown();
-            }
-        });
-
-    // Populate dropdowns
-    function populateAllDropdowns() {
-        filterDropdowns.forEach(dropdown => {
-            const filterType = dropdown.dataset.filter;
-            const options = filterData[filterType];
-
-            if (!options || options.length === 0) return;
-
-            dropdown.innerHTML = '';
-            const currentValue = filterType === 'status' ? hiddenStatus.value : (filterType === 'type' ? hiddenType.value : hiddenOrigin.value);
-            const currentGenres = new URLSearchParams(window.location.search).getAll('novel_genre');
-
-            options.forEach(opt => {
-                const label = document.createElement('label');
-                label.style.cssText = 'display:flex; align-items:center; padding:10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px;';
-
-                if (filterType === 'genre') {
-                    // Checkboxes for genre
-                    const isChecked = currentGenres.includes(opt.value);
-                    label.innerHTML = `
-                        <input type="checkbox" class="genre-checkbox" value="${opt.value}" ${isChecked ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
-                        <span style="flex:1; color:var(--text-main);">${opt.name}</span>
-                        <span style="color:var(--text-dim); font-size:12px;">(${opt.count})</span>
-                    `;
-                    label.querySelector('input').addEventListener('change', function() {
-                        updateGenreInput();
-                    });
-                } else {
-                    // Radio buttons for other filters
-                    label.innerHTML = `
-                        <input type="radio" name="filter-${filterType}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
-                        <span style="color:var(--text-main);">${opt.name}</span>
-                    `;
-                    label.querySelector('input').addEventListener('change', function() {
-                        if (filterType === 'status') hiddenStatus.value = this.value;
-                        else if (filterType === 'type') hiddenType.value = this.value;
-                        else if (filterType === 'origin') hiddenOrigin.value = this.value;
-                        dropdown.style.display = 'none';
-                    });
-                }
-                dropdown.appendChild(label);
-            });
-        });
-    }
-
-    function populateGenreDropdown() {
-        const genreDropdown = document.querySelector('.filter-dropdown[data-filter="genre"]');
-        if (!genreDropdown || !filterData.genre || filterData.genre.length === 0) return;
-
-        genreDropdown.innerHTML = '';
-        const currentGenres = new URLSearchParams(window.location.search).getAll('novel_genre');
-
-        filterData.genre.forEach(opt => {
-            const label = document.createElement('label');
-            label.style.cssText = 'display:flex; align-items:center; padding:10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px;';
-
-            const isChecked = currentGenres.includes(opt.value);
-            label.innerHTML = `
-                <input type="checkbox" class="genre-checkbox" value="${opt.value}" ${isChecked ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
-                <span style="flex:1; color:var(--text-main);">${opt.name}</span>
-                <span style="color:var(--text-dim); font-size:12px;">(${opt.count})</span>
-            `;
-            label.querySelector('input').addEventListener('change', function() {
-                updateGenreInput();
-            });
-            genreDropdown.appendChild(label);
-        });
-    }
-
-    populateAllDropdowns();
-
-    function updateGenreInput() {
-        const checkboxes = document.querySelectorAll('.genre-checkbox');
-        const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-
-        const existingInputs = filterForm.querySelectorAll('input[name="novel_genre"]');
-        existingInputs.forEach(input => input.remove());
-
-        selected.forEach(value => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'novel_genre';
-            input.value = value;
-            filterForm.appendChild(input);
-        });
-    }
-
-    // Filter button clicks
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dropdown = this.parentElement.querySelector('.filter-dropdown');
-            if (!dropdown) return;
-
-            filterDropdowns.forEach(d => {
-                if (d !== dropdown) d.style.display = 'none';
-            });
-
-            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+            dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
         });
     });
 
-    // Close dropdowns when clicking outside
+    // Close when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.filter-btn') && !e.target.closest('.filter-dropdown')) {
-            filterDropdowns.forEach(d => d.style.display = 'none');
+        if (!e.target.closest('.nt-filters dd') && !e.target.closest('.filter-toggle')) {
+            allDDs.forEach(d => d.style.display = 'none');
         }
     });
 
-    // Handle form submission
-    if (filterForm) {
-        filterForm.addEventListener('submit', function(e) {
-            updateGenreInput();
-        });
-    }
+    // Filtrele button
+    document.getElementById('nt-filtrele-btn').addEventListener('click', function() {
+        var checked = document.querySelectorAll('.nt-filters .genre:checked');
+        var values = [];
+        checked.forEach(function(cb) { values.push(cb.value); });
 
-    updateGenreInput();
+        var search = document.getElementById('nt-filter-search').value;
+        var url = '<?php echo home_url(); ?>/?post_type=novel';
+
+        if (search) url += '&s=' + encodeURIComponent(search);
+        if (values.length > 0) url += '&filter_labels=' + encodeURIComponent(values.join('+'));
+
+        window.location.href = url;
+    });
 });
 </script>
 
