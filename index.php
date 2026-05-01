@@ -136,11 +136,11 @@
             }
             @media (max-width: 768px) {
                 .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 20px; }
-                .nt-quick-access a { font-size: 11px; padding: 6px; min-height: 36px; }
+                .nt-quick-access a { font-size: 9px; padding: 6px; min-height: 36px; }
             }
             @media (max-width: 480px) {
                 .nt-quick-access { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-                .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 32px; }
+                .nt-quick-access a { font-size: 8px; padding: 6px; min-height: 32px; }
             }
         </style>
         <section class="tabbed-novels">
