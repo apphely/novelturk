@@ -135,56 +135,54 @@
                 <a href="<?php echo home_url('/novel/'); ?>" style="background:#2563eb; color:#fff; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:bold;">Tüm Noveller</a>
             </div>
             
-            <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
-                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold; font-style:italic;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+            <!-- Filter Section -->
+            <div class="nt-filter-section" style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: flex-end;">
+                <!-- Status Dropdown -->
+                <div style="flex: 1; min-width: 150px;">
+                    <label for="status-filter" style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Durum</label>
+                    <select id="status-filter" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500;">
+                        <option value="">Tümü</option>
+                        <option value="ongoing">Devam Eden</option>
+                        <option value="completed">Tamamlanan</option>
+                        <option value="hiatus">Ara Verilen</option>
+                    </select>
+                </div>
+
+                <!-- Category Filter -->
+                <div style="flex: 1; min-width: 150px;">
+                    <label for="category-filter" style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Kategori</label>
+                    <div id="category-filter" class="nt-category-dropdown" style="position: relative;">
+                        <button class="nt-category-toggle" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Seç</span>
+                            <span style="font-size: 12px;">▼</span>
+                        </button>
+                        <div class="nt-category-options" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; display: none; z-index: 10;">
+                            <?php
+                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                            if (!is_wp_error($genres)) {
+                                foreach ($genres as $genre) {
+                                    echo '<label style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;">
+                                        <input type="checkbox" class="nt-category-checkbox" value="' . esc_attr($genre->slug) . '" style="margin-right: 8px; cursor: pointer;">
+                                        <span>' . esc_html($genre->name) . '</span>
+                                    </label>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clear Filters Button -->
+                <button id="clear-filters" style="padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 500;">Temizle</button>
             </div>
 
-            <!-- Devam Edenler Tab -->
-            <div id="tab-devam" class="novels-tab-content nt-novels-grid is-visible">
+            <!-- Novels Grid -->
+            <div id="novels-grid" class="nt-novels-grid">
                 <?php
-                $args_devam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'ongoing')));
-                $query_devam = new WP_Query($args_devam);
-                if ($query_devam->have_posts()) :
-                    while ($query_devam->have_posts()) : $query_devam->the_post();
-                        get_template_part('template-parts/content', 'novel-card-novelturk');
-                    endwhile;
-                else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
-                ?>
-            </div>
-
-            <!-- Tamamlananlar -->
-            <div id="tab-tamamlandi" class="novels-tab-content nt-novels-grid">
-                <?php
-                $args_tamam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'completed')));
-                $query_tamam = new WP_Query($args_tamam);
-                if ($query_tamam->have_posts()) :
-                    while ($query_tamam->have_posts()) : $query_tamam->the_post();
-                        get_template_part('template-parts/content', 'novel-card-novelturk');
-                    endwhile;
-                else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
-                ?>
-            </div>
-
-            <!-- Diğer (Türkiye & Genel/Global) -->
-            <div id="tab-diger" class="novels-tab-content nt-novels-grid">
-                <?php
-                $args_all = array(
-                    'post_type' => 'novel', 
-                    'posts_per_page' => 15,
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'novel_origin',
-                            'field' => 'slug',
-                            'terms' => array('turkiye', 'genel', 'global', 'turkey'),
-                            'operator' => 'IN'
-                        )
-                    )
-                );
-                $query_all = new WP_Query($args_all);
-                if ($query_all->have_posts()) :
-                    while ($query_all->have_posts()) : $query_all->the_post();
+                $args = array('post_type' => 'novel', 'posts_per_page' => 15);
+                $query = new WP_Query($args);
+                if ($query->have_posts()) :
+                    while ($query->have_posts()) : $query->the_post();
                         get_template_part('template-parts/content', 'novel-card-novelturk');
                     endwhile;
                 else: echo '<p style="color:var(--text-dim);">Roman bulunamadı.</p>'; endif; wp_reset_postdata();
@@ -691,6 +689,76 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.color = '#fff';
         });
     });
+});
+
+// Novel Filter System
+document.addEventListener('DOMContentLoaded', function() {
+    const statusFilter = document.getElementById('status-filter');
+    const categoryToggle = document.querySelector('.nt-category-toggle');
+    const categoryOptions = document.querySelector('.nt-category-options');
+    const categoryCheckboxes = document.querySelectorAll('.nt-category-checkbox');
+    const clearFilters = document.getElementById('clear-filters');
+    const novelsGrid = document.getElementById('novels-grid');
+
+    // Toggle category dropdown
+    categoryToggle.addEventListener('click', function() {
+        categoryOptions.style.display = categoryOptions.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nt-category-dropdown')) {
+            categoryOptions.style.display = 'none';
+        }
+    });
+
+    // Filter on status change
+    statusFilter.addEventListener('change', applyFilters);
+
+    // Filter on category change
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', applyFilters);
+    });
+
+    // Clear filters
+    clearFilters.addEventListener('click', function() {
+        statusFilter.value = '';
+        categoryCheckboxes.forEach(cb => cb.checked = false);
+        categoryToggle.querySelector('span:first-child').textContent = 'Seç';
+        applyFilters();
+    });
+
+    function applyFilters() {
+        const status = statusFilter.value;
+        const selectedCategories = Array.from(categoryCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        // Update category label
+        if (selectedCategories.length > 0) {
+            categoryToggle.querySelector('span:first-child').textContent =
+                selectedCategories.length + ' Seçildi';
+        } else {
+            categoryToggle.querySelector('span:first-child').textContent = 'Seç';
+        }
+
+        // Fetch filtered results
+        const formData = new FormData();
+        formData.append('action', 'webnovel_filter_novels');
+        formData.append('status', status);
+        formData.append('categories', JSON.stringify(selectedCategories));
+
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                novelsGrid.innerHTML = data.data.html;
+            }
+        });
+    }
 });
 </script>
 

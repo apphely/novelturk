@@ -4,6 +4,61 @@
    ============================================ */
 
 /* ============================================
+   Novel Filter System
+   ============================================ */
+.nt-filter-section {
+    margin-bottom: 24px;
+}
+
+.nt-filter-section select,
+.nt-category-toggle {
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nt-filter-section select:hover,
+.nt-category-toggle:hover {
+    border-color: var(--accent);
+}
+
+.nt-filter-section select:focus,
+.nt-category-toggle:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.nt-category-options {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nt-category-options label:last-child {
+    border-bottom: none;
+}
+
+.nt-category-options label:hover {
+    background: var(--bg-main);
+}
+
+.nt-category-options input[type="checkbox"] {
+    accent-color: var(--accent);
+}
+
+@media (max-width: 768px) {
+    .nt-filter-section {
+        flex-direction: column;
+    }
+
+    .nt-filter-section > div {
+        width: 100%;
+    }
+
+    .nt-filter-section button {
+        width: 100%;
+    }
+}
+
+/* ============================================
    Latest Updated Series - Per-Series Table
    ============================================ */
 .latest-updates-section {

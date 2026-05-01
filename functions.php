@@ -3345,3 +3345,60 @@ add_filter('rest_prepare_novel', function($response, $post) {
     }
     return $response;
 }, 10, 2);
+
+// AJAX handler for filtering novels
+add_action('wp_ajax_webnovel_filter_novels', 'webnovel_ajax_filter_novels');
+add_action('wp_ajax_nopriv_webnovel_filter_novels', 'webnovel_ajax_filter_novels');
+
+function webnovel_ajax_filter_novels() {
+    $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+    $categories = isset($_POST['categories']) ? json_decode(stripslashes($_POST['categories']), true) : array();
+
+    $args = array(
+        'post_type' => 'novel',
+        'posts_per_page' => 15,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+
+    // Add status filter
+    if ($status) {
+        $args['meta_query'] = array(
+            array(
+                'key' => '_novel_status',
+                'value' => $status,
+                'compare' => '='
+            )
+        );
+    }
+
+    // Add category filter
+    if (!empty($categories)) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'novel_genre',
+                'field' => 'slug',
+                'terms' => $categories,
+                'operator' => 'IN'
+            )
+        );
+    }
+
+    $query = new WP_Query($args);
+    $html = '';
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            ob_start();
+            get_template_part('template-parts/content', 'novel-card-novelturk');
+            $html .= ob_get_clean();
+        }
+    } else {
+        $html = '<p style="color:var(--text-dim); grid-column: 1/-1; text-align: center; padding: 40px 20px;">Roman bulunamadı.</p>';
+    }
+
+    wp_reset_postdata();
+
+    wp_send_json_success(array('html' => $html));
+}
