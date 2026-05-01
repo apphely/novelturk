@@ -196,7 +196,7 @@
                             <button type="button" class="filter-btn" data-filter="status" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                                 <span>📋</span> Durum
                             </button>
-                            <div class="filter-dropdown" data-filter="status" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                            <div class="filter-dropdown" data-filter="status" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
                         </div>
 
                         <!-- Tür Button -->
@@ -204,7 +204,7 @@
                             <button type="button" class="filter-btn" data-filter="type" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                                 <span>🏷️</span> Tür
                             </button>
-                            <div class="filter-dropdown" data-filter="type" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                            <div class="filter-dropdown" data-filter="type" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
                         </div>
 
                         <!-- Ülke Button -->
@@ -212,7 +212,7 @@
                             <button type="button" class="filter-btn" data-filter="origin" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                                 <span>🌐</span> Ülke
                             </button>
-                            <div class="filter-dropdown" data-filter="origin" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                            <div class="filter-dropdown" data-filter="origin" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
                         </div>
 
                         <!-- Kategori Button -->
@@ -220,7 +220,7 @@
                             <button type="button" class="filter-btn" data-filter="genre" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                                 <span>📁</span> Kategori
                             </button>
-                            <div class="filter-dropdown" data-filter="genre" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px; overflow-y: auto; max-height: 200px;"></div>
+                            <div class="filter-dropdown" data-filter="genre" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; display: none; z-index: 10; margin-top: 4px;"></div>
                         </div>
                     </div>
 
@@ -229,28 +229,6 @@
                     <input type="hidden" name="novel_type" id="hidden-type" value="<?php echo isset($_GET['novel_type']) ? esc_attr($_GET['novel_type']) : ''; ?>">
                     <input type="hidden" name="novel_origin" id="hidden-origin" value="<?php echo isset($_GET['novel_origin']) ? esc_attr($_GET['novel_origin']) : ''; ?>">
 
-                    <!-- Category Multi-Select Dropdown -->
-                    <div style="position: relative;">
-                        <button class="sidebar-category-toggle" type="button" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                            <span>Seç</span>
-                            <span style="font-size: 12px;">▼</span>
-                        </button>
-                        <div class="sidebar-category-options" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; display: none; z-index: 10;">
-                            <?php
-                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                            if (!is_wp_error($genres)) {
-                                foreach ($genres as $genre) {
-                                    $checked = (isset($_GET['novel_genre']) && is_array($_GET['novel_genre']) && in_array($genre->slug, $_GET['novel_genre'])) ? 'checked' : '';
-                                    echo '<label style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;">
-                                        <input type="checkbox" class="sidebar-category-checkbox" value="' . esc_attr($genre->slug) . '" ' . $checked . ' style="margin-right: 8px; cursor: pointer;">
-                                        <span style="flex: 1;">' . esc_html($genre->name) . '</span>
-                                        <span style="color: var(--text-dim); font-size: 12px;">(' . $genre->count . ')</span>
-                                    </label>';
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
 
                     <!-- Submit -->
                     <button type="submit" style="width:100%; padding:12px; border-radius:8px; background:linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
@@ -683,9 +661,6 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const filterDropdowns = document.querySelectorAll('.filter-dropdown');
-    const sidebarToggle = document.querySelector('.sidebar-category-toggle');
-    const sidebarOptions = document.querySelector('.sidebar-category-options');
-    const sidebarCheckboxes = document.querySelectorAll('.sidebar-category-checkbox');
     const filterForm = document.getElementById('sidebar-filter-form');
     const hiddenStatus = document.getElementById('hidden-status');
     const hiddenType = document.getElementById('hidden-type');
@@ -701,7 +676,8 @@ document.addEventListener('DOMContentLoaded', function() {
             {name: 'Süresizlik', value: 'hiatus'}
         ],
         type: [],
-        origin: []
+        origin: [],
+        genre: []
     };
 
     // Load types
@@ -720,46 +696,114 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Load genres via AJAX
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webnovel_get_genre_counts')
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                filterData.genre = data.data;
+                populateGenreDropdown();
+            }
+        });
+
     // Populate dropdowns
-    filterDropdowns.forEach(dropdown => {
-        const filterType = dropdown.dataset.filter;
-        if (filterType === 'genre') return; // Skip genre, it has its own dropdown
+    function populateAllDropdowns() {
+        filterDropdowns.forEach(dropdown => {
+            const filterType = dropdown.dataset.filter;
+            const options = filterData[filterType];
 
-        const options = filterData[filterType];
-        const currentValue = filterType === 'status' ? hiddenStatus.value : (filterType === 'type' ? hiddenType.value : hiddenOrigin.value);
+            if (!options || options.length === 0) return;
 
-        options.forEach(opt => {
+            dropdown.innerHTML = '';
+            const currentValue = filterType === 'status' ? hiddenStatus.value : (filterType === 'type' ? hiddenType.value : hiddenOrigin.value);
+            const currentGenres = new URLSearchParams(window.location.search).getAll('novel_genre');
+
+            options.forEach(opt => {
+                const label = document.createElement('label');
+                label.style.cssText = 'display:flex; align-items:center; padding:10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px;';
+
+                if (filterType === 'genre') {
+                    // Checkboxes for genre
+                    const isChecked = currentGenres.includes(opt.value);
+                    label.innerHTML = `
+                        <input type="checkbox" class="genre-checkbox" value="${opt.value}" ${isChecked ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
+                        <span style="flex:1; color:var(--text-main);">${opt.name}</span>
+                        <span style="color:var(--text-dim); font-size:12px;">(${opt.count})</span>
+                    `;
+                    label.querySelector('input').addEventListener('change', function() {
+                        updateGenreInput();
+                    });
+                } else {
+                    // Radio buttons for other filters
+                    label.innerHTML = `
+                        <input type="radio" name="filter-${filterType}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
+                        <span style="color:var(--text-main);">${opt.name}</span>
+                    `;
+                    label.querySelector('input').addEventListener('change', function() {
+                        if (filterType === 'status') hiddenStatus.value = this.value;
+                        else if (filterType === 'type') hiddenType.value = this.value;
+                        else if (filterType === 'origin') hiddenOrigin.value = this.value;
+                        dropdown.style.display = 'none';
+                    });
+                }
+                dropdown.appendChild(label);
+            });
+        });
+    }
+
+    function populateGenreDropdown() {
+        const genreDropdown = document.querySelector('.filter-dropdown[data-filter="genre"]');
+        if (!genreDropdown || !filterData.genre || filterData.genre.length === 0) return;
+
+        genreDropdown.innerHTML = '';
+        const currentGenres = new URLSearchParams(window.location.search).getAll('novel_genre');
+
+        filterData.genre.forEach(opt => {
             const label = document.createElement('label');
             label.style.cssText = 'display:flex; align-items:center; padding:10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px;';
+
+            const isChecked = currentGenres.includes(opt.value);
             label.innerHTML = `
-                <input type="radio" name="filter-${filterType}" value="${opt.value}" ${opt.value === currentValue ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
-                <span style="color:var(--text-main);">${opt.name}</span>
+                <input type="checkbox" class="genre-checkbox" value="${opt.value}" ${isChecked ? 'checked' : ''} style="margin-right:8px; cursor:pointer;">
+                <span style="flex:1; color:var(--text-main);">${opt.name}</span>
+                <span style="color:var(--text-dim); font-size:12px;">(${opt.count})</span>
             `;
             label.querySelector('input').addEventListener('change', function() {
-                if (filterType === 'status') hiddenStatus.value = this.value;
-                else if (filterType === 'type') hiddenType.value = this.value;
-                else if (filterType === 'origin') hiddenOrigin.value = this.value;
-                dropdown.style.display = 'none';
+                updateGenreInput();
             });
-            dropdown.appendChild(label);
+            genreDropdown.appendChild(label);
         });
-    });
+    }
+
+    populateAllDropdowns();
+
+    function updateGenreInput() {
+        const checkboxes = document.querySelectorAll('.genre-checkbox');
+        const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+
+        const existingInputs = filterForm.querySelectorAll('input[name="novel_genre"]');
+        existingInputs.forEach(input => input.remove());
+
+        selected.forEach(value => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'novel_genre';
+            input.value = value;
+            filterForm.appendChild(input);
+        });
+    }
 
     // Filter button clicks
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            const filterType = this.dataset.filter;
             const dropdown = this.parentElement.querySelector('.filter-dropdown');
             if (!dropdown) return;
 
-            // Close other dropdowns
             filterDropdowns.forEach(d => {
                 if (d !== dropdown) d.style.display = 'none';
             });
-            if (sidebarOptions) sidebarOptions.style.display = 'none';
 
-            // Toggle current dropdown
             dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
         });
     });
@@ -769,50 +813,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!e.target.closest('.filter-btn') && !e.target.closest('.filter-dropdown')) {
             filterDropdowns.forEach(d => d.style.display = 'none');
         }
-        if (!e.target.closest('.sidebar-category-toggle') && !e.target.closest('.sidebar-category-options')) {
-            if (sidebarOptions) sidebarOptions.style.display = 'none';
-        }
     });
-
-    // Category toggle
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            filterDropdowns.forEach(d => d.style.display = 'none');
-            sidebarOptions.style.display = sidebarOptions.style.display === 'none' ? 'block' : 'none';
-        });
-    }
-
-    // Update category label
-    sidebarCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateCategoryLabel);
-    });
-
-    function updateCategoryLabel() {
-        const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).length;
-        if (sidebarToggle) {
-            sidebarToggle.querySelector('span:first-child').textContent = selected > 0 ? selected + ' Seçildi' : 'Seç';
-        }
-    }
 
     // Handle form submission
     if (filterForm) {
         filterForm.addEventListener('submit', function(e) {
-            const existingInputs = filterForm.querySelectorAll('input[name="novel_genre"]');
-            existingInputs.forEach(input => input.remove());
-
-            const selected = Array.from(sidebarCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
-            selected.forEach(value => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'novel_genre';
-                input.value = value;
-                filterForm.appendChild(input);
-            });
+            updateGenreInput();
         });
     }
 
-    updateCategoryLabel();
+    updateGenreInput();
 });
 </script>
 
