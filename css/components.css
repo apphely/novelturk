@@ -1,0 +1,2571 @@
+/* ============================================
+   Novel Türk - Components CSS
+   Separate file to avoid CSS parsing issues
+   ============================================ */
+
+/* ============================================
+   Latest Updated Series - Per-Series Table
+   ============================================ */
+.latest-updates-section {
+    padding: 1.5rem 0;
+}
+
+.latest-updates-table {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.lu-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+}
+
+.lu-row:last-child {
+    border-bottom: none;
+}
+
+.lu-header {
+    background: var(--bg-tertiary);
+    padding: 8px 20px;
+}
+
+.lu-header .lu-cell {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+a.lu-item:hover,
+.lu-item:hover {
+    background: var(--bg-card-hover);
+}
+
+.lu-cell-cover {
+    width: 40px;
+    height: 56px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--bg-tertiary);
+}
+
+.lu-header .lu-cell-cover {
+    height: auto;
+    background: none;
+}
+
+.lu-cell-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.lu-no-cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.lu-cell-info {
+    flex: 3;
+    min-width: 0;
+}
+
+.lu-novel-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.lu-cell-chapter {
+    flex: 1.2;
+    text-align: center;
+}
+
+.lu-chapter-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: linear-gradient(135deg, rgba(124, 91, 245, 0.15), rgba(168, 85, 247, 0.15));
+    border: 1px solid rgba(124, 91, 245, 0.25);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #7c5bf5;
+}
+
+.lu-cell-total {
+    flex: 0.8;
+    text-align: center;
+}
+
+.lu-total {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.lu-cell-status {
+    flex: 0.8;
+    text-align: center;
+}
+
+.lu-status {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.lu-status-ongoing {
+    background: rgba(0, 206, 201, 0.12);
+    color: #00cec9;
+    border: 1px solid rgba(0, 206, 201, 0.2);
+}
+
+.lu-status-completed {
+    background: rgba(9, 132, 227, 0.12);
+    color: #0984e3;
+    border: 1px solid rgba(9, 132, 227, 0.2);
+}
+
+.lu-status-hiatus {
+    background: rgba(253, 203, 110, 0.12);
+    color: #fdcb6e;
+    border: 1px solid rgba(253, 203, 110, 0.2);
+}
+
+.lu-cell-time {
+    flex: 1;
+    text-align: right;
+}
+
+.lu-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   Status Filter Tabs
+   ============================================ */
+.status-filter-tabs {
+    display: inline-flex;
+    gap: 3px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.status-tab {
+    padding: 5px 14px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.status-tab.active {
+    background: #7c5bf5;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 91, 245, 0.3);
+}
+
+.status-tab:hover:not(.active) {
+    color: var(--text-primary);
+    background: rgba(124, 91, 245, 0.1);
+}
+
+/* ============================================
+   Slider Card Design
+   ============================================ */
+.inkr-slider-section {
+    padding: 1rem 0 0.5rem;
+    overflow: hidden;
+}
+
+.inkr-slider-wrap {
+    position: relative;
+    margin: 0 -20px;
+    padding: 0 20px;
+}
+
+.inkr-slider-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 12px 40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+}
+
+.inkr-slider-track::-webkit-scrollbar {
+    display: none;
+}
+
+.inkr-slide-card {
+    position: relative;
+    flex-shrink: 0;
+    width: 175px;
+    height: 260px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.inkr-slide-card:hover {
+    box-shadow: 0 12px 40px rgba(124, 91, 245, 0.35);
+    z-index: 2;
+}
+
+.inkr-slide-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.inkr-no-cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: var(--bg-tertiary);
+}
+
+.inkr-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 10px 10px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.inkr-card-title {
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.inkr-card-badge {
+    color: #fd79a8;
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin-top: 3px;
+}
+
+.inkr-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+}
+
+.inkr-arrow:hover {
+    background: rgba(124, 91, 245, 0.8);
+    border-color: rgba(124, 91, 245, 0.5);
+}
+
+.inkr-arrow-left {
+    left: 10px;
+}
+
+.inkr-arrow-right {
+    right: 10px;
+}
+
+/* ============================================
+   Chapter Dropdown - Theme Aware
+   ============================================ */
+.chapter-dropdown-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+}
+
+.chapter-dropdown {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237c5bf5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.chapter-dropdown:hover {
+    border-color: #7c5bf5;
+}
+
+.chapter-dropdown:focus {
+    border-color: #7c5bf5;
+    box-shadow: 0 0 0 3px rgba(124, 91, 245, 0.15);
+}
+
+.chapter-dropdown option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* Theme-specific dropdown */
+:root[data-theme="dark"] .chapter-dropdown {
+    background-color: #161625;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #e0e0ef;
+}
+
+:root[data-theme="dark"] .chapter-dropdown option {
+    background: #0f0f1a;
+    color: #e0e0ef;
+}
+
+:root[data-theme="light"] .chapter-dropdown {
+    background-color: #f8f8fa;
+    border-color: #e0e0e5;
+    color: #1a1a2e;
+}
+
+:root[data-theme="light"] .chapter-dropdown option {
+    background: #fff;
+    color: #1a1a2e;
+}
+
+:root[data-theme="sepia"] .chapter-dropdown {
+    background-color: #ede5d0;
+    border-color: #d4c9a8;
+    color: #3d3222;
+}
+
+:root[data-theme="sepia"] .chapter-dropdown option {
+    background: #f8f2e4;
+    color: #3d3222;
+}
+
+/* ============================================
+   Settings Panel - Enhanced Components
+   ============================================ */
+.settings-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+    backdrop-filter: blur(4px);
+}
+
+.settings-overlay.active {
+    display: block;
+}
+
+/* Font Family Options */
+.font-family-options {
+    display: flex !important;
+    gap: 8px;
+}
+
+.font-option {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.font-option:hover,
+.font-option.active {
+    border-color: #7c5bf5;
+    color: #7c5bf5;
+    background: rgba(124, 91, 245, 0.1);
+}
+
+/* Bold Toggle */
+.bold-toggle-wrap {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+}
+
+.bold-toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.bold-toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    transition: all 0.2s;
+    pointer-events: none;
+}
+
+.bold-toggle.active {
+    background: rgba(124, 91, 245, 0.2);
+    border-color: #7c5bf5;
+}
+
+.bold-toggle.active .bold-toggle-slider {
+    left: 25px;
+    background: #7c5bf5;
+}
+
+.bold-toggle-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Settings Action Buttons */
+.settings-actions {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.settings-save-btn,
+.settings-clear-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.settings-save-btn {
+    background: rgba(124, 91, 245, 0.1);
+    border: 1px solid #7c5bf5;
+    color: #7c5bf5;
+}
+
+.settings-save-btn:hover {
+    background: rgba(124, 91, 245, 0.2);
+}
+
+.settings-clear-btn {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+}
+
+.settings-clear-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+/* ============================================
+   TTS Panel (Inside Settings)
+   ============================================ */
+.tts-group {
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.tts-main-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tts-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.tts-btn:hover {
+    border-color: #7c5bf5;
+    color: #7c5bf5;
+    background: rgba(124, 91, 245, 0.1);
+}
+
+.tts-play {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #6c5ce7 0%, #a855f7 100%);
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(124, 91, 245, 0.3);
+}
+
+.tts-play:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(124, 91, 245, 0.4);
+    color: #fff;
+}
+
+.tts-progress {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tts-progress-bar {
+    height: 100%;
+    background: linear-gradient(135deg, #6c5ce7, #a855f7);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.tts-settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tts-setting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tts-setting label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tts-select {
+    flex: 1;
+    padding: 6px 10px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    outline: none;
+}
+
+.tts-select:focus {
+    border-color: #7c5bf5;
+}
+
+:root[data-theme="sepia"] .tts-select {
+    background: #ede5d0;
+    border-color: #d4c9a8;
+    color: #3d3222;
+}
+
+:root[data-theme="light"] .tts-select {
+    background: #f8f8fa;
+    border-color: #e0e0e5;
+    color: #1a1a2e;
+}
+
+.tts-setting input[type="range"] {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    outline: none;
+}
+
+.tts-setting input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #7c5bf5;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(124, 91, 245, 0.3);
+}
+
+.tts-setting span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    min-width: 35px;
+    text-align: right;
+}
+
+/* ============================================
+   Chapter Pagination
+   ============================================ */
+.chapter-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 0;
+}
+
+.chapter-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.chapter-page-btn:hover {
+    border-color: #7c5bf5;
+    color: #7c5bf5;
+}
+
+.chapter-page-btn.active {
+    background: #7c5bf5;
+    color: #fff;
+    border-color: #7c5bf5;
+    box-shadow: 0 2px 12px rgba(108, 92, 231, 0.3);
+}
+
+/* ============================================
+   Chapter Count Badges
+   ============================================ */
+.novel-card-chapter-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    padding: 3px 10px;
+    background: linear-gradient(135deg, rgba(124, 91, 245, 0.9), rgba(168, 85, 247, 0.9));
+    backdrop-filter: blur(4px);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chapter-total-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    background: linear-gradient(135deg, #6c5ce7, #a855f7);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 20px;
+    margin-left: 8px;
+}
+
+/* ============================================
+   Loading Skeleton Animation
+   ============================================ */
+.loading-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-line {
+    height: 18px;
+    background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-card-hover) 50%, var(--bg-tertiary) 75%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-line.short {
+    width: 65%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Copy Protection
+   ============================================ */
+.reader-container {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.reader-container select,
+.reader-container input,
+.reader-container textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+}
+
+/* Disabled button */
+.disabled-btn {
+    opacity: 0.3 !important;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+/* ============================================
+   Categories Page
+   ============================================ */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 140px;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: #7c5bf5;
+}
+
+.tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-cloud-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.tag-cloud-item:hover {
+    border-color: #7c5bf5;
+    color: #7c5bf5;
+}
+
+.tag-count {
+    font-size: 0.7rem;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+
+    .lu-cell-total,
+    .lu-cell-status {
+        display: none;
+    }
+
+    .lu-cell-info {
+        flex: 2;
+    }
+
+    .lu-row {
+        padding: 8px 12px;
+    }
+
+    .lu-header {
+        display: none;
+    }
+
+    .inkr-slide-card {
+        width: 140px;
+        height: 210px;
+    }
+
+    .chapter-dropdown-wrap {
+        max-width: 100%;
+    }
+
+    .reader-nav {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .reader-nav .btn {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .inkr-slide-card {
+        width: 120px;
+        height: 175px;
+    }
+
+    .lu-cell-cover {
+        width: 34px;
+        height: 48px;
+    }
+
+    .lu-cell-time {
+        display: none;
+    }
+}
+
+/* ============================================
+   Novel Sayfası Format (Blogger uyumlu)
+   theme-layouts.xml satır 425-473, 506-508, 616-617, 356-363
+   ============================================ */
+
+/* Synopsis kutucuk */
+#synopsis {
+    margin-bottom: 1rem;
+}
+
+.kutucuk {
+    border: 2px solid grey;
+    border-radius: 1em;
+    margin: 0 0.5em 0;
+    padding: 0.5em 1em 1em;
+}
+
+.kutucuk .baslik {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.novel-ozet {
+    padding: 0.5em;
+    color: var(--text-main);
+    line-height: 1.7;
+}
+
+.novel-ozet p {
+    margin: 0 0 0.75rem;
+}
+
+.novel-ozet p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   Novel Hero Genre Tags (Kategori linkleri)
+   ============================================ */
+.novel-genre-tags .genre-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: rgba(34, 65, 147, 0.1);
+    border: 1px solid rgba(34, 65, 147, 0.3);
+    color: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.4;
+}
+
+.novel-genre-tags .genre-tag:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(34, 65, 147, 0.25);
+}
+
+/* Dark mode — accent (#224193) koyu temada zemine karışıyor;
+   daha açık, yumuşak bir mavi tonuna çevir */
+.dark .novel-genre-tags .genre-tag {
+    background: rgba(111, 155, 209, 0.15);   /* var(--complr) tonu */
+    border-color: rgba(111, 155, 209, 0.45);
+    color: #93b4e6;                           /* daha açık mavi */
+}
+
+.dark .novel-genre-tags .genre-tag:hover {
+    background: #6F9BD1;                      /* --complr */
+    color: #fff;
+    border-color: #6F9BD1;
+    box-shadow: 0 2px 6px rgba(111, 155, 209, 0.4);
+}
+
+/* ============================================
+   Novel Hero Badges (Durum / Tür / Ülke)
+   Renkler theme-layouts.xml'den port edildi
+   - Variables (110-117): novel/ln/wn/shot prime colors
+   - Status (208-214): tmmlnd/gnc/dvm/yknd/trk/srszlk/spnsr
+   - Country (200-204): data-country values
+   ============================================ */
+.nt-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: filter 0.2s, transform 0.2s;
+    border: 1px solid transparent;
+}
+
+a.nt-badge:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* --- Durum (Status) — Kategori İsimleri.txt + theme-layouts.xml satır 208-214 --- */
+.nt-badge[data-status="Devam Ediyor"]   { background: #f36d0b; color: #fff; }
+.nt-badge[data-status="Tamamlandı"]     { background: #4f8c12; color: #fff; }
+.nt-badge[data-status="Güncel"]         { background: #225add; color: #fff; }
+.nt-badge[data-status="Çok Yakında"]    { background: #7722c9; color: #fff; }
+.nt-badge[data-status="Terk Edildi"]    { background: #C92d30; color: #fff; }
+.nt-badge[data-status="Süresizlik"]     { background: #555555; color: #fff; }
+.nt-badge[data-status="Sponsor bekliyor"],
+.nt-badge[data-status="Sponsor Bekliyor"] { background: #500050; color: #fff; }
+
+/* --- Tür (Type) — theme-layouts.xml satır 110-117 (Blogger değişken default'ları) --- */
+.nt-badge[data-type="Novel"]        { background: #efda3c; color: #000; }
+.nt-badge[data-type="Light Novel"]  { background: #77DED9; color: #000; }
+.nt-badge[data-type="Web Novel"]    { background: #B977DE; color: #000; }
+.nt-badge[data-type="OneShot"]      { background: #43ff8c; color: #000; }
+
+/* --- Ülke (Country) — theme-layouts.xml satır 200-204 --- */
+.nt-badge[data-country="Genel"]    { background: #bdcf46; color: #000; }
+.nt-badge[data-country="Çin"]      { background: #ffff00; color: #000; }
+.nt-badge[data-country="Japonya"]  { background: #ffffff; color: #000; border-color: #d1d5db; }
+.nt-badge[data-country="Kore"]     { background: #0047a0; color: #fff; }
+.nt-badge[data-country="Türkiye"]  { background: #e30a17; color: #fff; }
+
+/* ============================================
+   Novel Card Badges (kart üstündeki overlay etiketleri)
+   Aynı Blogger renkleri — single-novel.php hero ile eşleşir
+   Eski .novel-card-status kuralları (style.css:2677) override ediliyor
+   ============================================ */
+.nt-card-badge {
+    position: absolute;
+    z-index: 10;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    backdrop-filter: none;
+    border: none;
+    opacity: 1;
+}
+
+.nt-card-badge-type   { top: 6px; right: 6px; bottom: auto; left: auto; }
+.nt-card-badge-status { bottom: 6px; left: 6px; top: auto; right: auto; }
+
+/* Status — aynı palette */
+.nt-card-badge[data-status="Devam Ediyor"]   { background: #f36d0b; color: #fff; }
+.nt-card-badge[data-status="Tamamlandı"]     { background: #4f8c12; color: #fff; }
+.nt-card-badge[data-status="Güncel"]         { background: #225add; color: #fff; }
+.nt-card-badge[data-status="Çok Yakında"]    { background: #7722c9; color: #fff; }
+.nt-card-badge[data-status="Terk Edildi"]    { background: #C92d30; color: #fff; }
+.nt-card-badge[data-status="Süresizlik"]     { background: #555555; color: #fff; }
+.nt-card-badge[data-status="Sponsor bekliyor"],
+.nt-card-badge[data-status="Sponsor Bekliyor"] { background: #500050; color: #fff; }
+
+/* Type — aynı palette */
+.nt-card-badge[data-type="Novel"]        { background: #efda3c; color: #000; }
+.nt-card-badge[data-type="Light Novel"]  { background: #77DED9; color: #000; }
+.nt-card-badge[data-type="Web Novel"]    { background: #B977DE; color: #000; }
+.nt-card-badge[data-type="OneShot"]      { background: #43ff8c; color: #000; }
+
+/* ============================================
+   Anasayfa novel tab grid
+   theme-layouts.xml: .grid-cols-146-1 + gap-1 md:gap-4
+   Mobil: 2 sütun, Masaüstü: 5 sütun
+   ============================================ */
+.nt-novels-grid {
+    display: none; /* hidden by default — .is-visible enables */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.nt-novels-grid.is-visible {
+    display: grid;
+}
+
+/* Tablet: 3 sütun */
+@media (min-width: 600px) {
+    .nt-novels-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}
+
+/* Masaüstü: 4 sütun */
+@media (min-width: 1024px) {
+    .nt-novels-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+}
+
+/* ============================================
+   Novel kart kapağı — Blogger paritesi
+   theme-layouts.xml: .mh-241 (min-height:241px), .of-c (object-fit:cover),
+   .hw-100 (h/w 100%), .inset-0 (inset:0), .absolute (position:absolute)
+   Kapak kart kenarına yapışır, oran biraz daha uzun.
+   ============================================ */
+.bookItem {
+    padding: 0 !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+}
+
+.bookItem > a {
+    display: block;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 100%;
+    min-width: 100%;
+}
+
+/* Kapak container — biraz daha uzun (140%) */
+.bookItem > a > div[class*="pb-"] {
+    width: 100% !important;
+    padding-bottom: 120% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+.bookItem .data {
+    padding: 6px 8px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+/* ============================================
+   Card içi bölüm satırları (Blogger kompakt style)
+   ============================================ */
+.nt-chapter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-surface);
+    border-radius: 6px;
+    padding: 2px 6px;
+    transition: background 0.2s;
+    min-height: 22px;
+    gap: 4px;
+}
+
+.nt-chapter-row:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .nt-chapter-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nt-chapter-row .chpName {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nt-chapter-row .chpName a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 11.5px;
+    line-height: 1.3;
+}
+
+.nt-chapter-row .chpName a:hover {
+    color: var(--accent);
+}
+
+/* Dark mode — accent (#224193) koyu zemine karışıyor; complementary mavi kullan */
+.dark .nt-chapter-row .chpName a:hover {
+    color: #93b4e6;
+}
+
+.nt-chapter-row .nt-chapter-time {
+    color: var(--text-dim);
+    font-size: 10.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.nt-chapter-empty {
+    justify-content: center !important;
+    color: var(--text-dim);
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 6px 10px !important;
+    min-height: auto;
+}
+
+/* "En Yeni" / "En Popüler" highlight rozeti (Blogger .n class)
+   Country bilgisinin sağında, complr (#6F9BD1) accent renginde */
+.nt-card-badge,
+.nt-highlight {
+    /* shared base props in .nt-card-badge above */
+}
+
+.nt-highlight {
+    display: inline-block;
+    color: #6F9BD1;
+    border: 1px solid #6F9BD1;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* search.php / page-author.php / taxonomy.php kartlarında position:absolute parent'a ihtiyacı var.
+   Eski .novel-card-status zaten parent'ı .novel-card-cover oluyor — relatif pozisyonlama yapan stil var */
+
+/* ============================================
+   Featured Slider Styles
+   ============================================ */
+.nt-featured-slider {
+    margin-bottom: 24px;
+}
+
+.nt-featured-slider .slider-wrapper {
+    position: relative;
+}
+
+.nt-featured-slider .slider-track {
+    display: grid;
+    gap: 16px;
+    transition: opacity 300ms;
+}
+
+.nt-featured-slider .slider-track.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .nt-featured-slider .slider-track.grid-cols-1.md\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .nt-featured-slider .slider-track.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.nt-featured-slider .post-card {
+    height: 244px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 300ms;
+    display: flex;
+}
+
+.nt-featured-slider .post-card:hover {
+    border-color: #06b6d4;
+    box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+}
+
+.nt-featured-slider .post-card span,
+.nt-featured-slider .post-card h3,
+.nt-featured-slider .post-card p,
+.nt-featured-slider .post-card a {
+    display: block;
+}
+
+/* ============================================
+   Mobil-only ekstralar (geniş puan widget'ı + collapsible listeler)
+   ============================================ */
+
+/* Mobil hero rating — geniş, alçak, yatay layout */
+.nt-mobile-only-rating { display: none; }
+
+/* Mobil dropdown (synopsis kutusunun içinde, en altta) — masaüstünde gizli */
+.nt-synopsis-extras { display: none; }
+
+/* Mobil collapsible toggle — masaüstünde gizli (mobilde media query açar) */
+.nt-mobile-collapsible-toggle { display: none; }
+
+@media (max-width: 768px) {
+    .nt-mobile-only-rating {
+        display: block;
+        width: 90%;
+        max-width: 360px;
+        margin: 16px auto 0;
+        box-sizing: border-box;
+        padding: 12px 16px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        transition: opacity 0.2s;
+    }
+
+    .nt-mobile-only-rating .nt-rating-wide-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .nt-mobile-only-rating .nt-stars-container {
+        display: flex;
+        gap: 3px;
+        cursor: pointer;
+    }
+
+    .nt-mobile-only-rating .nt-star-item {
+        font-size: 22px;
+        line-height: 1;
+        transition: color 0.2s, transform 0.15s;
+    }
+
+    .nt-mobile-only-rating .nt-rating-score--big {
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1;
+        color: #ffd702;
+        letter-spacing: -0.02em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .nt-mobile-only-rating .nt-rating-meta {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--text-dim);
+        font-weight: 500;
+    }
+
+    .nt-mobile-only-rating .nt-rating-sep { opacity: 0.5; }
+
+    /* Sidebar mobilde gizlenir — duplicate'leri main'de göstereriz */
+    .nt-sidebar { display: none !important; }
+
+    /* Synopsis altındaki ekstralar — Katkıda Bulunanlar + İlgili Noveller */
+    .nt-synopsis-extras {
+        display: block;
+        margin-top: 16px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+    }
+
+    /* Mobil collapsible: Novel Özeti içeriğinin ilk satırı görünür, gerisi dropdown */
+    .nt-mobile-collapsible:not(.is-open) .novel-ozet {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nt-mobile-collapsible:not(.is-open) .nt-synopsis-extras {
+        display: none;
+    }
+
+    .nt-mobile-collapsible-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin: 14px auto 0;
+        width: 100%;
+        max-width: 360px;
+        padding: 10px 16px;
+        background: var(--bg-surface);
+        color: var(--text-main);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .nt-mobile-collapsible-toggle:hover {
+        background: var(--bg-card);
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .nt-mobile-collapsible-toggle .nt-mct-chev {
+        transition: transform 0.2s;
+    }
+
+    .nt-mobile-collapsible.is-open .nt-mobile-collapsible-toggle .nt-mct-chev {
+        transform: rotate(180deg);
+    }
+
+    /* Toggle butonu, .nt-mobile-collapsible bir flex/grid değil normal blok — ortala */
+    .nt-mobile-collapsible {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Etiketler kartı, synopsis kartının devamı gibi görünür (yapı bozulmadan) — tüm ekranlar */
+#synopsis + .nt-etiket-card {
+    margin-top: -24px;          /* .nt-main gap'i nötrle */
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: none;
+}
+
+#synopsis:has(+ .nt-etiket-card) {
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+}
+
+/* Etiket kart-body üstüne ince ayraç çizgisi (synopsis'ten net ayrılsın) */
+#synopsis + .nt-etiket-card .nt-card-body {
+    border-top: 1px solid var(--border);
+}
+
+.nt-synopsis-extras-body {
+    padding: 4px 6px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nt-synopsis-extras .nt-extras-heading {
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* ============================================
+   Mobil — hero kart içeriklerini ortala (sadece mobilde)
+   Masaüstü görünümü değişmez
+   ============================================ */
+@media (max-width: 768px) {
+    .nt-main > article.nt-card:first-of-type .nt-card-body {
+        align-items: center;
+        text-align: center;
+    }
+
+    .nt-main > article.nt-card:first-of-type .novel-cover {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .nt-main > article.nt-card:first-of-type .novel-info {
+        align-items: center;
+        text-align: center;
+    }
+
+    .nt-main > article.nt-card:first-of-type .novel-info h1,
+    .nt-main > article.nt-card:first-of-type .novel-info h2 {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Durum/Tür/Ülke ve genre tag rozetlerini ortala */
+    .nt-main > article.nt-card:first-of-type .novel-info > .nt-flex {
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   Breadcrumbs (container üstünde, tam genişlik)
+   sidebar'ın hero kart ile aynı hizada başlaması için ayrılmış
+   ============================================ */
+.nt-breadcrumbs-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 16px 0;
+}
+
+.nt-breadcrumbs-wrap .novel-breadcrumbs {
+    margin: 0;
+    flex-wrap: wrap;
+    row-gap: 4px;
+}
+
+.nt-breadcrumbs-wrap .novel-breadcrumbs .nt-text-main {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+/* Breadcrumbs çıkarıldığı için container'ın üst padding'ini azalt
+   böylece sidebar ve hero aynı Y'de başlar */
+.nt-container-tight {
+    padding-top: 8px !important;
+}
+
+/* ============================================
+   Site Announcement Bar (header altı, kutusuz)
+   ============================================ */
+.site-announcement {
+    text-align: center;
+    padding: 8px 16px;
+    margin: 0 auto;
+    max-width: 1200px;
+    font-size: 14px;
+    line-height: 1.5;
+    background: rgba(255, 75, 75, 0.1);
+    color: #ff4757;
+}
+
+.site-announcement a {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.site-announcement a:hover {
+    text-decoration: none;
+}
+
+ .site-announcement svg{
+    vertical-align: sub;
+    margin-right: 0.5rem;
+ }
+
+/* ============================================
+   Sidebar: Derecelendirme + Kütüphane butonu kartı
+   ============================================ */
+.nt-rating-follow-card .nt-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px !important;
+    align-items: center;
+}
+
+.nt-rating-follow-card .nt-interactive-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%;
+    transition: opacity 0.2s;
+}
+
+/* Puan — yıldızların üstünde, büyük font */
+.nt-rating-follow-card .nt-rating-score {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #ffd702;
+    letter-spacing: -0.02em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.nt-rating-follow-card .nt-stars-container {
+    display: flex;
+    cursor: pointer;
+    gap: 3px;
+}
+
+.nt-rating-follow-card .nt-star-item {
+    font-size: 22px;
+    line-height: 1;
+    transition: color 0.2s, transform 0.15s;
+}
+
+.nt-rating-follow-card .nt-star-item:hover {
+    transform: scale(1.15);
+}
+
+/* Yıldızların altı: değerlendirme + yorum sayısı */
+.nt-rating-follow-card .nt-rating-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.nt-rating-follow-card .nt-rating-sep {
+    opacity: 0.5;
+}
+
+.nt-rating-follow-card .nt-follow-btn {
+    width: 100%;
+}
+
+/* ============================================
+   Sidebar credits + related novels lists
+   ============================================ */
+.nt-credits-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nt-credits-list li {
+    font-size: 13px;
+    color: var(--text-main);
+}
+
+.nt-credit-label {
+    color: var(--text-dim);
+    margin-right: 4px;
+}
+
+/* Yazar/Çizer/Editör/Çevirmen/Destekçiler link */
+.nt-author-link {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.nt-author-link:hover {
+    opacity: 0.75;
+}
+
+.dark .nt-author-link {
+    color: #93b4e6;
+}
+
+/* Katkıda Bulunanlar listesi — alt çizgisiz, mavi linkler */
+.nt-credits-list--blue .nt-author-link {
+    text-decoration: none;
+}
+
+/* Destekçi yanındaki parantez (ör. "y0smir (1-150)") — düz metin, dim renk */
+.nt-author-note {
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.nt-related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nt-related-list li a {
+    display: block;
+    padding: 6px 10px;
+    color: #df3c5f;
+    text-decoration: none;
+    border: 2px solid rgba(223, 60, 95, 0.4);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nt-related-list li a:hover {
+    background: #df3c5f;
+    color: #fff;
+    border-color: #df3c5f;
+}
+
+.novel-not {
+    padding: 0.5rem 0.75rem;
+    margin: 0.75rem 0.5em;
+    background: rgba(255, 75, 75, 0.06);
+    border-left: 3px solid #df3c5f;
+    border-radius: 4px;
+}
+
+/* Editör/Çevirmen kutuları */
+.box-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.half-box {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #20B2AA;
+    margin: 0 10px;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 25px 8px 25px 8px;
+    flex: 1;
+    color: var(--text-main);
+}
+
+.box-container .half-box:only-child {
+    width: 100%;
+    margin: 0;
+}
+
+/* İlgili Noveller */
+#extra-info {
+    margin: 0.75rem auto 0.75rem;
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.ilgili-icerik {
+    display: inline-block;
+    border: 3px solid rgba(223, 60, 95, 0.5);
+    color: #df3c5f;
+    padding: 5px 15px;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.ilgili-icerik:hover {
+    background: #df3c5f;
+    color: #fff;
+}
+
+/* Etiketler details/summary */
+#novel-etiket {
+    margin: 0.5rem 0;
+}
+
+#novel-etiket details {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+}
+
+#novel-etiket summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-main);
+    user-select: none;
+}
+
+#novel-etiket summary:hover {
+    color: var(--accent);
+}
+
+#novel-etiket p {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+#novel-etiket p a {
+    background: var(--bg-base);
+    color: var(--text-dim);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+}
+
+#novel-etiket p a:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/* Bölüm Listesi başlığı (CLWD title) — ortalı, romanın adı + "Novel Oku" */
+.clwd-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    padding: 8px 0 14px;
+    margin: 0 0 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Bölüm Arama input + sıralama toggle satırı */
+.clwd-search-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+}
+
+#scInput {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    margin: 0;
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    outline: none;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.clwd-sort-btn {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: #20B2AA;       /* default order — light sea green */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.clwd-sort-btn:hover {
+    background: var(--bg-card);
+    transform: scale(1.05);
+}
+
+.clwd-sort-btn.is-reversed {
+    color: #DF3C5F;       /* reversed order — pink-red */
+}
+
+.clwd-sort-btn.is-reversed svg {
+    transform: scaleY(-1);
+}
+
+#scInput:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(34, 65, 147, 0.15);
+}
+
+/* ============================================
+   CLWD Chapter List (Blogger compat)
+   theme-layouts.xml satır 226-244, 305, 648-659
+   ============================================ */
+
+/* İlk / Toplam / Son hızlı erişim çubuğu */
+.clwd-quicknav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.clwd-quicknav-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid var(--border-hover);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+    font-size: 13px;
+    font-weight: 700;
+    min-width: 0;
+}
+
+.clwd-quicknav-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 65, 147, 0.25);
+}
+
+.dark .clwd-quicknav-btn {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark .clwd-quicknav-btn:hover {
+    background: #6F9BD1;
+    border-color: #6F9BD1;
+    box-shadow: 0 4px 12px rgba(111, 155, 209, 0.3);
+}
+
+.clwd-quicknav-btn:hover .clwd-muted {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.clwd-quicknav-btn .epcur {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.clwd-quicknav-btn .clwd-muted {
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.clwd-count {
+    flex-shrink: 0;
+    width: 60px;
+    padding: 8px 10px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-hover);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    pointer-events: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.dark .clwd-count {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Cilt sekmeleri */
+.clwd-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.clwd-tab {
+    padding: 4px 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.clwd-tab:hover {
+    background: var(--bg-surface);
+    color: var(--text-main);
+}
+
+.clwd-tab.is-active {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Liste container — kart benzeri satırlar, scrollable */
+.clwd-wrap {
+    position: relative;
+}
+
+.clwd-list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 6px;
+    max-height: 500px;
+    overflow-y: auto;
+    background: transparent;
+    display: none;
+}
+
+.clwd-list.is-visible {
+    display: block;
+}
+
+/* Custom scrollbar — ince */
+.clwd-list::-webkit-scrollbar { width: 6px; }
+.clwd-list::-webkit-scrollbar-track { background: transparent; }
+.clwd-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+.clwd-list::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+.clwd-list li {
+    margin: 6px 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Chapter row (.eph-num) — Blogger uyumlu kutulu kart satır */
+.eph-num {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-surface);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 13px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+    min-height: 38px;
+}
+
+.eph-num:hover {
+    background: var(--bg-card);
+    border-color: var(--border-hover);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.dark .eph-num:hover {
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.eph-num:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Read indicator — Blogger'da: teal unvisited, pink visited
+   theme-layouts.xml satır 305: .eph-num:visited .vcn{color: #DF3C5F;} */
+.eph-num .vcn {
+    color: var(--text-dim);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.eph-num:visited .vcn {
+    color: #DF3C5F;            /* pink-red — visited */
+}
+
+.eph-num .chapternum {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bölüm numarası — düz yazı, etiket arkaplanı yok */
+.eph-num .ch-num-pill {
+    flex-shrink: 0;
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.eph-num:hover .ch-num-pill {
+    color: var(--accent);
+}
+
+.dark .eph-num:hover .ch-num-pill {
+    color: #93b4e6;
+}
+
+/* Bölüm başlığı (alt başlık) — pill'in yanında ellipsis ile */
+.eph-num .ch-sub-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.eph-num:hover .ch-sub-title {
+    color: var(--text-main);
+}
+
+.eph-num .clwd-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    color: var(--text-dim);
+    font-size: 12px;
+}
+
+.eph-num .clwd-cmt {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.eph-num .clwd-sep { opacity: 0.5; }
+
+.eph-num .chapterdate {
+    white-space: nowrap;
+}
+
+/* Bölüm rozetleri — theme-layouts.xml satır 611-614
+   .novel-fix turuncu (revize), .novel-end yeşil (final bölüm) */
+.eph-num .novel-end,
+.eph-num .novel-fix {
+    flex-shrink: 0;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 0.5em;
+    line-height: 1.2;
+    margin-left: 4px;
+}
+
+.eph-num .novel-end {
+    background-color: #4F8C12;
+    color: #fff;
+}
+
+.eph-num .novel-fix {
+    background-color: #FFD580;
+    color: #000;
+}
+
+/* Mobile — daha sıkı, yorum sayısı gizli */
+@media (max-width: 600px) {
+    .clwd-quicknav { font-size: 12px; }
+    .clwd-quicknav-btn { padding: 5px 8px; gap: 4px; }
+    .clwd-count { width: 44px; padding: 5px 6px; font-size: 12px; }
+    .eph-num { font-size: 12px; padding: 5px 8px; gap: 6px; }
+    .eph-num .clwd-meta { font-size: 11px; gap: 4px; }
+    .eph-num .novel-end,
+    .eph-num .novel-fix { font-size: 10px; padding: 1px 5px; }
+}
+
+/* Ciltler grid (Cilt Formatı.xml) */
+#ciltler {
+    display: grid;
+    background: var(--bg-card);
+    padding: var(--p, 0.5rem);
+    border-radius: 0.5rem;
+    gap: var(--g, 0.5rem);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+#ciltler .inner {
+    background: var(--bg-surface);
+    border-radius: 0.5rem;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+#ciltler .poster {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 135%;
+}
+
+#ciltler .poster img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+#ciltler .name {
+    text-align: center;
+    padding: 0.375rem 0.5rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+#ciltler .url {
+    inset: 0;
+    position: absolute;
+}
+
+/* Destek/Bağış link (ul-part) */
+.ul-part {
+    list-style-type: none;
+    background: rgb(78 203 215 / 90%);
+    padding: 0 0 0 2.8rem;
+    border-radius: 1rem;
+    margin: 1rem;
+}
+
+.li-part {
+    text-align: left;
+    position: relative;
+    cursor: pointer;
+}
+
+.li-part::after {
+    content: '';
+    position: absolute;
+    width: 7.5px;
+    height: 7.5px;
+    background: #c2ff00;
+    border-radius: 100%;
+    left: -25px;
+    top: 50%;
+    transform: translate(0, -50%);
+    box-shadow: 0 0 0 0 #224193, 0 0 0 0 #e0ff00;
+    transition: 0.4s ease-in-out;
+}
+
+.li-part:hover::after {
+    box-shadow: 0 0 0 5px #224193, 0 0 0 7px #e0ff00;
+}
+
+.link-part {
+    display: inline-block;
+    margin: 20px 0;
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    z-index: 2;
+    transition: 0.2s ease-in-out;
+}
+
+.link-part:hover {
+    color: #c2ff00;
+}
+
+.arrow-icon {
+    display: inline;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    margin-top: -2.5px;
+    margin-left: 0.5rem;
+}
+
+.arrow-icon--circle {
+    transition: stroke-dashoffset 0.3s ease;
+    stroke-dasharray: 95;
+    stroke-dashoffset: 95;
+}
+
+.link-part:hover .arrow-icon {
+    transform: translate3d(5px, 0, 0);
+}
+
+.link-part:hover .arrow-icon--circle {
+    stroke-dashoffset: 0;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+    .box-container {
+        flex-direction: column;
+        height: auto;
+        gap: 0.5rem;
+    }
+
+    .half-box {
+        margin: 0;
+        height: 32px;
+        width: 100%;
+    }
+
+    .ul-part {
+        padding-left: 2rem;
+        margin: 0.5rem;
+    }
+}
+
+/* ============================================
+   Bölümler / Ciltler-Ekstra sekme butonları
+   Hero kartının sonuna yerleşir; mobilde puanın hemen altında, masaüstünde metadata'nın altında
+   ============================================ */
+.nt-section-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.nt-section-toggle-btn {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.nt-section-toggle-btn:hover {
+    border-color: var(--accent);
+    background: var(--bg-card);
+    color: var(--accent);
+}
+
+.nt-section-toggle-btn:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 768px) {
+    /* Mobilde puan widget'ından sonra yerleşir, kart hizasında dursun */
+    .nt-section-toggle {
+        width: 90%;
+        max-width: 360px;
+        margin: 12px auto 0;
+    }
+    .nt-section-toggle-btn { padding: 9px 10px; font-size: 13px; }
+}
+
+/* ============================================
+   Cilt / Ekstra grid (Blogger uyumlu — görsel + alt başlık şeridi)
+   Light: koyu lacivert kart + beyaz başlık
+   Dark : surface ile aynı arkaplan + ince kenar
+   ============================================ */
+.nt-extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    margin-top: 0.75rem;
+}
+
+.nt-extra-card {
+    display: block;
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s, border-color 0.15s;
+}
+
+a.nt-extra-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.nt-extra-card-thumb {
+    aspect-ratio: 2 / 3;
+    width: 100%;
+    background: var(--bg-base);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--text-dim);
+}
+
+.nt-extra-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.nt-extra-card-title {
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.3;
+    word-break: break-word;
+    color: var(--text-main);
+}
+
+/* Dark mode — daha güçlü gölge */
+.dark a.nt-extra-card:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 768px) {
+    .nt-extras-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+    }
+    .nt-extra-card-title { font-size: 12px; padding: 7px 8px; }
+}
+
+/* ============================================
+   Önerilen Noveller — kapak + isim, sidebar (masaüstü) ve mobilde yorumların altında
+   ============================================ */
+.nt-rec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.nt-rec-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: transform 0.15s ease;
+}
+
+.nt-rec-card:hover {
+    transform: translateY(-2px);
+}
+
+.nt-rec-card-cover {
+    aspect-ratio: 2 / 3;
+    width: 100%;
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--text-dim);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.nt-rec-card:hover .nt-rec-card-cover {
+    border-color: var(--accent);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.nt-rec-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.nt-rec-card-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--text-main);
+    /* 2 satır clamp */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.nt-rec-card:hover .nt-rec-card-title {
+    color: var(--accent);
+}
+
+/* Mobil: yorumların altındaki blok masaüstünde gizli */
+.nt-rec-mobile-only { display: none; }
+
+@media (max-width: 768px) {
+    .nt-rec-mobile-only { display: block; }
+
+    /* Mobilde 3 sütun (sidebar yerine ana alan kullanıldığı için daha geniş) */
+    .nt-rec-mobile-only .nt-rec-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .nt-rec-mobile-only .nt-rec-card-title { font-size: 12px; }
+}

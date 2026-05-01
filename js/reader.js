@@ -1,0 +1,925 @@
+/**
+ * Novel Türk - Frontend JavaScript
+ * Slider, theme/font, TTS, settings, keyboard nav, status filter, copy protection
+ */
+(function () {
+    'use strict';
+
+    // ============================================
+    // INKR-Style Carousel Slider with Center Focus
+    // ============================================
+    // ============================================
+    // INKR Peek Slider v11 (Infinite)
+    // ============================================
+    var sliderTrack = document.getElementById('home-slider-track');
+    var sliderOuter = document.getElementById('home-slider');
+    if (sliderTrack && sliderOuter) {
+        var prevBtn = document.getElementById('home-slider-prev');
+        var nextBtn = document.getElementById('home-slider-next');
+        var dotsContainer = document.getElementById('home-slider-dots');
+        var originalGroups = Array.from(sliderTrack.querySelectorAll('.group'));
+        var totalReal = originalGroups.length;
+        // Clone and Append/Prepend (Multiple sets for wide screens)
+        for (var i = 0; i < 2; i++) {
+            originalGroups.forEach(function (g) {
+                sliderTrack.insertBefore(g.cloneNode(true), sliderTrack.firstChild);
+                sliderTrack.appendChild(g.cloneNode(true));
+            });
+        }
+        var cloneCount = totalReal * 2;
+        var isTransitioning = false;
+
+        var currentIndex = cloneCount; // Start at first original
+
+        function getGroupWidth() {
+            var g = sliderTrack.querySelector('.group');
+            return g ? g.offsetWidth + 5 : 430; // 5 is gap
+        }
+
+        function positionTrack(idx, animate) {
+            sliderTrack.style.transition = animate ? 'transform .44s cubic-bezier(.25,.8,.25,1)' : 'none';
+            var gw = getGroupWidth();
+            sliderTrack.style.transform = 'translateX(-' + (idx * gw) + 'px)';
+        }
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            var ri = ((currentIndex - cloneCount) % totalReal + totalReal) % totalReal;
+            var dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach(function (d, i) { d.classList.toggle('active', i === ri); });
+        }
+
+        function nav(dir) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIndex += dir;
+            positionTrack(currentIndex, true);
+            updateDots();
+        }
+
+        sliderTrack.addEventListener('transitionend', function () {
+            if (currentIndex >= cloneCount + totalReal) {
+                currentIndex = cloneCount;
+                positionTrack(currentIndex, false);
+            } else if (currentIndex < cloneCount) {
+                currentIndex = cloneCount + totalReal - 1;
+                positionTrack(currentIndex, false);
+            }
+            isTransitioning = false;
+            updateDots();
+        });
+
+        // Initialize Dots
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            for (var i = 0; i < totalReal; i++) {
+                (function (idx) {
+                    var dot = document.createElement('div');
+                    dot.className = 'dot' + (idx === 0 ? ' active' : '');
+                    dot.addEventListener('click', function () { if (!isTransitioning) { currentIndex = cloneCount + idx; positionTrack(currentIndex, true); updateDots(); } });
+                    dotsContainer.appendChild(dot);
+                })(i);
+            }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function () { nav(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { nav(1); });
+
+        // Swipe
+        var sx = 0, moved = false;
+        sliderOuter.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; moved = false; }, { passive: true });
+        sliderOuter.addEventListener('touchmove', function (e) { if (Math.abs(e.touches[0].clientX - sx) > 10) moved = true; }, { passive: true });
+        sliderOuter.addEventListener('touchend', function (e) {
+            if (!moved) return;
+            var dx = e.changedTouches[0].clientX - sx;
+            if (Math.abs(dx) > 50) nav(dx < 0 ? 1 : -1);
+        });
+
+        // Initial Position
+        setTimeout(function () { positionTrack(currentIndex, false); updateDots(); }, 100);
+
+        window.addEventListener('resize', function () {
+            positionTrack(currentIndex, false);
+        });
+    }
+
+    // ============================================
+    // Status Filter Tabs (Homepage)
+    // ============================================
+    var statusTabs = document.querySelectorAll('.status-tab');
+    if (statusTabs.length > 0) {
+        statusTabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                var target = this.dataset.status;
+                statusTabs.forEach(function (t) { t.classList.remove('active'); });
+                this.classList.add('active');
+                document.querySelectorAll('.novel-card[data-status]').forEach(function (card) {
+                    if (target === 'all' || card.dataset.status === target) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // ============================================
+    // Popular Tabs
+    // ============================================
+    document.querySelectorAll('.popular-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.popular-tab').forEach(function (t) { t.classList.remove('active'); });
+            this.classList.add('active');
+            document.querySelectorAll('.popular-tab-content').forEach(function (c) { c.classList.remove('active'); });
+            var content = document.getElementById('popular-' + this.dataset.tab);
+            if (content) content.classList.add('active');
+        });
+    });
+
+    // ============================================
+    // Follow System (LocalStorage)
+    // ============================================
+    var webnovelFollow = {
+        key: 'webnovel_follows',
+        items: {},
+        init: function () {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(this.key) || '{}');
+                // Cleanup "undefined" junk data
+                for (var key in parsed) {
+                    if (parsed[key].title === "undefined" || !parsed[key].title || parsed[key].thumb === "undefined") {
+                        delete parsed[key];
+                    }
+                }
+                this.items = parsed;
+            } catch (e) {
+                this.items = {};
+            }
+            this.setupListeners();
+            this.renderBtn();
+            this.renderList();
+            this.updateNotifUI();
+
+            // Periodically check for updates (only if follows exist)
+            if (Object.keys(this.items).length > 0) {
+                this.checkUpdates();
+            }
+        },
+        setupListeners: function () {
+            var _this = this;
+
+            // Notification Dropdown Toggle
+            var bell = document.getElementById('notif-bell');
+            var dropdown = document.getElementById('notif-dropdown');
+            if (bell && dropdown) {
+                bell.onclick = function (e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                };
+                document.addEventListener('click', function (e) {
+                    if (!dropdown.contains(e.target) && e.target !== bell) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+            }
+
+            // Clear All Notifications
+            var clearAll = document.getElementById('notif-clear-all');
+            if (clearAll) {
+                clearAll.onclick = function () { _this.markAllAsRead(); };
+            }
+
+            var btn = document.getElementById('btn-follow-novel');
+            if (btn) {
+                btn.onclick = function () {
+                    var id = btn.dataset.id;
+                    var title = btn.dataset.title;
+                    var thumb = btn.dataset.thumb;
+                    var lastCh = btn.dataset.lastCh;
+                    _this.toggle(id, title, thumb, lastCh);
+                };
+            }
+
+            var clearBtn = document.getElementById('clear-all-follows');
+            if (clearBtn) {
+                clearBtn.onclick = function () {
+                    if (confirm('Bütün takip ettiğiniz serileri silmek istediğinize emin misiniz?')) {
+                        localStorage.removeItem(_this.key);
+                        _this.items = {};
+                        _this.renderList();
+                        _this.updateNotifUI();
+                        alert('Bütün bookmarklar temizlendi.');
+                    }
+                };
+            }
+
+            var exportBtn = document.getElementById('export-follows');
+            if (exportBtn) {
+                exportBtn.onclick = function () { _this.exportData(); };
+            }
+
+            var importBtn = document.getElementById('import-follows-btn');
+            var importFile = document.getElementById('import-follows-file');
+            if (importBtn && importFile) {
+                importBtn.onclick = function () { importFile.click(); };
+                importFile.onchange = function (e) {
+                    var file = e.target.files[0];
+                    if (!file) return;
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        _this.importData(e.target.result);
+                    };
+                    reader.readAsText(file);
+                };
+            }
+
+            // Reader Save Button (Add to Library)
+            var saveBtn = document.getElementById('btn-save');
+            if (saveBtn) {
+                // Update initial state
+                var nid = saveBtn.dataset.novelId;
+                if (_this.items[nid]) saveBtn.classList.add('active');
+
+                saveBtn.onclick = function () {
+                    var id = saveBtn.dataset.novelId;
+                    var title = saveBtn.dataset.novelTitle;
+                    var thumb = saveBtn.dataset.novelThumb;
+                    var lastCh = saveBtn.dataset.lastCh;
+                    _this.toggle(id, title, thumb, lastCh);
+
+                    // Toggle active class visually
+                    if (_this.items[id]) saveBtn.classList.add('active');
+                    else saveBtn.classList.remove('active');
+                };
+            }
+        },
+        toggle: function (id, title, thumb, lastCh) {
+            if (this.items[id]) {
+                delete this.items[id];
+                this.showToast('Takibi bıraktınız: ' + title);
+            } else {
+                this.items[id] = {
+                    id: id,
+                    title: title,
+                    thumb: thumb,
+                    last_seen_ch: lastCh,
+                    has_update: false,
+                    latest_ch_title: ''
+                };
+                this.showToast('Takibe alındı: ' + title);
+            }
+            this.save();
+            this.renderBtn();
+            this.updateNotifUI();
+        },
+        save: function () {
+            localStorage.setItem(this.key, JSON.stringify(this.items));
+        },
+        renderBtn: function () {
+            var btn = document.getElementById('btn-follow-novel');
+            if (!btn) return;
+            var id = btn.dataset.id;
+            var isFollowing = !!this.items[id];
+            btn.classList.toggle('active', isFollowing);
+
+            var span = btn.querySelector('span');
+            if (span) span.innerText = isFollowing ? 'Kütüphaneden Kaldır' : 'Kütüphaneye Ekle';
+
+            var svg = btn.querySelector('svg');
+            if (svg) svg.style.fill = isFollowing ? 'currentColor' : 'none';
+        },
+        renderList: function () {
+            var grid = document.getElementById('followed-series-grid');
+            var emptyMsg = document.getElementById('no-follows-msg');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            var ids = Object.keys(this.items);
+            if (ids.length === 0) {
+                if (emptyMsg) emptyMsg.style.display = 'block';
+                grid.style.display = 'none';
+                return;
+            }
+
+            if (emptyMsg) emptyMsg.style.display = 'none';
+            grid.style.display = 'grid';
+
+            ids.forEach(function (id) {
+                var item = webnovelFollow.items[id];
+                var card = document.createElement('div');
+                card.className = 'novel-card-premium';
+                card.innerHTML = `
+                    <div class="novel-card-cover" onclick="location.href='${item.url || '/novel/' + id}'">
+                        <img src="${item.thumb}" alt="${item.title}">
+                        ${item.has_update ? '<div class="update-badge">YENİ</div>' : ''}
+                    </div>
+                    <div class="novel-card-info">
+                        <h3 class="novel-title" onclick="location.href='${item.url || '/novel/' + id}'">${item.title}</h3>
+                        <p class="chapter-info">${item.latest_ch_title || 'Son okunan: ' + (item.last_seen_ch || 'Bilinmiyor')}</p>
+                        <button class="btn-unfollow" onclick="webnovelFollow.toggle('${id}', '${item.title.replace(/'/g, "\\'")}')">
+                            Takibi Bırak
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        },
+        updateNotifUI: function () {
+            var badge = document.getElementById('notif-badge');
+            var list = document.getElementById('notif-list');
+            if (!list) return;
+
+            var unreadCount = 0;
+            var html = '';
+
+            for (var id in this.items) {
+                var item = this.items[id];
+                if (item.has_update) {
+                    unreadCount++;
+                    html += `
+                        <div class="notif-item" onclick="webnovelFollow.markAsRead('${id}', true)">
+                            <img src="${item.thumb}" alt="">
+                            <div class="notif-content">
+                                <span class="notif-title">${item.title}</span>
+                                <span class="notif-desc">Yeni Bölüm: ${item.latest_ch_title || 'Yeni İçerik'}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            list.innerHTML = html || '<p class="empty-notif">Yeni bildirim yok.</p>';
+            if (badge) badge.style.display = unreadCount > 0 ? 'block' : 'none';
+
+            // Also update the generic nav badge if it exists
+            var navBadge = document.getElementById('follow-nav-badge');
+            if (navBadge) {
+                navBadge.innerText = unreadCount;
+                navBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+            }
+        },
+        markAsRead: function (id, redirectToNovel) {
+            var item = this.items[id];
+            if (item && item.has_update) {
+                item.has_update = false;
+                if (item.temp_latest_id) {
+                    item.last_seen_ch = item.temp_latest_id;
+                    delete item.temp_latest_id;
+                }
+                this.save();
+                this.updateNotifUI();
+                this.renderList();
+            }
+            if (redirectToNovel) {
+                location.href = item.url || ('/novel/' + id);
+            }
+        },
+        markAllAsRead: function () {
+            for (var id in this.items) {
+                var item = this.items[id];
+                if (item.has_update) {
+                    item.has_update = false;
+                    if (item.temp_latest_id) {
+                        item.last_seen_ch = item.temp_latest_id;
+                        delete item.temp_latest_id;
+                    }
+                }
+            }
+            this.save();
+            this.updateNotifUI();
+            this.renderList();
+            this.showToast('Tüm bildirimler temizlendi.');
+        },
+        checkUpdates: function () {
+            var _this = this;
+            var ids = Object.keys(this.items);
+            if (ids.length === 0) return;
+
+            // Use AJAX localized data from functions.php (webnovelReader)
+            var ajaxTarget = (typeof webnovelReader !== 'undefined') ? webnovelReader.ajaxUrl : '/wp-admin/admin-ajax.php';
+
+            var formData = new FormData();
+            formData.append('action', 'webnovel_check_updates');
+            ids.forEach(function (id) { formData.append('novel_ids[]', id); });
+
+            fetch(ajaxTarget, { method: 'POST', body: formData })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        var updatesFound = false;
+                        for (var id in data.data) {
+                            var serverData = data.data[id];
+                            var localItem = _this.items[id];
+                            if (localItem && serverData.latest_id != localItem.last_seen_ch) {
+                                if (!localItem.has_update) {
+                                    _this.showToast(localItem.title + ' serisine yeni bölüm geldi!');
+                                    localItem.has_update = true;
+                                    updatesFound = true;
+                                }
+                                localItem.url = serverData.url;
+                                localItem.latest_ch_title = serverData.chapter_title;
+                                localItem.temp_latest_id = serverData.latest_id; // Keep until read
+                            }
+                        }
+                        if (updatesFound) {
+                            _this.save();
+                            _this.updateNotifUI();
+                            _this.renderList();
+                        }
+                    }
+                })
+                .catch(function (err) { console.error('Update check failed:', err); });
+        },
+        showToast: function (msg) {
+            var container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            var toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = '<span>🔔</span> ' + msg;
+            container.appendChild(toast);
+            setTimeout(function () {
+                toast.style.opacity = '0';
+                setTimeout(function () { toast.remove(); }, 300);
+            }, 5000);
+        },
+        exportData: function () {
+            var data = JSON.stringify(this.items);
+            var blob = new Blob([data], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'novel_takip_listesi.json';
+            a.click();
+        },
+        importData: function (json) {
+            try {
+                var imported = JSON.parse(json);
+                this.items = Object.assign(this.items, imported);
+                this.save();
+                this.renderList();
+                this.updateNotifUI(); // Updated badge name in code
+                alert('Liste başarıyla içe aktarıldı!');
+            } catch (e) {
+                alert('Hatalı dosya formatı!');
+            }
+        }
+    };
+
+    // ============================================
+    // Reading History (LocalStorage)
+    // ============================================
+    var webnovelHistory = {
+        key: 'webnovel_history',
+        maxItems: 10,
+        items: [],
+        init: function () {
+            try {
+                this.items = JSON.parse(localStorage.getItem(this.key) || '[]');
+            } catch (e) {
+                this.items = [];
+            }
+            this.renderDropdown();
+
+            // Auto-save current chapter if on chapter page
+            var chapterData = document.getElementById('reader-text');
+            if (chapterData) {
+                var novelTitle = document.querySelector('h1')?.innerText || 'Bölüm';
+                this.add({
+                    id: chapterData.dataset.chapterId,
+                    title: novelTitle,
+                    url: window.location.pathname,
+                    time: new Date().getTime()
+                });
+            }
+        },
+        add: function (item) {
+            // Remove existing same ID to move to top
+            this.items = this.items.filter(function (i) { return i.id != item.id; });
+            this.items.unshift(item);
+            if (this.items.length > this.maxItems) this.items.pop();
+            this.save();
+            this.renderDropdown();
+        },
+        save: function () {
+            localStorage.setItem(this.key, JSON.stringify(this.items));
+        },
+        renderDropdown: function () {
+            var list = document.getElementById('history-list');
+            if (!list) return;
+            if (this.items.length === 0) {
+                list.innerHTML = '<p class="empty-msg">Henüz geçmiş yok.</p>';
+                return;
+            }
+            var html = '';
+            this.items.forEach(function (item) {
+                html += `
+                    <a href="${item.url}" class="dropdown-item">
+                        <div class="item-info">
+                            <span class="item-title">${item.title}</span>
+                            <span class="item-meta">Son okunan</span>
+                        </div>
+                    </a>
+                `;
+            });
+            list.innerHTML = html;
+        }
+    };
+
+    // ============================================
+    // Dropdown Toggles
+    // ============================================
+    function setupDropdowns() {
+        var btns = ['kitaplik-btn', 'history-btn', 'header-dropdown-btn'];
+        btns.forEach(function (id) {
+            var btn = document.getElementById(id);
+            var dropdownId = id.replace('-btn', '-dropdown');
+            // Fix for header-dropdown-btn which should map to header-dropdown
+            if (id === 'header-dropdown-btn') dropdownId = 'header-dropdown';
+
+            var dropdown = document.getElementById(dropdownId);
+            if (btn && dropdown) {
+                btn.onclick = function (e) {
+                    e.stopPropagation();
+                    var isActive = dropdown.classList.contains('active');
+                    document.querySelectorAll('.header-dropdown').forEach(function (d) { d.classList.remove('active'); });
+                    if (!isActive) dropdown.classList.add('active');
+                };
+            }
+        });
+        document.addEventListener('click', function () {
+            document.querySelectorAll('.header-dropdown').forEach(function (d) { d.classList.remove('active'); });
+        });
+    }
+
+    // ============================================
+    // Reading Progress & Scroll Controls
+    // ============================================
+    function setupReadingProgress() {
+        var progressRing = document.getElementById('reader-progress-ring');
+        var progressText = document.getElementById('reader-progress-text');
+        var btnJumpComments = document.getElementById('btn-jump-comments');
+
+        if (btnJumpComments) {
+            btnJumpComments.onclick = function () {
+                var comments = document.getElementById('comments');
+                if (comments) comments.scrollIntoView({ behavior: 'smooth' });
+            };
+        }
+
+        if (progressRing) {
+            var radius = 22;
+            var circumference = 2 * Math.PI * radius;
+            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressRing.style.strokeDashoffset = circumference;
+
+            window.addEventListener('scroll', function () {
+                var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                var scrolled = (winScroll / height) * 100;
+
+                if (progressText) progressText.innerText = Math.round(scrolled) + '%';
+
+                var offset = circumference - (scrolled / 100) * circumference;
+                progressRing.style.strokeDashoffset = offset;
+            });
+        }
+    }
+
+    // ============================================
+    // Mobile Menu Toggle
+    // ============================================
+
+    // ============================================
+    // Theme & Settings System (Advanced)
+    // ============================================
+    var KEYS = {
+        theme: 'webnovel-theme',
+        font: 'webnovel-font-size',
+        family: 'webnovel-font-family',
+        align: 'webnovel-text-align',
+        weight: 'webnovel-font-weight',
+        style: 'webnovel-font-style',
+        height: 'webnovel-line-height',
+        width: 'webnovel-max-width'
+    };
+
+    function loadPreferences() {
+        applyTheme(localStorage.getItem(KEYS.theme) || 'dark');
+        applyFontSize(localStorage.getItem(KEYS.font) || '18px');
+        applyFontFamily(localStorage.getItem(KEYS.family) || 'inherit');
+        applyTextAlign(localStorage.getItem(KEYS.align) || 'left');
+        applyFontWeight(localStorage.getItem(KEYS.weight) || 'normal');
+        applyFontStyle(localStorage.getItem(KEYS.style) || 'normal');
+        applyLineHeight(localStorage.getItem(KEYS.height) || '1.8');
+        applyMaxWidth(localStorage.getItem(KEYS.width) || '100');
+    }
+
+    function syncSelect(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.value = val;
+    }
+
+    // --- Specific Applicators ---
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem(KEYS.theme, theme);
+        document.body.className = document.body.className.replace(/\btheme-\S+/g, '') + ' theme-' + theme;
+        syncSelect('set-theme-mode', theme);
+    }
+
+    function applyFontSize(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.fontSize = val;
+        localStorage.setItem(KEYS.font, val);
+        syncSelect('set-font-size', val);
+    }
+
+    function applyFontFamily(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.fontFamily = val;
+        localStorage.setItem(KEYS.family, val);
+        syncSelect('set-font-family', val);
+    }
+
+    function applyTextAlign(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.textAlign = val;
+        localStorage.setItem(KEYS.align, val);
+        syncSelect('set-text-align', val);
+    }
+
+    function applyFontWeight(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.fontWeight = val;
+        localStorage.setItem(KEYS.weight, val);
+        syncSelect('set-font-weight', val);
+    }
+
+    function applyFontStyle(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.fontStyle = val;
+        localStorage.setItem(KEYS.style, val);
+        syncSelect('set-font-style', val);
+    }
+
+    function applyLineHeight(val) {
+        var rt = document.getElementById('reader-text');
+        if (rt) rt.style.lineHeight = val;
+        localStorage.setItem(KEYS.height, val);
+        syncSelect('set-line-height', val);
+    }
+
+    function applyMaxWidth(val) {
+        var rc = document.getElementById('reader-container');
+        if (rc) rc.style.maxWidth = val == 100 ? 'none' : (val + '%');
+        if (rc && val != 100) rc.style.margin = '0 auto';
+        localStorage.setItem(KEYS.width, val);
+        var slider = document.getElementById('set-max-width');
+        if (slider) slider.value = val;
+    }
+
+    // Event Listeners for new selects
+    ['set-font-size', 'set-font-family', 'set-text-align', 'set-font-weight', 'set-font-style', 'set-line-height'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', function () {
+                var v = this.value;
+                if (id == 'set-font-size') applyFontSize(v);
+                if (id == 'set-font-family') applyFontFamily(v);
+                if (id == 'set-text-align') applyTextAlign(v);
+                if (id == 'set-font-weight') applyFontWeight(v);
+                if (id == 'set-font-style') applyFontStyle(v);
+                if (id == 'set-line-height') applyLineHeight(v);
+            });
+        }
+    });
+
+    var mwSlider = document.getElementById('set-max-width');
+    if (mwSlider) {
+        mwSlider.addEventListener('input', function () { applyMaxWidth(this.value); });
+    }
+
+    // Save Button Feedback
+    var settingsSave = document.getElementById('settings-save');
+    if (settingsSave) {
+        settingsSave.addEventListener('click', function () {
+            var btn = this;
+            btn.textContent = '✓ Kaydedildi!';
+            btn.style.background = '#10b981';
+            setTimeout(function () {
+                btn.textContent = 'Ayarları Uygula ve Kaydet';
+                btn.style.background = '#1d4ed8';
+                document.getElementById('settings-close').click();
+            }, 1000);
+        });
+    }
+
+    // --- Settings Panel Toggle ---
+    var settingsBtn = document.getElementById('btn-settings');
+    var settingsPanel = document.getElementById('settings-panel');
+    var settingsClose = document.getElementById('settings-close');
+    var settingsOverlay = document.getElementById('settings-overlay');
+
+    if (settingsBtn && settingsPanel) {
+        settingsBtn.addEventListener('click', function () {
+            settingsPanel.style.display = 'block';
+            if (settingsOverlay) settingsOverlay.classList.add('active');
+        });
+    }
+
+    if (settingsClose && settingsPanel) {
+        settingsClose.addEventListener('click', function () {
+            settingsPanel.style.display = 'none';
+            if (settingsOverlay) settingsOverlay.classList.remove('active');
+        });
+    }
+
+    if (settingsOverlay && settingsPanel) {
+        settingsOverlay.addEventListener('click', function () {
+            settingsPanel.style.display = 'none';
+            settingsOverlay.classList.remove('active');
+        });
+    }
+
+
+    // ============================================
+    // Keyboard Navigation (Reader)
+    // ============================================
+    document.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+        var prev = document.getElementById('btn-prev-chapter');
+        var next = document.getElementById('btn-next-chapter');
+        if (e.key === 'ArrowLeft' && prev && prev.href) { e.preventDefault(); window.location.href = prev.href; }
+        if (e.key === 'ArrowRight' && next && next.href) { e.preventDefault(); window.location.href = next.href; }
+    });
+
+    // ============================================
+    // Scroll to Top
+    // ============================================
+    var scrollTopBtn = document.getElementById('scroll-top');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', function () {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+        scrollTopBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    }
+
+    // ============================================
+    // Chapter Sort Toggle
+    // ============================================
+    var sortBtn = document.getElementById('chapter-sort-btn');
+    var chapterListEl = document.getElementById('chapter-list');
+    if (sortBtn && chapterListEl) {
+        sortBtn.addEventListener('click', function () {
+            var currentOrder = this.dataset.order || 'asc';
+            var newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+            this.dataset.order = newOrder;
+            this.textContent = newOrder === 'asc' ? '↕ Eski→Yeni' : '↕ Yeni→Eski';
+            var items = Array.from(chapterListEl.children);
+            items.sort(function (a, b) {
+                return newOrder === 'asc' ? (parseInt(a.dataset.number) || 0) - (parseInt(b.dataset.number) || 0) : (parseInt(b.dataset.number) || 0) - (parseInt(a.dataset.number) || 0);
+            });
+            items.forEach(function (item) { chapterListEl.appendChild(item); });
+        });
+    }
+
+    var mobileToggle = document.getElementById('mobile-menu-toggle');
+    var mobileMenu = document.getElementById('mobile-menu');
+    if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            mobileToggle.innerHTML = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        document.addEventListener('click', function (e) {
+            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && e.target !== mobileToggle) {
+                mobileMenu.classList.remove('active');
+                mobileToggle.innerHTML = '☰';
+            }
+        });
+    }
+
+    // ============================================
+    // Paragraph Copy System
+    // ============================================
+    function setupParagraphCopy() {
+        var rt = document.getElementById('reader-text');
+        if (!rt) return;
+
+        // Clean existing
+        rt.querySelectorAll('.copy-p-btn').forEach(function (b) { b.remove(); });
+
+        var ps = rt.querySelectorAll('p');
+        ps.forEach(function (p) {
+            if (p.innerText.trim().length < 2) return;
+
+            var btn = document.createElement('button');
+            btn.className = 'copy-p-btn';
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+            btn.title = 'Paragrafı Kopyala';
+
+            btn.onclick = function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Bypass reader text copy protection
+
+                var text = p.innerText.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg>';
+                    setTimeout(function () {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+                    }, 2000);
+                });
+            };
+
+            p.style.position = 'relative';
+            p.appendChild(btn);
+        });
+    }
+
+    // ============================================
+    // Dynamic Content Loading
+    // ============================================
+    function fetchChapterContent() {
+        var readerText = document.getElementById('reader-text');
+        if (!readerText || !readerText.dataset.chapterId) return;
+
+        if (typeof webnovelReader === 'undefined') return;
+
+        var ajaxTarget = webnovelReader.ajaxUrl;
+        var nonce = webnovelReader.nonce;
+        var chapterId = readerText.dataset.chapterId;
+
+        var formData = new FormData();
+        formData.append('action', 'webnovel_get_chapter');
+        formData.append('chapter_id', chapterId);
+        formData.append('nonce', nonce);
+
+        fetch(ajaxTarget, { method: 'POST', body: formData })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (data.success) {
+                    readerText.innerHTML = b64DecodeUnicode(data.data.content);
+                    setupParagraphCopy();
+                    loadPreferences();
+                }
+            })
+            .catch(function (err) { console.error('Fetch error:', err); });
+    }
+
+    // --- Base64 UTF-8 Helper ---
+    function b64DecodeUnicode(str) {
+        return decodeURIComponent(atob(str).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+
+    // ============================================
+    // Copy Protection
+    // ============================================
+    var readerContainer = document.getElementById('reader-container');
+    var readerText = document.getElementById('reader-text');
+    if (readerContainer) {
+        var blockEvents = ['contextmenu', 'copy', 'cut', 'paste', 'selectstart', 'dragstart'];
+        blockEvents.forEach(function (ev) {
+            readerContainer.addEventListener(ev, function (e) {
+                if (e.target.closest('.copy-p-btn')) return; // Don't block our buttons
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        window.addEventListener('keydown', function (e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if ((e.ctrlKey || e.metaKey) && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 88 || e.keyCode === 65 || e.keyCode === 83 || e.keyCode === 85)) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.keyCode === 123) { e.preventDefault(); return false; }
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+
+    // ============================================
+    // Initialize
+    // ============================================
+    loadPreferences();
+    webnovelFollow.init();
+    webnovelHistory.init();
+    setupDropdowns();
+    setupReadingProgress();
+    if (document.getElementById('reader-text')) fetchChapterContent();
+
+})();
