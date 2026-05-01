@@ -188,8 +188,23 @@
                 $chapter_count = wp_count_posts('chapter');
         ?>
         <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 280px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
+            <!-- Cover Image Right Side -->
+            <div style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; overflow: hidden; z-index: 1;">
+                <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: 0.8;">
+            </div>
+
+            <!-- Grid Pattern Overlay -->
+            <svg style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; z-index: 2; opacity: 0.3;" preserveAspectRatio="none">
+                <defs>
+                    <pattern id="grid-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+            </svg>
+
             <!-- Content -->
-            <div style="position: relative; z-index: 2; padding: 2rem; max-width: 600px;">
+            <div style="position: relative; z-index: 3; padding: 2rem; max-width: 600px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
                     <span style="padding: 3px 6px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
                     <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Yeni Bölümler Mevcut</span>
