@@ -143,6 +143,37 @@
                 .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 24px; }
             }
         </style>
+
+        <!-- Sosyal Medya Bölümü -->
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <!-- Discord -->
+            <a style="background-color: #6060eb; color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://discord.com/invite/tqvqmgsjm6" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M5 1a4 4 0 0 0-4 4v14a4 4 0 0 0 4 4h14a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4zm4.955 5.205c-1.245 0-2.187.21-3.219.716a.34.34 0 0 0-.142.13C5.886 8.234 4.5 11.52 4.5 15.41c0 .089.034.174.096.237c.648.67 1.238 1.162 1.87 1.51c.637.349 1.3.543 2.084.637a.34.34 0 0 0 .333-.163l.345-.574a4.6 4.6 0 0 1-.834-.39a5 5 0 0 1-.422-.28l-.027-.02l-.008-.006l-.002-.002h-.002a.512.512 0 0 1 .634-.803l.002.001l.016.012l.068.05c.06.042.15.102.261.168a3.3 3.3 0 0 0 .857.365a9.2 9.2 0 0 0 2.229.28a9.2 9.2 0 0 0 2.23-.28a3.3 3.3 0 0 0 .856-.365a4 4 0 0 0 .33-.218l.015-.012l.002-.001a.512.512 0 0 1 .634.802l-.002.001l-.002.002l-.008.007l-.027.02a5 5 0 0 1-.422.28a4.6 4.6 0 0 1-.834.389l.345.574c.069.115.2.18.333.163c.784-.094 1.447-.288 2.083-.638c.633-.347 1.223-.84 1.87-1.509a.34.34 0 0 0 .097-.237c0-3.889-1.386-7.176-2.094-8.357a.34.34 0 0 0-.142-.13c-1.032-.507-1.974-.717-3.218-.717a.34.34 0 0 0-.324.233l-.23.687A4.9 4.9 0 0 0 12 6.886a4.9 4.9 0 0 0-1.492.24l-.229-.688a.34.34 0 0 0-.323-.233Zm-.341 7.5c.564 0 1.022-.535 1.022-1.194s-.458-1.193-1.022-1.193s-1.023.534-1.023 1.193c0 .66.458 1.194 1.023 1.194m4.772 0c.565 0 1.023-.535 1.023-1.194s-.458-1.193-1.023-1.193c-.564 0-1.022.534-1.022 1.193c0 .66.458 1.194 1.022 1.194" clip-rule="evenodd"/></path></svg>
+                <div>
+                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Discord Sunucusu</div>
+                    <div style="font-size: 0.875rem; opacity: 0.9;">Yeni Novel ve Bölüm Bildirimleri, Türk Yazar Romanları, Sohbet Muhabbet...</div>
+                </div>
+            </a>
+
+            <!-- Instagram -->
+            <a style="background: linear-gradient(to right, #ff3019 0%, #c90477 100%); color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://www.instagram.com/nt.novelturk/" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 24 24"><path fill="white" d="M13.028 2c1.125.003 1.696.009 2.189.023l.194.007c.224.008.445.018.712.03c1.064.05 1.79.218 2.427.465c.66.254 1.216.598 1.772 1.153a4.9 4.9 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428c.012.266.022.487.03.712l.006.194c.015.492.021 1.063.023 2.188l.001.746v1.31a79 79 0 0 1-.023 2.188l-.006.194c-.008.225-.018.446-.03.712c-.05 1.065-.22 1.79-.466 2.428a4.9 4.9 0 0 1-1.153 1.772a4.9 4.9 0 0 1-1.772 1.153c-.637.247-1.363.415-2.427.465l-.712.03l-.194.006c-.493.014-1.064.021-2.189.023l-.746.001h-1.309a78 78 0 0 1-2.189-.023l-.194-.006a63 63 0 0 1-.712-.031c-1.064-.05-1.79-.218-2.428-.465a4.9 4.9 0 0 1-1.771-1.153a4.9 4.9 0 0 1-1.154-1.772c-.247-.637-.415-1.363-.465-2.428l-.03-.712l-.005-.194A79 79 0 0 1 2 13.028v-2.056a79 79 0 0 1 .022-2.188l.007-.194c.008-.225.018-.446.03-.712c.05-1.065.218-1.79.465-2.428A4.9 4.9 0 0 1 3.68 3.678a4.9 4.9 0 0 1 1.77-1.153c.638-.247 1.363-.415 2.428-.465c.266-.012.488-.022.712-.03l.194-.006a79 79 0 0 1 2.188-.023zM12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10m0 2a3 3 0 1 1 .001 6a3 3 0 0 1 0-6m5.25-3.5a1.25 1.25 0 0 0 0 2.5a1.25 1.25 0 0 0 0-2.5"/></path></svg>
+                <div>
+                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Instagram</div>
+                    <div style="font-size: 0.875rem; opacity: 0.9;">Yeni Novel ve Bölüm Bildirimleri, Türk Yazar Romanları....</div>
+                </div>
+            </a>
+
+            <!-- YouTube -->
+            <a style="background-color: #ff0033; color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://www.youtube.com/@novelturk" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 1536 1536"><path fill="#fff" d="M919 1175v-157q0-50-29-50q-17 0-33 16v224q16 16 33 16q29 0 29-49m184-122h66v-34q0-51-33-51t-33 51zM532 787v70h-80v423h-74V857h-78v-70zm201 126v367h-67v-40q-39 45-76 45q-33 0-42-28q-6-17-6-54V913h66v270q0 24 1 26q1 15 15 15q20 0 42-31V913zm252 111v146q0 52-7 73q-12 42-53 42q-35 0-68-41v36h-67V787h67v161q32-40 68-40q41 0 53 42q7 21 7 74m251 129v9q0 29-2 43q-3 22-15 40q-27 40-80 40q-52 0-81-38q-21-27-21-86v-129q0-59 20-86q29-38 80-38t78 38q21 29 21 86v76h-133v65q0 51 34 51q24 0 30-26q0-1 .5-7t.5-16.5V1153zM785 329v156q0 51-32 51t-32-51V329q0-52 32-52t32 52m533 713q0-177-19-260q-10-44-43-73.5t-76-34.5q-136-15-412-15q-275 0-411 15q-44 5-76.5 34.5T238 782q-20 87-20 260q0 176 20 260q10 43 42.5 73t75.5 35q137 15 412 15t412-15q43-5 75.5-35t42.5-73q20-84 20-260M563 391l90-296h-75l-51 195l-53-195h-78q7 23 23 69l24 69q35 103 46 158v201h74zm289 81V342q0-58-21-87q-29-38-78-38q-51 0-78 38q-21 29-21 87v130q0 58 21 87q27 38 78 38q49 0 78-38q21-27 21-87m181 120h67V222h-67v283q-22 31-42 31q-15 0-16-16q-1-2-1-26V222h-67v293q0 37 6 55q11 27 43 27q36 0 77-45zm503-304v960q0 119-84.5 203.5T1248 1536H288q-119 0-203.5-84.5T0 1248V288Q0 169 84.5 84.5T288 0h960q119 0 203.5 84.5T1536 288"/></path></svg>
+                <div>
+                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Youtube Kanalı</div>
+                    <div style="font-size: 0.875rem; opacity: 0.9;">Sesli Noveller, Noveller Hakkında Bilgiler, Novel ve Bölüm Özetleri...</div>
+                </div>
+            </a>
+        </div>
+
         <section class="tabbed-novels">
             <div class="titleBox nt-mb-4" style="display:flex; justify-content:space-between; align-items:center;">
                 <h2 style="font-size: 20px; font-weight:700;">Noveller ve Bölümleri</h2>
