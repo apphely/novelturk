@@ -3404,6 +3404,7 @@ function webnovel_ajax_refresh_sidebar_novels() {
         'post_type' => 'novel',
         'posts_per_page' => 5,
         'orderby' => 'rand',
+        'cache_results' => false,
         'tax_query' => array(
             array(
                 'taxonomy' => 'novel_genre',
