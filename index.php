@@ -149,37 +149,6 @@
                 <a href="<?php echo home_url('/novel/'); ?>" style="background:#2563eb; color:#fff; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:bold;">Tüm Noveller</a>
             </div>
             
-            <!-- Filter Section -->
-            <div class="nt-filter-section" style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: flex-end;">
-                <!-- Category Filter Multi-Select -->
-                <div style="flex: 1; min-width: 150px;">
-                    <label for="category-filter" style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Kategori</label>
-                    <div id="category-filter" class="nt-category-dropdown" style="position: relative;">
-                        <button class="nt-category-toggle" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                            <span>Seç</span>
-                            <span style="font-size: 12px;">▼</span>
-                        </button>
-                        <div class="nt-category-options" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; display: none; z-index: 10;">
-                            <?php
-                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                            if (!is_wp_error($genres)) {
-                                foreach ($genres as $genre) {
-                                    echo '<label style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;">
-                                        <input type="checkbox" class="nt-category-checkbox" value="' . esc_attr($genre->slug) . '" style="margin-right: 8px; cursor: pointer;">
-                                        <span style="flex: 1;">' . esc_html($genre->name) . '</span>
-                                        <span style="color: var(--text-dim); font-size: 12px;">(' . $genre->count . ')</span>
-                                    </label>';
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Clear Filters Button -->
-                <button id="clear-filters" style="padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 500;">Temizle</button>
-            </div>
-
             <!-- Novels Grid -->
             <div id="novels-grid" class="nt-novels-grid">
                 <?php
@@ -705,69 +674,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.color = '#fff';
         });
     });
-});
-
-// Novel Filter System
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryToggle = document.querySelector('.nt-category-toggle');
-    const categoryOptions = document.querySelector('.nt-category-options');
-    const categoryCheckboxes = document.querySelectorAll('.nt-category-checkbox');
-    const clearFilters = document.getElementById('clear-filters');
-    const novelsGrid = document.getElementById('novels-grid');
-
-    // Toggle category dropdown
-    categoryToggle.addEventListener('click', function() {
-        categoryOptions.style.display = categoryOptions.style.display === 'none' ? 'block' : 'none';
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.nt-category-dropdown')) {
-            categoryOptions.style.display = 'none';
-        }
-    });
-
-    // Filter on category change
-    categoryCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', applyFilters);
-    });
-
-    // Clear filters
-    clearFilters.addEventListener('click', function() {
-        categoryCheckboxes.forEach(cb => cb.checked = false);
-        categoryToggle.querySelector('span:first-child').textContent = 'Seç';
-        applyFilters();
-    });
-
-    function applyFilters() {
-        const selectedCategories = Array.from(categoryCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-
-        // Update category label
-        if (selectedCategories.length > 0) {
-            categoryToggle.querySelector('span:first-child').textContent =
-                selectedCategories.length + ' Seçildi';
-        } else {
-            categoryToggle.querySelector('span:first-child').textContent = 'Seç';
-        }
-
-        // Fetch filtered results
-        const formData = new FormData();
-        formData.append('action', 'webnovel_filter_novels');
-        formData.append('categories', JSON.stringify(selectedCategories));
-
-        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                novelsGrid.innerHTML = data.data.html;
-            }
-        });
-    }
 });
 
 // Sidebar Category Multi-Select
