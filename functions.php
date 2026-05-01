@@ -3527,3 +3527,75 @@ function webnovel_ajax_refresh_sidebar_categories() {
     echo $html;
     wp_die();
 }
+
+// AJAX handler for fetching popular novels
+add_action('wp_ajax_fetch_popular_novels', 'webnovel_ajax_fetch_popular_novels');
+add_action('wp_ajax_nopriv_fetch_popular_novels', 'webnovel_ajax_fetch_popular_novels');
+
+function webnovel_ajax_fetch_popular_novels() {
+    $period = isset($_POST['period']) ? sanitize_text_field($_POST['period']) : 'week';
+
+    $date_query = array();
+    switch ($period) {
+        case 'week':
+            $date_query = array(
+                array(
+                    'after' => '7 days ago',
+                    'inclusive' => true
+                )
+            );
+            break;
+        case 'month':
+            $date_query = array(
+                array(
+                    'after' => '3 months ago',
+                    'inclusive' => true
+                )
+            );
+            break;
+        case 'all':
+            $date_query = array();
+            break;
+    }
+
+    $args = array(
+        'post_type' => 'novel',
+        'posts_per_page' => 7,
+        'orderby' => 'comment_count',
+        'order' => 'DESC',
+        'cache_results' => false
+    );
+
+    if (!empty($date_query)) {
+        $args['date_query'] = $date_query;
+    }
+
+    $query = new WP_Query($args);
+    $html = '';
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $thumb = webnovel_get_cover_url(get_the_ID(), 'medium');
+            $html .= '<a href="' . get_permalink() . '" style="display:flex; background-color:var(--bg-card); border-radius:8px; overflow:hidden; text-decoration:none; color:var(--text-main); height:100px; border:1px solid var(--border); box-shadow:var(--shadow-sm); transition:transform 0.2s;">';
+            $html .= '<div style="width:70px; flex-shrink:0; position:relative;">';
+            if ($thumb) {
+                $html .= '<img src="' . esc_url($thumb) . '" style="width:100%; height:100%; object-fit:cover;" alt="' . esc_attr(get_the_title()) . '">';
+            } else {
+                $html .= '<div style="width:100%; height:100%; background:var(--bg-surface);"></div>';
+            }
+            $html .= '</div>';
+            $html .= '<div style="padding:12px; display:flex; align-items:center; flex:1;">';
+            $html .= '<div style="display:flex; flex-direction:column; gap:4px; width:100%;">';
+            $html .= '<h4 style="font-size:13px; font-weight:700; margin:0; color:var(--text-main);">' . get_the_title() . '</h4>';
+            $html .= '<span style="font-size:12px; color:var(--text-dim);">💬 ' . get_comments_number() . '</span>';
+            $html .= '</div></div></a>';
+        }
+    } else {
+        $html = '<div style="padding:20px; text-align:center; color:var(--text-dim); background:#1e293b; border-radius:8px; font-size:14px;">Bu dönemde popüler novel bulunamadı.</div>';
+    }
+
+    wp_reset_postdata();
+    echo $html;
+    wp_die();
+}

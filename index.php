@@ -366,6 +366,56 @@
                 </div>
                 </div>
 
+                <!-- Popüler Novellar Section -->
+                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Popüler Novellar</h3>
+                    <div id="popular-novels-tabs" style="display:flex; gap:8px; margin-bottom:16px;">
+                        <button type="button" class="popular-tab-btn" data-period="week" style="background:#3b82f6; color:#fff; padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">Bu Hafta</button>
+                        <button type="button" class="popular-tab-btn" data-period="month" style="background:transparent; color:var(--text-dim); padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">3 Ay</button>
+                        <button type="button" class="popular-tab-btn" data-period="all" style="background:transparent; color:var(--text-dim); padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer;">Tüm Zamanlar</button>
+                    </div>
+                    <div id="popular-novels-content" style="display:flex; flex-direction:column; gap:12px;">
+                        <?php
+                        $popular_args = array(
+                            'post_type' => 'novel',
+                            'posts_per_page' => 7,
+                            'orderby' => 'comment_count',
+                            'order' => 'DESC',
+                            'date_query' => array(
+                                array(
+                                    'after' => '7 days ago',
+                                    'inclusive' => true
+                                )
+                            )
+                        );
+                        $popular_query = new WP_Query($popular_args);
+                        if ($popular_query->have_posts()) :
+                            while ($popular_query->have_posts()) : $popular_query->the_post();
+                                $thumb = webnovel_get_cover_url(get_the_ID(), 'medium');
+                        ?>
+                        <a href="<?php the_permalink(); ?>" style="display:flex; background-color:var(--bg-card); border-radius:8px; overflow:hidden; text-decoration:none; color:var(--text-main); height:100px; border:1px solid var(--border); box-shadow:var(--shadow-sm); transition:transform 0.2s;">
+                            <div style="width:70px; flex-shrink:0; position:relative;">
+                                <?php if($thumb): ?>
+                                    <img src="<?php echo esc_url($thumb); ?>" style="width:100%; height:100%; object-fit:cover;" alt="<?php the_title_attribute(); ?>">
+                                <?php else: ?>
+                                    <div style="width:100%; height:100%; background:var(--bg-surface);"></div>
+                                <?php endif; ?>
+                            </div>
+                            <div style="padding:12px; display:flex; align-items:center; flex:1;">
+                                <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+                                    <h4 style="font-size:13px; font-weight:700; margin:0; color:var(--text-main);"><?php the_title(); ?></h4>
+                                    <span style="font-size:12px; color:var(--text-dim);">💬 <?php echo get_comments_number(); ?></span>
+                                </div>
+                            </div>
+                        </a>
+                        <?php
+                            endwhile;
+                        endif;
+                        wp_reset_postdata();
+                        ?>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -820,6 +870,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial tab handlers
     attachTabHandlers();
+
+    // Popular novels tab handlers
+    var popularTabBtns = document.querySelectorAll('.popular-tab-btn');
+    popularTabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            var period = this.getAttribute('data-period');
+
+            // Update button styles
+            popularTabBtns.forEach(b => {
+                if (b === this) {
+                    b.style.background = '#3b82f6';
+                    b.style.color = '#fff';
+                } else {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--text-dim)';
+                }
+            });
+
+            // Fetch popular novels for this period
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_popular_novels&period=' + encodeURIComponent(period)
+            })
+            .then(r => r.text())
+            .then(html => {
+                if (html) {
+                    var content = document.getElementById('popular-novels-content');
+                    if (content) content.innerHTML = html;
+                }
+            })
+            .catch(e => console.error('Popular novels error:', e));
+        });
+    });
 });
 </script>
 
