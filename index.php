@@ -965,11 +965,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var buttons = document.querySelectorAll('.custom-btn');
         buttons.forEach(b => {
-            b.style.removeProperty('background');
-            b.style.removeProperty('color');
+            b.style.background = 'var(--bg-card)';
+            b.style.color = 'var(--text-main)';
         });
-        btn.style.background = 'var(--accent)';
-        btn.style.color = '#fff';
+        btn.style.background = 'var(--accent) !important';
+        btn.style.color = '#fff !important';
     };
 });
 </script>
