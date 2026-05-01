@@ -756,8 +756,20 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(r => r.text())
         .then(html => {
             if (html) {
-                var wrapper = document.getElementById('sidebar-tab-contents-wrapper');
-                if (wrapper) wrapper.innerHTML = html;
+                // Extract tabs and contents from returned HTML
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                var newTabs = tempDiv.querySelector('.sidebar-tabs');
+                var newContents = tempDiv.querySelector('.sidebar-tab-contents');
+
+                // Update tabs buttons
+                var oldTabs = document.querySelector('.sidebar-tabs');
+                if (oldTabs && newTabs) oldTabs.innerHTML = newTabs.innerHTML;
+
+                // Update contents
+                var oldContents = document.querySelector('.sidebar-tab-contents');
+                if (oldContents && newContents) oldContents.innerHTML = newContents.innerHTML;
+
                 // Re-attach tab click handlers
                 attachTabHandlers();
             }
