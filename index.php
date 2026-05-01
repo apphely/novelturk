@@ -25,8 +25,7 @@
                         $status = get_post_meta($novel_id, '_novel_status', true) ?: 'ongoing';
                         $status_name = webnovel_get_status_label($status);
                 ?>
-                <a href="<?php echo get_permalink(); ?>" style="display: block; text-decoration: none; color: inherit;">
-                    <article class="post-card" style="height: 244px; position: relative; border-radius: 8px; background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); border-left: 3px solid var(--accent); overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer;">
+                <article class="post-card" style="height: 244px; position: relative; border-radius: 8px; background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); border-left: 3px solid var(--accent); overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                         <div style="position: absolute; inset: 0; display: flex;">
                         <div style="width: 60%; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; z-index: 20; position: relative;">
                             <div style="height: 100%; display: flex; flex-direction: column;">
@@ -36,9 +35,7 @@
                                     </span>
                                 </div>
                                 <h3 style="font-size: 14px; font-weight: 900; line-height: 1.3; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; transition: color 0.3s;">
-                                    <a href="<?php echo get_permalink(); ?>" style="color: inherit; text-decoration: none; display: block;">
-                                        <?php the_title(); ?>
-                                    </a>
+                                    <?php the_title(); ?>
                                 </h3>
                                 <p style="font-size: 12px; color: var(--text-dim); margin-top: auto; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; opacity: 0.8;">
                                     <?php echo wp_trim_words(get_the_excerpt() ?: get_the_content(), 30, '...'); ?>
@@ -50,12 +47,11 @@
                                 </a>
                             </div>
                         </div>
-                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s; pointer-events: none;">
+                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s;">
                             <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); transition: transform 0.7s;" loading="lazy">
                         </div>
                     </div>
-                    </article>
-                </a>
+                </article>
                 <?php
                     endwhile;
                 endif;
