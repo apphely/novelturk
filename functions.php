@@ -3346,16 +3346,12 @@ add_filter('rest_prepare_novel', function($response, $post) {
     return $response;
 }, 10, 2);
 
-// AJAX handler for advanced novel filtering
-add_action('wp_ajax_webnovel_advanced_filter', 'webnovel_ajax_advanced_filter');
-add_action('wp_ajax_nopriv_webnovel_advanced_filter', 'webnovel_ajax_advanced_filter');
+// AJAX handler for filtering novels
+add_action('wp_ajax_webnovel_filter_novels', 'webnovel_ajax_filter_novels');
+add_action('wp_ajax_nopriv_webnovel_filter_novels', 'webnovel_ajax_filter_novels');
 
-function webnovel_ajax_advanced_filter() {
-    $status = isset($_POST['status']) ? json_decode(stripslashes($_POST['status']), true) : array();
-    $type = isset($_POST['type']) ? json_decode(stripslashes($_POST['type']), true) : array();
-    $origin = isset($_POST['origin']) ? json_decode(stripslashes($_POST['origin']), true) : array();
-    $genre = isset($_POST['genre']) ? json_decode(stripslashes($_POST['genre']), true) : array();
-    $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+function webnovel_ajax_filter_novels() {
+    $categories = isset($_POST['categories']) ? json_decode(stripslashes($_POST['categories']), true) : array();
 
     $args = array(
         'post_type' => 'novel',
@@ -3364,49 +3360,14 @@ function webnovel_ajax_advanced_filter() {
         'order' => 'DESC'
     );
 
-    // Add search filter
-    if (!empty($search)) {
-        $args['s'] = $search;
-    }
-
-    // Build tax_query for multiple taxonomies
-    $tax_queries = array();
-    if (!empty($type)) {
-        $tax_queries[] = array(
-            'taxonomy' => 'novel_type',
-            'field' => 'slug',
-            'terms' => $type,
-            'operator' => 'IN'
-        );
-    }
-    if (!empty($origin)) {
-        $tax_queries[] = array(
-            'taxonomy' => 'novel_origin',
-            'field' => 'slug',
-            'terms' => $origin,
-            'operator' => 'IN'
-        );
-    }
-    if (!empty($genre)) {
-        $tax_queries[] = array(
-            'taxonomy' => 'novel_genre',
-            'field' => 'slug',
-            'terms' => $genre,
-            'operator' => 'IN'
-        );
-    }
-
-    if (!empty($tax_queries)) {
-        $args['tax_query'] = $tax_queries;
-    }
-
-    // Add status filter
-    if (!empty($status)) {
-        $args['meta_query'] = array(
+    // Add category filter
+    if (!empty($categories)) {
+        $args['tax_query'] = array(
             array(
-                'key' => '_novel_status',
-                'value' => $status,
-                'compare' => 'IN'
+                'taxonomy' => 'novel_genre',
+                'field' => 'slug',
+                'terms' => $categories,
+                'operator' => 'IN'
             )
         );
     }
@@ -3427,26 +3388,4 @@ function webnovel_ajax_advanced_filter() {
 
     wp_reset_postdata();
     wp_send_json_success(array('html' => $html));
-}
-
-// AJAX handler to get genre counts
-add_action('wp_ajax_webnovel_get_genre_counts', 'webnovel_ajax_get_genre_counts');
-add_action('wp_ajax_nopriv_webnovel_get_genre_counts', 'webnovel_ajax_get_genre_counts');
-
-function webnovel_ajax_get_genre_counts() {
-    $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-    $result = array();
-
-    if (!is_wp_error($genres)) {
-        foreach ($genres as $genre) {
-            $count = $genre->count;
-            $result[] = array(
-                'name' => $genre->name,
-                'value' => $genre->slug,
-                'count' => $count
-            );
-        }
-    }
-
-    wp_send_json_success($result);
 }

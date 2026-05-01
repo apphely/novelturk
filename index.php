@@ -149,46 +149,35 @@
                 <a href="<?php echo home_url('/novel/'); ?>" style="background:#2563eb; color:#fff; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:bold;">Tüm Noveller</a>
             </div>
             
-            <!-- Advanced Filter Modal -->
-            <div class="nt-filter-bar" style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;">
-                <input type="text" id="nt-search-filter" placeholder="Novel/Bölüm ARA" style="flex: 1; min-width: 200px; padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 13px;">
-
-                <button class="nt-filter-btn" data-filter="status" style="padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    <span>📋</span> Durum
-                </button>
-
-                <button class="nt-filter-btn" data-filter="type" style="padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    <span>🏷️</span> Tür
-                </button>
-
-                <button class="nt-filter-btn" data-filter="origin" style="padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    <span>🌐</span> Ülke
-                </button>
-
-                <button class="nt-filter-btn" data-filter="genre" style="padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    <span>📁</span> Kategori
-                </button>
-
-                <button id="nt-apply-filter" style="padding: 10px 20px; background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    🔍 Filtrele
-                </button>
-            </div>
-
-            <!-- Filter Modal -->
-            <div id="nt-filter-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000;">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-surface); border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3 id="nt-modal-title" style="font-size: 18px; font-weight: 700; color: var(--text-main); margin: 0;">Filtrele</h3>
-                        <button id="nt-modal-close" style="background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 24px; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">×</button>
-                    </div>
-
-                    <div id="nt-modal-content" style="display: flex; flex-direction: column; gap: 12px;"></div>
-
-                    <div style="margin-top: 24px; display: flex; gap: 12px;">
-                        <button id="nt-modal-clear" style="flex: 1; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 600;">Temizle</button>
-                        <button id="nt-modal-apply" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;">Uygula</button>
+            <!-- Filter Section -->
+            <div class="nt-filter-section" style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: flex-end;">
+                <!-- Category Filter Multi-Select -->
+                <div style="flex: 1; min-width: 150px;">
+                    <label for="category-filter" style="display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-dim);">Kategori</label>
+                    <div id="category-filter" class="nt-category-dropdown" style="position: relative;">
+                        <button class="nt-category-toggle" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 500; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Seç</span>
+                            <span style="font-size: 12px;">▼</span>
+                        </button>
+                        <div class="nt-category-options" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; max-height: 250px; overflow-y: auto; display: none; z-index: 10;">
+                            <?php
+                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                            if (!is_wp_error($genres)) {
+                                foreach ($genres as $genre) {
+                                    echo '<label style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;">
+                                        <input type="checkbox" class="nt-category-checkbox" value="' . esc_attr($genre->slug) . '" style="margin-right: 8px; cursor: pointer;">
+                                        <span style="flex: 1;">' . esc_html($genre->name) . '</span>
+                                        <span style="color: var(--text-dim); font-size: 12px;">(' . $genre->count . ')</span>
+                                    </label>';
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Clear Filters Button -->
+                <button id="clear-filters" style="padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); cursor: pointer; font-weight: 500;">Temizle</button>
             </div>
 
             <!-- Novels Grid -->
@@ -706,137 +695,55 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Advanced Filter Modal System
+// Novel Filter System
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('nt-filter-modal');
-    const modalContent = document.getElementById('nt-modal-content');
-    const modalTitle = document.getElementById('nt-modal-title');
-    const modalClose = document.getElementById('nt-modal-close');
-    const modalClear = document.getElementById('nt-modal-clear');
-    const modalApply = document.getElementById('nt-modal-apply');
-    const applyFilterBtn = document.getElementById('nt-apply-filter');
-    const filterBtns = document.querySelectorAll('.nt-filter-btn');
+    const categoryToggle = document.querySelector('.nt-category-toggle');
+    const categoryOptions = document.querySelector('.nt-category-options');
+    const categoryCheckboxes = document.querySelectorAll('.nt-category-checkbox');
+    const clearFilters = document.getElementById('clear-filters');
     const novelsGrid = document.getElementById('novels-grid');
-    const searchInput = document.getElementById('nt-search-filter');
 
-    let currentFilter = null;
-    let selectedFilters = {
-        status: [],
-        type: [],
-        origin: [],
-        genre: [],
-        search: ''
-    };
-
-    const filterData = {
-        status: [
-            {name: 'Güncel', value: 'ongoing'},
-            {name: 'Tamamlandı', value: 'completed'},
-            {name: 'Devam Ediyor', value: 'ongoing'},
-            {name: 'Çok Yakında', value: 'upcoming'},
-            {name: 'Terk Edildi', value: 'discontinued'},
-            {name: 'Süresizlik', value: 'hiatus'}
-        ],
-        type: [
-            {name: 'Novel', value: 'novel', count: 0},
-            {name: 'Light Novel', value: 'light-novel', count: 0},
-            {name: 'Web Novel', value: 'web-novel', count: 0},
-            {name: 'OneShot', value: 'oneshot', count: 0}
-        ],
-        origin: [
-            {name: 'Çin', value: 'turkiye', count: 0},
-            {name: 'Genel', value: 'genel', count: 0},
-            {name: 'Japonya', value: 'japonya', count: 0},
-            {name: 'Kore', value: 'kore', count: 0},
-            {name: 'Türkiye', value: 'turkiye', count: 0}
-        ],
-        genre: []
-    };
-
-    // Open modal
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            currentFilter = this.dataset.filter;
-            openModal(currentFilter);
-        });
+    // Toggle category dropdown
+    categoryToggle.addEventListener('click', function() {
+        categoryOptions.style.display = categoryOptions.style.display === 'none' ? 'block' : 'none';
     });
 
-    // Close modal
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-
-    // Modal Apply
-    modalApply.addEventListener('click', function() {
-        closeModal();
-        applyFilters();
-    });
-
-    // Clear filters in modal
-    modalClear.addEventListener('click', function() {
-        if (currentFilter) {
-            selectedFilters[currentFilter] = [];
-            renderModalContent();
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nt-category-dropdown')) {
+            categoryOptions.style.display = 'none';
         }
     });
 
-    // Apply filter button
-    applyFilterBtn.addEventListener('click', function() {
-        selectedFilters.search = searchInput.value;
+    // Filter on category change
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', applyFilters);
+    });
+
+    // Clear filters
+    clearFilters.addEventListener('click', function() {
+        categoryCheckboxes.forEach(cb => cb.checked = false);
+        categoryToggle.querySelector('span:first-child').textContent = 'Seç';
         applyFilters();
     });
 
-    function openModal(filterType) {
-        modalTitle.textContent = getFilterLabel(filterType);
-        renderModalContent();
-        modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    function getFilterLabel(type) {
-        const labels = {status: 'Durum', type: 'Tür', origin: 'Ülke', genre: 'Kategori'};
-        return labels[type] || 'Filtrele';
-    }
-
-    function renderModalContent() {
-        modalContent.innerHTML = '';
-        const items = filterData[currentFilter] || [];
-
-        items.forEach(item => {
-            const isSelected = selectedFilters[currentFilter].includes(item.value);
-            const div = document.createElement('label');
-            div.style.cssText = 'display:flex; align-items:center; padding:12px; border-radius:8px; cursor:pointer; background:var(--bg-card); border:1px solid var(--border);';
-
-            div.innerHTML = `
-                <input type="checkbox" class="filter-checkbox" value="${item.value}" ${isSelected ? 'checked' : ''} style="margin-right:10px; cursor:pointer;">
-                <span style="flex:1; color:var(--text-main); font-size:14px;">${item.name}</span>
-                ${item.count ? `<span style="color:var(--text-dim); font-size:12px;">(${item.count})</span>` : ''}
-            `;
-
-            div.querySelector('input').addEventListener('change', function() {
-                if (this.checked && !selectedFilters[currentFilter].includes(item.value)) {
-                    selectedFilters[currentFilter].push(item.value);
-                } else if (!this.checked) {
-                    selectedFilters[currentFilter] = selectedFilters[currentFilter].filter(v => v !== item.value);
-                }
-            });
-
-            modalContent.appendChild(div);
-        });
-    }
-
     function applyFilters() {
+        const selectedCategories = Array.from(categoryCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        // Update category label
+        if (selectedCategories.length > 0) {
+            categoryToggle.querySelector('span:first-child').textContent =
+                selectedCategories.length + ' Seçildi';
+        } else {
+            categoryToggle.querySelector('span:first-child').textContent = 'Seç';
+        }
+
+        // Fetch filtered results
         const formData = new FormData();
-        formData.append('action', 'webnovel_advanced_filter');
-        formData.append('status', JSON.stringify(selectedFilters.status));
-        formData.append('type', JSON.stringify(selectedFilters.type));
-        formData.append('origin', JSON.stringify(selectedFilters.origin));
-        formData.append('genre', JSON.stringify(selectedFilters.genre));
-        formData.append('search', selectedFilters.search);
+        formData.append('action', 'webnovel_filter_novels');
+        formData.append('categories', JSON.stringify(selectedCategories));
 
         fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
             method: 'POST',
@@ -849,15 +756,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // Load initial genre data
-    fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webnovel_get_genre_counts')
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                filterData.genre = data.data;
-            }
-        });
 });
 </script>
 
