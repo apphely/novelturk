@@ -281,8 +281,15 @@
                     </button>
                 </div>
 
+            </div>
+        </div>
+
+        <!-- Sidebar Category Novels Card -->
+        <div class="nt-card" style="background-color: var(--bg-surface); border:none; overflow:visible; margin-bottom:24px;">
+            <div class="nt-card-body" style="overflow:visible;">
+
                 <!-- Sidebar Genre Tabs / Pills -->
-                <div id="sidebar-tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
+                <div id="sidebar-tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                     <div class="sidebar-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
                         <?php
                         // Pull 3 random genres as tabs
