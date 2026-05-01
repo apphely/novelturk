@@ -746,20 +746,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Refresh sidebar novels for active tab only
     document.getElementById('refresh-sidebar-novels').addEventListener('click', function() {
-        var activeTab = document.querySelector('.sidebar-novel-list[style*="display: flex"]');
-        if (!activeTab) activeTab = document.querySelector('.sidebar-novel-list[style*="display:flex"]');
-        if (!activeTab) {
-            var tabId = document.querySelector('.sidebar-tab-btn[style*="#3b82f6"]');
-            if (tabId) {
-                var targetId = tabId.getAttribute('data-target');
-                activeTab = document.getElementById(targetId);
+        var activeTab = null;
+        var allTabs = document.querySelectorAll('.sidebar-novel-list');
+
+        // Find the visible tab
+        for (var i = 0; i < allTabs.length; i++) {
+            var style = allTabs[i].getAttribute('style');
+            if (style && (style.includes('display: flex') || style.includes('display:flex'))) {
+                activeTab = allTabs[i];
+                break;
             }
         }
 
-        if (!activeTab) return;
+        // Fallback to first tab
+        if (!activeTab && allTabs.length > 0) {
+            activeTab = allTabs[0];
+        }
 
-        var tabId = activeTab.id;
-        var genreSlug = tabId.replace('sidebar-tab-', '');
+        if (!activeTab || !activeTab.id) return;
+
+        var genreSlug = activeTab.id.replace('sidebar-tab-', '');
+        if (!genreSlug) return;
 
         fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
             method: 'POST',
@@ -768,8 +775,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(r => r.text())
         .then(html => {
-            activeTab.innerHTML = html;
-        });
+            if (html) activeTab.innerHTML = html;
+        })
+        .catch(e => console.error('Refresh error:', e));
     });
 });
 </script>
