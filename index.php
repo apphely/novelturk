@@ -185,9 +185,12 @@
             while ($spotlight_query->have_posts()) : $spotlight_query->the_post();
                 $novel_id = get_the_ID();
                 $cover_url = webnovel_get_cover_url($novel_id, 'large');
-                $chapter_count = wp_count_posts('chapter');
+                $novel_chapter_query = new WP_Query(array('post_type' => 'chapter', 'meta_query' => array(array('key' => '_chapter_novel_id', 'value' => $novel_id)), 'posts_per_page' => -1));
+                $novel_chapters = $novel_chapter_query->found_posts;
+                wp_reset_postdata();
+                $total_chapters = wp_count_posts('chapter')->publish;
         ?>
-        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 280px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 220px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
             <!-- Cover Image Right Side -->
             <div style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; overflow: hidden; z-index: 1;">
                 <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: 0.8;">
@@ -207,7 +210,7 @@
             <div style="position: relative; z-index: 3; padding: 2rem; max-width: 600px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
                     <span style="padding: 3px 6px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
-                    <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Yeni Bölümler Mevcut</span>
+                    <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;"><?php echo esc_html($novel_chapters); ?>/<?php echo esc_html($total_chapters); ?> Bölüm</span>
                 </div>
 
                 <h2 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.2;">
