@@ -3385,12 +3385,6 @@ function webnovel_custom_comment_layout($comment, $args, $depth) {
 }
 
 // Close comments on non-homepage pages (except novels and chapters)
-add_filter('comments_open', function($open) {
-    if (!is_home() && !is_front_page() && !in_array(get_post_type(), array('novel', 'chapter'))) {
-        return false;
-    }
-    return $open;
-}, 10, 1);
 
 // Register status field in REST API for novel posts
 add_action('rest_api_init', function() {
