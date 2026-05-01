@@ -74,8 +74,8 @@
 <style>
 @media (max-width: 768px) {
     .nt-footer {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
         padding-bottom: 2rem !important;
     }
     .nt-footer-text {
@@ -96,7 +96,7 @@
 }
 </style>
 
-<footer class="bg-accent text-white text-center nt-footer" style="background-color: var(--accent); padding-bottom: 2rem; padding-left: 2rem; padding-right: 2rem;">
+<footer class="bg-accent text-white text-center nt-footer" style="background-color: var(--accent); padding-bottom: 2rem; padding-left: 4rem; padding-right: 4rem;">
     <div class="max-w-screen-xl mx-auto py-4 px-2">
         <!-- Logo Section -->
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
