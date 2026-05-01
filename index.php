@@ -172,6 +172,54 @@
             </a>
         </div>
 
+        <!-- Spotlight Section -->
+        <?php
+        $spotlight_args = array(
+            'post_type' => 'novel',
+            'posts_per_page' => 1,
+            'orderby' => 'date',
+            'order' => 'DESC'
+        );
+        $spotlight_query = new WP_Query($spotlight_args);
+        if ($spotlight_query->have_posts()) :
+            while ($spotlight_query->have_posts()) : $spotlight_query->the_post();
+                $novel_id = get_the_ID();
+                $cover_url = webnovel_get_cover_url($novel_id, 'large');
+                $chapter_count = wp_count_posts('chapter');
+        ?>
+        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 300px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
+            <!-- Background Image -->
+            <div style="position: absolute; inset: 0; opacity: 0.4; background-image: url('<?php echo esc_url($cover_url); ?>'); background-size: cover; background-position: right center; z-index: 1;"></div>
+
+            <!-- Content -->
+            <div style="position: relative; z-index: 2; padding: 2rem; max-width: 600px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <span style="padding: 3px 6px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
+                    <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Yeni Bölümler Mevcut</span>
+                </div>
+
+                <h2 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.2;">
+                    <a href="<?php echo get_permalink(); ?>" style="color: #fff; text-decoration: none;">
+                        <?php the_title(); ?>
+                    </a>
+                </h2>
+
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <a href="<?php echo get_permalink(); ?>" style="background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s;">
+                        📖 Oku
+                    </a>
+                    <a href="<?php echo get_permalink(); ?>" style="background: rgba(255,255,255,0.1); color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); text-transform: uppercase; transition: all 0.3s;">
+                        Detaylar
+                    </a>
+                </div>
+            </div>
+        </div>
+        <?php
+            endwhile;
+        endif;
+        wp_reset_postdata();
+        ?>
+
         <section class="tabbed-novels">
             <div class="titleBox nt-mb-4" style="display:flex; justify-content:space-between; align-items:center;">
                 <h2 style="font-size: 20px; font-weight:700;">Noveller ve Bölümleri</h2>
