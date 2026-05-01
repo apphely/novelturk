@@ -209,7 +209,7 @@
             <!-- Content -->
             <div style="position: relative; z-index: 3; padding: 2rem; max-width: 600px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                    <span style="padding: 3px 6px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
+                    <span style="padding: 3px 6px; color: #fff; font-size: 9px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
                     <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;"><?php echo esc_html($novel_chapters); ?> Bölüm Mevcut</span>
                 </div>
 
