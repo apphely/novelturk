@@ -3147,7 +3147,13 @@ function webnovel_theme_options_page() {
             $urls = isset($_POST['webnovel_quick_access_urls']) ? $_POST['webnovel_quick_access_urls'] : array();
             for ($i = 0; $i < count($labels); $i++) {
                 $label = sanitize_text_field(wp_unslash($labels[$i]));
-                $url = isset($urls[$i]) ? esc_url_raw($urls[$i]) : '';
+                $raw_url = isset($urls[$i]) ? wp_unslash($urls[$i]) : '';
+                // Allow relative URLs, anchor links, and absolute URLs
+                if (strpos($raw_url, '#') === 0 || strpos($raw_url, '/') === 0) {
+                    $url = sanitize_text_field($raw_url);
+                } else {
+                    $url = esc_url_raw($raw_url);
+                }
                 if (!empty($label) && !empty($url)) {
                     $quick_access[] = array('label' => $label, 'url' => $url);
                 }
