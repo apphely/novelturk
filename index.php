@@ -135,12 +135,12 @@
                 .nt-quick-access { grid-template-columns: repeat(4, 1fr); gap: 8px; }
             }
             @media (max-width: 768px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
-                .nt-quick-access a { font-size: 11px; padding: 10px; min-height: 44px; }
+                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 20px; }
+                .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 36px; }
             }
             @media (max-width: 480px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-                .nt-quick-access a { font-size: 10px; padding: 8px; min-height: 40px; }
+                .nt-quick-access { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+                .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 32px; }
             }
         </style>
         <section class="tabbed-novels">
