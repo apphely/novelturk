@@ -50,7 +50,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s;">
+                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s; pointer-events: none;">
                             <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); transition: transform 0.7s;" loading="lazy">
                         </div>
                     </div>
