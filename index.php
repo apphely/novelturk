@@ -150,9 +150,9 @@
             </div>
 
             <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
-                <button class="custom-btn active" style="flex:1; border-bottom: 3px solid var(--accent); background:transparent; color:var(--accent); font-weight:bold; padding:8px 0;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
-                <button class="custom-btn" style="flex:1; border-bottom: 3px solid transparent; background:transparent; color:var(--text-main); font-weight:bold; padding:8px 0;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
-                <button class="custom-btn" style="flex:1; border-bottom: 3px solid transparent; background:transparent; color:var(--text-main); font-weight:bold; padding:8px 0;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
             </div>
 
             <!-- Devam Edenler Tab -->
@@ -965,11 +965,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var buttons = document.querySelectorAll('.custom-btn');
         buttons.forEach(b => {
-            b.style.borderBottomColor = 'transparent';
+            b.style.background = 'var(--bg-card)';
             b.style.color = 'var(--text-main)';
         });
-        btn.style.borderBottomColor = 'var(--accent)';
-        btn.style.color = 'var(--accent)';
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#fff';
     };
 });
 </script>
