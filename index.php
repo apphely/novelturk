@@ -200,7 +200,7 @@
             <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2;" preserveAspectRatio="none" viewBox="0 0 400 400">
                 <defs>
                     <filter id="grid-blur">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="3.5"/>
                     </filter>
                     <pattern id="diagonal-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                         <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.7)" stroke-width="30" stroke-linecap="round" filter="url(#grid-blur)"/>
