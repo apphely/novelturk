@@ -3139,12 +3139,28 @@ function webnovel_theme_options_page() {
             }
         }
         update_option('webnovel_homepage_banners', $banners);
-        
+
+        // Save quick access buttons
+        $quick_access = array();
+        if (isset($_POST['webnovel_quick_access_labels']) && is_array($_POST['webnovel_quick_access_labels'])) {
+            $labels = $_POST['webnovel_quick_access_labels'];
+            $urls = isset($_POST['webnovel_quick_access_urls']) ? $_POST['webnovel_quick_access_urls'] : array();
+            for ($i = 0; $i < count($labels); $i++) {
+                $label = sanitize_text_field(wp_unslash($labels[$i]));
+                $url = isset($urls[$i]) ? esc_url_raw($urls[$i]) : '';
+                if (!empty($label) && !empty($url)) {
+                    $quick_access[] = array('label' => $label, 'url' => $url);
+                }
+            }
+        }
+        update_option('webnovel_homepage_quick_access', $quick_access);
+
         echo '<div class="notice notice-success is-dismissible"><p>Ayarlar kaydedildi.</p></div>';
     }
 
     $current_embed = get_option('webnovel_comment_embed', '');
     $banners = get_option('webnovel_homepage_banners', array());
+    $quick_access = get_option('webnovel_homepage_quick_access', array());
     ?>
     <div class="wrap">
         <h1>Tema Ayarları</h1>
@@ -3192,7 +3208,32 @@ function webnovel_theme_options_page() {
                             <button type="button" id="add-banner" class="button button-secondary" style="margin-top:8px;">+ Yeni Duyuru Ekle</button>
                         </td>
                     </tr>
-                    
+
+                    <tr>
+                        <th scope="row" colspan="2"><h2>Hızlı Erişim Butonları</h2><p class="description">Ana sayfada gözükecek hızlı erişim butonlarını ekleyebilirsiniz.</p></th>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" style="padding-left:0;">
+                            <ul id="quick-access-repeater" style="padding:0; margin:0;">
+                                <?php
+                                $quick_access = is_array($quick_access) ? $quick_access : array();
+                                foreach($quick_access as $index => $button):
+                                    if(empty(trim($button['label']))) continue;
+                                    $label = esc_attr($button['label']);
+                                    $url = esc_url($button['url']);
+                                ?>
+                                <li style="margin-bottom:12px; display:flex; gap:8px; align-items:center;">
+                                    <input type="text" name="webnovel_quick_access_labels[]" value="<?php echo $label; ?>" class="regular-text" style="width: 40%;" placeholder="Buton İsmi..." required>
+                                    <input type="url" name="webnovel_quick_access_urls[]" value="<?php echo $url; ?>" class="regular-text" style="width: 55%;" placeholder="URL..." required>
+                                    <button type="button" class="button remove-quick-access">Sil</button>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <button type="button" id="add-quick-access" class="button button-secondary" style="margin-top:8px;">+ Yeni Buton Ekle</button>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
             <p class="submit">
@@ -3221,6 +3262,28 @@ function webnovel_theme_options_page() {
                 e.target.closest('li').remove();
             }
         });
+
+        // Quick Access Buttons
+        var qaContainer = document.getElementById('quick-access-repeater');
+        if (qaContainer) {
+            document.getElementById('add-quick-access').addEventListener('click', function() {
+                var li = document.createElement('li');
+                li.style.marginBottom = '12px';
+                li.style.display = 'flex';
+                li.style.gap = '8px';
+                li.style.alignItems = 'center';
+                li.innerHTML = '<input type="text" name="webnovel_quick_access_labels[]" value="" class="regular-text" style="width: 40%;" placeholder="Buton İsmi..." required> ' +
+                               '<input type="url" name="webnovel_quick_access_urls[]" value="" class="regular-text" style="width: 55%;" placeholder="URL..." required> ' +
+                               '<button type="button" class="button remove-quick-access">Sil</button>';
+                qaContainer.appendChild(li);
+            });
+
+            qaContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-quick-access')) {
+                    e.target.closest('li').remove();
+                }
+            });
+        }
     });
     </script>
     <?php

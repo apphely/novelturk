@@ -118,14 +118,22 @@
         ?>
 
         <!-- Hızlı Erişim Grid -->
+        <?php
+        $quick_access_buttons = get_option('webnovel_homepage_quick_access', array());
+        if (!empty($quick_access_buttons) && is_array($quick_access_buttons)) {
+        ?>
         <div class="nt-quick-access" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 24px;">
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Destek/Bağış</a>
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">En Popülerler</a>
-            <a href="/#Fİltreleme" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Filtreleme</a>
-            <a href="/#SiteYorumlari" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Site Yorumları</a>
-            <a href="/#SonYorumlar" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Son Yorumlar</a>
-            <a href="#" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">Tema Ayarları</a>
+            <?php
+            foreach ($quick_access_buttons as $button) {
+                $label = isset($button['label']) ? esc_html($button['label']) : '';
+                $url = isset($button['url']) ? esc_url($button['url']) : '#';
+                if (!empty($label)) {
+                    echo '<a href="' . $url . '" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">' . $label . '</a>';
+                }
+            }
+            ?>
         </div>
+        <?php } ?>
 
         <style>
             .nt-quick-access a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
