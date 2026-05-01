@@ -1124,12 +1124,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tab-' + tabName).classList.add('is-visible');
 
         var buttons = document.querySelectorAll('.custom-btn');
+        var root = document.documentElement;
+        var bgCard = getComputedStyle(root).getPropertyValue('--bg-card').trim();
+        var textMain = getComputedStyle(root).getPropertyValue('--text-main').trim();
+        var accent = getComputedStyle(root).getPropertyValue('--accent').trim();
+
         buttons.forEach(b => {
-            b.style.background = 'var(--bg-card)';
-            b.style.color = 'var(--text-main)';
+            b.style.background = bgCard;
+            b.style.color = textMain;
+            b.style.border = '1px solid var(--border)';
         });
-        btn.style.background = 'var(--accent) !important';
-        btn.style.color = '#fff !important';
+        btn.style.background = accent;
+        btn.style.color = '#fff';
+        btn.style.border = '1px solid ' + accent;
     };
 });
 </script>
