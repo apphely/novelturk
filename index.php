@@ -658,6 +658,74 @@
     </aside>
 
     <!-- Recent Comments Section -->
+    <section class="nt-recent-comments" style="margin-top:40px; margin-bottom:24px; width:100%; clear:both;">
+        <div class="titleBox nt-mb-4" id="SonYorumlar" style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--border); padding-bottom:8px;">
+            <h2 style="font-size: 20px; font-weight:700; display:flex; align-items:center; gap:8px; color:var(--text-main);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Son Yorumlar (! Spoiler İçerebilir !)
+            </h2>
+        </div>
+        
+        <div class="nt-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+            <?php
+            $recent_comments = get_comments(array(
+                'number' => 8,
+                'status' => 'approve',
+                'post_type' => array('novel', 'chapter')
+            ));
+
+            if ($recent_comments) :
+                foreach ($recent_comments as $comment) :
+                    $post = get_post($comment->comment_post_ID);
+                    if (!$post) continue;
+                    
+                    $author_name = get_comment_author($comment);
+                    $comment_snippet = wp_trim_words($comment->comment_content, 15);
+                    $avatar = get_avatar_url($comment->user_id, array('size' => 40));
+                    $post_title = get_the_title($post->ID);
+                    
+                    // If it's a chapter, find the novel title too
+                    if ($post->post_type === 'chapter') {
+                        $novel_id = get_post_meta($post->ID, '_chapter_novel_id', true);
+                        if ($novel_id) {
+                            $novel_title = get_the_title($novel_id);
+                            $display_title = $novel_title . ' - ' . $post_title;
+                        } else {
+                            $display_title = $post_title;
+                        }
+                    } else {
+                        $display_title = $post_title;
+                    }
+            ?>
+                <div class="nt-card recent-comment-card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px; transition:all 0.3s ease; position:relative; overflow:hidden; box-shadow:var(--shadow-sm);">
+                    <?php if (user_can($comment->user_id, 'manage_options')) : ?>
+                        <div style="position:absolute; top:12px; right:-28px; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; font-size:10px; font-weight:800; padding:4px 30px; transform: rotate(45deg); box-shadow:0 2px 4px rgba(0,0,0,0.2); z-index:10; border:1px solid rgba(255,255,255,0.1); letter-spacing:0.5px;">YÖNETİCİ</div>
+                    <?php endif; ?>
+                    
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="<?php echo esc_url($avatar); ?>" style="width:36px; height:36px; border-radius:50%;" alt="<?php echo esc_attr($author_name); ?>">
+                        <div style="display:flex; flex-direction:column;">
+                            <span style="font-weight:700; color:var(--text-main); font-size:14px;"><?php echo esc_html($author_name); ?></span>
+                            <span style="font-size:11px; color:var(--text-dim);"><?php echo human_time_diff(get_comment_date('U', $comment), current_time('timestamp')) . ' önce'; ?></span>
+                        </div>
+                    </div>
+                    <div style="font-size:13px; color:var(--text-main); font-style:italic; line-height:1.5; min-height:40px;">
+                        "<?php echo esc_html($comment_snippet); ?>"
+                    </div>
+                    <div style="border-top:1px solid var(--border); padding-top:8px; margin-top:4px;">
+                        <a href="<?php echo get_comment_link($comment); ?>" style="font-size:12px; font-weight:600; color:var(--accent); text-decoration:none; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                            <?php echo esc_html($display_title); ?>
+                        </a>
+                    </div>
+                </div>
+            <?php
+                endforeach;
+            else :
+                echo '<p style="color:var(--text-dim);">Henüz yorum yapılmamış.</p>';
+            endif;
+            ?>
+        </div>
+    </section>
 </div>
 
 <script>
