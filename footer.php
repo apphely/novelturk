@@ -72,7 +72,7 @@
 <?php endif; ?>
 
 <footer class="bg-accent text-white text-center" style="background-color: var(--accent);">
-    <div class="max-w-screen-xl mx-auto py-8 px-2">
+    <div class="max-w-screen-xl mx-auto py-4 px-2">
         <!-- Logo Section -->
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
             <a href="<?php echo home_url(); ?>">
