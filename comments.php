@@ -5,6 +5,12 @@
 if ( post_password_required() ) {
     return;
 }
+
+// Force comment_status open for novel and chapter posts
+global $post;
+if ( $post && in_array( $post->post_type, array( 'novel', 'chapter' ) ) ) {
+    $post->comment_status = 'open';
+}
 ?>
 
 <div id="comments" class="comments-area" style="margin-top: 24px;">
