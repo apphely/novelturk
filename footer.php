@@ -71,7 +71,32 @@
 </div>
 <?php endif; ?>
 
-<footer class="bg-accent text-white text-center" style="background-color: var(--accent); padding-bottom: 2rem;">
+<style>
+@media (max-width: 768px) {
+    .nt-footer {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 2rem !important;
+    }
+    .nt-footer-text {
+        text-align: center !important;
+        margin-bottom: 1rem !important;
+    }
+    .nt-footer-copyright {
+        text-align: center !important;
+        margin: 0 !important;
+    }
+}
+@media (min-width: 769px) {
+    .nt-footer {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}
+</style>
+
+<footer class="bg-accent text-white text-center nt-footer" style="background-color: var(--accent); padding-bottom: 2rem; padding-left: 2rem; padding-right: 2rem;">
     <div class="max-w-screen-xl mx-auto py-4 px-2">
         <!-- Logo Section -->
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
@@ -109,13 +134,13 @@
         </nav>
 
         <!-- Legal Disclaimer -->
-        <p style="opacity: 0.5; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6; text-align: center;">
+        <p class="nt-footer-text" style="opacity: 0.5; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.6; text-align: center;">
             Yasal Uyarı: <?php bloginfo('name'); ?> sunucumuzda herhangi bir dosya saklamaz, yalnızca 3. taraf hizmetlerde barındırılan medyaya bağlantı veririz. Türkiye'de resmî olarak satışa sunulan novel ve benzeri eserleri satın alarak, ilgili sanatçılara ve yayıncılara destek olmanızı önemle tavsiye ederiz. Buradaki içerikler, orijinal eserlerin tanıtımına katkı sağlama amacı taşımaktadır. Tüm içerikler, bağlı olmayan üçüncü şahıslar tarafından sağlanmaktadır. Telif haklarını ihlal ettiğini düşündüğünüz herhangi bir içerikle karşılaşmanız durumunda, lütfen benimle iletişime geçiniz.<br>
             <?php bloginfo('name'); ?> - Türkçe Novel Oku
         </p>
 
         <!-- Copyright -->
-        <p style="opacity: 0.5; margin: 0; font-size: 0.875rem; text-align: center;">
+        <p class="nt-footer-copyright" style="opacity: 0.5; margin: 0; font-size: 0.875rem; text-align: center;">
             Telif Hakkı &copy; 2023-<script>document.write(new Date().getFullYear())</script> <?php bloginfo('name'); ?>
         </p>
     </div>
