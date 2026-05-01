@@ -492,6 +492,11 @@
     white-space: nowrap;
     cursor: pointer;
 }
+.dost-site-kapali {
+    background-image: none !important;
+    background: linear-gradient(144deg, #1f2937, #111827) !important;
+    box-shadow: rgba(0,0,0,0.3) 0 15px 30px -5px !important;
+}
 .dost-site-logo {
     width: 60px;
     height: 60px;
@@ -525,7 +530,7 @@
   </span>
 </button>
                         </a>
-                        <a class="dost-site-link" target="_blank" href="https://culturesubs.com/">
+                        <a class="dost-site-link dost-site-kapali" target="_blank" href="https://culturesubs.com/">
 <button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
   <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpL_KEdWpIt3W43RztLPZevpcqjVnsgl2yjRkvUs-9T4ggOu-tECuxBvqTCgfKsfLVGTsXuEzaG-u7ZxIH5mNBbcusqDMQAUPVuVtE6qylFWksTYKqSRR6uJiVwNegcePL2JuVQc7-5MXfks_mZxH_TKte74a-p09kxTP1HjcaxlHZXNQ/s1600/2d99fe28-57f9-4c9a-b025-3fa44396de6b_1%20(1).png"/>
   <span class="dost-site-metin">
