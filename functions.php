@@ -3441,3 +3441,89 @@ function webnovel_ajax_refresh_sidebar_novels() {
     echo $html;
     wp_die();
 }
+
+// AJAX handler for refreshing sidebar categories
+add_action('wp_ajax_refresh_sidebar_categories', 'webnovel_ajax_refresh_sidebar_categories');
+add_action('wp_ajax_nopriv_refresh_sidebar_categories', 'webnovel_ajax_refresh_sidebar_categories');
+
+function webnovel_ajax_refresh_sidebar_categories() {
+    $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+
+    if (is_wp_error($genres) || empty($genres)) {
+        wp_die();
+    }
+
+    // Get 3 random genres
+    $sidebar_tab_genres = array();
+    if (count($genres) >= 3) {
+        $r_keys = array_rand($genres, 3);
+        foreach ((array)$r_keys as $k) {
+            $sidebar_tab_genres[] = $genres[$k];
+        }
+    } else {
+        $sidebar_tab_genres = $genres;
+    }
+
+    $html = '<div class="sidebar-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">';
+
+    // Generate tab buttons
+    foreach ($sidebar_tab_genres as $index => $g) {
+        $isActive = ($index === 0);
+        $bg = $isActive ? 'background:#3b82f6; color:#fff;' : 'background:transparent; color:var(--text-dim);';
+        $html .= '<button type="button" class="sidebar-tab-btn" data-target="sidebar-tab-' . esc_attr($g->slug) . '" style="' . $bg . ' padding:6px 14px; font-size:14px; border:none; border-radius:20px; font-weight:700; cursor:pointer; transition:all 0.2s;">' . esc_html($g->name) . '</button>';
+    }
+
+    $html .= '</div>';
+    $html .= '<div class="sidebar-tab-contents">';
+
+    // Generate tab contents
+    foreach ($sidebar_tab_genres as $index => $g) {
+        $isActive = ($index === 0);
+        $display = $isActive ? 'flex' : 'none';
+        $html .= '<div id="sidebar-tab-' . esc_attr($g->slug) . '" class="sidebar-novel-list" style="display:' . $display . '; flex-direction:column; gap:12px;">';
+
+        $args = array(
+            'post_type' => 'novel',
+            'posts_per_page' => 5,
+            'orderby' => 'rand',
+            'cache_results' => false,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'novel_genre',
+                    'field' => 'slug',
+                    'terms' => $g->slug
+                )
+            )
+        );
+
+        $query = new WP_Query($args);
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $thumb = webnovel_get_cover_url(get_the_ID(), 'medium');
+                $html .= '<a href="' . get_permalink() . '" class="sidebar-novel-card" style="display:flex; background-color:var(--bg-card); border-radius:8px; overflow:hidden; text-decoration:none; color:var(--text-main); height:110px; border:1px solid var(--border); box-shadow:var(--shadow-sm); transition:transform 0.2s;">';
+                $html .= '<div style="width:75px; flex-shrink:0; position:relative;">';
+                if ($thumb) {
+                    $html .= '<img src="' . esc_url($thumb) . '" style="width:100%; height:100%; object-fit:cover;" alt="' . esc_attr(get_the_title()) . '">';
+                } else {
+                    $html .= '<div style="width:100%; height:100%; background:var(--bg-surface);"></div>';
+                }
+                $html .= '</div>';
+                $html .= '<div style="padding:12px; display:flex; align-items:center; flex:1;">';
+                $html .= '<h4 style="font-size:14px; font-weight:700; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin:0; opacity:0.95; text-align:center; width:100%;">' . get_the_title() . '</h4>';
+                $html .= '</div></a>';
+            }
+        } else {
+            $html .= '<div style="padding:20px; text-align:center; color:var(--text-dim); background:#1e293b; border-radius:8px; font-size:14px;">Bu türde henüz seri eklenmemiş.</div>';
+        }
+
+        wp_reset_postdata();
+        $html .= '</div>';
+    }
+
+    $html .= '</div>';
+
+    echo $html;
+    wp_die();
+}

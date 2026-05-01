@@ -282,7 +282,7 @@
                 </div>
 
                 <!-- Sidebar Genre Tabs / Pills -->
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
+                <div id="sidebar-tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
                     <div class="sidebar-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
                         <?php
                         // Pull 3 random genres as tabs
@@ -293,7 +293,7 @@
                                 $sidebar_tab_genres[] = $genres[$k];
                             }
                         }
-                        
+
                         foreach($sidebar_tab_genres as $index => $g) {
                             $isActive = ($index === 0);
                             $bg = $isActive ? 'background:#3b82f6; color:#fff;' : 'background:transparent; color:var(--text-dim);';
@@ -307,6 +307,7 @@
                 </div>
 
                 <!-- Recent Novels Mini Cards Array (Tab Contents) -->
+                <div id="sidebar-tab-contents-wrapper">
                 <div class="sidebar-tab-contents">
                     <?php
                     foreach($sidebar_tab_genres as $index => $g):
@@ -355,6 +356,7 @@
                         ?>
                     </div>
                     <?php endforeach; ?>
+                </div>
                 </div>
 
             </div>
@@ -744,41 +746,61 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = url;
     });
 
-    // Refresh sidebar novels for active tab only
+    // Refresh sidebar categories and novels
     document.getElementById('refresh-sidebar-novels').addEventListener('click', function() {
-        var activeTab = null;
-        var allTabs = document.querySelectorAll('.sidebar-novel-list');
-
-        // Find the visible tab
-        for (var i = 0; i < allTabs.length; i++) {
-            var style = allTabs[i].getAttribute('style');
-            if (style && (style.includes('display: flex') || style.includes('display:flex'))) {
-                activeTab = allTabs[i];
-                break;
-            }
-        }
-
-        // Fallback to first tab
-        if (!activeTab && allTabs.length > 0) {
-            activeTab = allTabs[0];
-        }
-
-        if (!activeTab || !activeTab.id) return;
-
-        var genreSlug = activeTab.id.replace('sidebar-tab-', '');
-        if (!genreSlug) return;
-
         fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'action=refresh_sidebar_novels&genre=' + encodeURIComponent(genreSlug)
+            body: 'action=refresh_sidebar_categories'
         })
         .then(r => r.text())
         .then(html => {
-            if (html) activeTab.innerHTML = html;
+            if (html) {
+                var wrapper = document.getElementById('sidebar-tab-contents-wrapper');
+                if (wrapper) wrapper.innerHTML = html;
+                // Re-attach tab click handlers
+                attachTabHandlers();
+            }
         })
         .catch(e => console.error('Refresh error:', e));
     });
+
+    // Tab click handler
+    function attachTabHandlers() {
+        var tabBtns = document.querySelectorAll('.sidebar-tab-btn');
+        tabBtns.forEach(btn => {
+            btn.removeEventListener('click', tabClickHandler);
+            btn.addEventListener('click', tabClickHandler);
+        });
+    }
+
+    function tabClickHandler(e) {
+        var targetId = this.getAttribute('data-target');
+        var targetTab = document.getElementById(targetId);
+        if (!targetTab) return;
+
+        // Hide all tabs
+        var allTabs = document.querySelectorAll('.sidebar-novel-list');
+        allTabs.forEach(tab => tab.style.display = 'none');
+
+        // Show clicked tab
+        targetTab.style.display = 'flex';
+
+        // Update button styles
+        var allBtns = document.querySelectorAll('.sidebar-tab-btn');
+        allBtns.forEach(btn => {
+            if (btn === this) {
+                btn.style.background = '#3b82f6';
+                btn.style.color = '#fff';
+            } else {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--text-dim)';
+            }
+        });
+    }
+
+    // Initial tab handlers
+    attachTabHandlers();
 });
 </script>
 
