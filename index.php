@@ -677,27 +677,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetId = this.getAttribute('data-target');
 
             // Hide all
-            tabLists.forEach(list => list.classList.remove('is-visible'));
-            var buttons = document.querySelectorAll('.custom-btn');
-            buttons.forEach(b => b.classList.remove('active'));
+            tabLists.forEach(list => list.style.display = 'none');
+            // Deactivate all buttons
+            tabBtns.forEach(b => {
+                b.style.background = 'transparent';
+                b.style.color = 'var(--text-dim)';
+            });
 
-            var target = document.getElementById(targetId);
-            if(target) target.classList.add('is-visible');
-            this.classList.add('active');
+            // Activate current
+            const target = document.getElementById(targetId);
+            if(target) target.style.display = 'flex';
+            this.style.background = '#3b82f6'; // Match Romantizm active state style
+            this.style.color = '#fff';
         });
     });
 });
-
-window.showTab = function(tabName, btn) {
-    var tabs = document.querySelectorAll('.novels-tab-content');
-    tabs.forEach(tab => tab.classList.remove('is-visible'));
-    document.getElementById('tab-' + tabName).classList.add('is-visible');
-    var buttons = document.querySelectorAll('.custom-btn');
-    buttons.forEach(b => {
-        b.classList.remove('active');
-    });
-    btn.classList.add('active');
-};
 </script>
 
 <?php get_footer(); ?>
