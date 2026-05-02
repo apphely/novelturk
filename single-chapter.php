@@ -26,16 +26,8 @@ get_header();
 .slideUp, .slideDown {
     max-width: 100%;
     width: 100%;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 9999;
-    transition: transform 0.3s ease;
-}
-.slideUp {
-    transform: translateY(-100%);
-}
-.slideDown {
-    transform: translateY(0);
 }
 .navi-bar {
     display: flex;
