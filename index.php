@@ -25,8 +25,8 @@
                         $status = get_post_meta($novel_id, '_novel_status', true) ?: 'ongoing';
                         $status_name = webnovel_get_status_label($status);
                 ?>
-                <article class="post-card" style="height: 244px; position: relative; border-radius: 8px; background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); border-left: 3px solid var(--accent); overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: default;">
-                        <div style="position: absolute; inset: 0; display: flex;">
+                <article class="post-card" style="height: 244px; position: relative; border-radius: 8px; background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); border-left: 3px solid var(--accent); overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <div style="position: absolute; inset: 0; display: flex;">
                         <div style="width: 60%; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; z-index: 20; position: relative;">
                             <div style="height: 100%; display: flex; flex-direction: column;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
@@ -35,7 +35,9 @@
                                     </span>
                                 </div>
                                 <h3 style="font-size: 14px; font-weight: 900; line-height: 1.3; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; transition: color 0.3s;">
-                                    <?php the_title(); ?>
+                                    <a href="<?php echo get_permalink(); ?>" style="color: inherit; text-decoration: none; display: block;">
+                                        <?php the_title(); ?>
+                                    </a>
                                 </h3>
                                 <p style="font-size: 12px; color: var(--text-dim); margin-top: auto; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; opacity: 0.8;">
                                     <?php echo wp_trim_words(get_the_excerpt() ?: get_the_content(), 30, '...'); ?>
@@ -47,7 +49,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s; cursor: default;">
+                        <div style="width: 40%; position: absolute; right: 0; top: 0; height: 100%; overflow: hidden; z-index: 10; transition: transform 0.7s;">
                             <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); transition: transform 0.7s;" loading="lazy">
                         </div>
                     </div>
@@ -117,142 +119,26 @@
         }
         ?>
 
-        <!-- Hızlı Erişim Grid -->
-        <?php
-        $quick_access_buttons = get_option('webnovel_homepage_quick_access', array());
-        if (!empty($quick_access_buttons) && is_array($quick_access_buttons)) {
-        ?>
-        <div class="nt-quick-access" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 24px;">
-            <?php
-            foreach ($quick_access_buttons as $button) {
-                $label = isset($button['label']) ? esc_html($button['label']) : '';
-                $url = isset($button['url']) ? esc_url($button['url']) : '#';
-                if (!empty($label)) {
-                    echo '<a href="' . $url . '" style="background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: 700; text-align: center; font-size: 12px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; min-height: 32px;">' . $label . '</a>';
-                }
-            }
-            ?>
-        </div>
-        <?php } ?>
-
-        <style>
-            .nt-quick-access a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
-            @media (max-width: 1200px) {
-                .nt-quick-access { grid-template-columns: repeat(4, 1fr) !important; gap: 8px; }
-            }
-            @media (max-width: 768px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 6px; margin-bottom: 20px; }
-                .nt-quick-access a { font-size: 10px; padding: 6px; min-height: 28px; }
-            }
-            @media (max-width: 480px) {
-                .nt-quick-access { grid-template-columns: repeat(3, 1fr) !important; gap: 4px; }
-                .nt-quick-access a { font-size: 9px; padding: 4px; min-height: 24px; }
-            }
-        </style>
-
-        <!-- Sosyal Medya Bölümü -->
-        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-            <!-- Discord -->
-            <a style="background-color: #6060eb; color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://discord.com/invite/tqvqmgsjm6" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M5 1a4 4 0 0 0-4 4v14a4 4 0 0 0 4 4h14a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4zm4.955 5.205c-1.245 0-2.187.21-3.219.716a.34.34 0 0 0-.142.13C5.886 8.234 4.5 11.52 4.5 15.41c0 .089.034.174.096.237c.648.67 1.238 1.162 1.87 1.51c.637.349 1.3.543 2.084.637a.34.34 0 0 0 .333-.163l.345-.574a4.6 4.6 0 0 1-.834-.39a5 5 0 0 1-.422-.28l-.027-.02l-.008-.006l-.002-.002h-.002a.512.512 0 0 1 .634-.803l.002.001l.016.012l.068.05c.06.042.15.102.261.168a3.3 3.3 0 0 0 .857.365a9.2 9.2 0 0 0 2.229.28a9.2 9.2 0 0 0 2.23-.28a3.3 3.3 0 0 0 .856-.365a4 4 0 0 0 .33-.218l.015-.012l.002-.001a.512.512 0 0 1 .634.802l-.002.001l-.002.002l-.008.007l-.027.02a5 5 0 0 1-.422.28a4.6 4.6 0 0 1-.834.389l.345.574c.069.115.2.18.333.163c.784-.094 1.447-.288 2.083-.638c.633-.347 1.223-.84 1.87-1.509a.34.34 0 0 0 .097-.237c0-3.889-1.386-7.176-2.094-8.357a.34.34 0 0 0-.142-.13c-1.032-.507-1.974-.717-3.218-.717a.34.34 0 0 0-.324.233l-.23.687A4.9 4.9 0 0 0 12 6.886a4.9 4.9 0 0 0-1.492.24l-.229-.688a.34.34 0 0 0-.323-.233Zm-.341 7.5c.564 0 1.022-.535 1.022-1.194s-.458-1.193-1.022-1.193s-1.023.534-1.023 1.193c0 .66.458 1.194 1.023 1.194m4.772 0c.565 0 1.023-.535 1.023-1.194s-.458-1.193-1.023-1.193c-.564 0-1.022.534-1.022 1.193c0 .66.458 1.194 1.022 1.194" clip-rule="evenodd"/></path></svg>
-                <div>
-                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Discord Sunucusu</div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Yeni Novel ve Bölüm Bildirimleri, Türk Yazar Romanları, Sohbet Muhabbet...</div>
-                </div>
-            </a>
-
-            <!-- Instagram -->
-            <a style="background: linear-gradient(to right, #ff3019 0%, #c90477 100%); color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://www.instagram.com/nt.novelturk/" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 24 24"><path fill="white" d="M13.028 2c1.125.003 1.696.009 2.189.023l.194.007c.224.008.445.018.712.03c1.064.05 1.79.218 2.427.465c.66.254 1.216.598 1.772 1.153a4.9 4.9 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428c.012.266.022.487.03.712l.006.194c.015.492.021 1.063.023 2.188l.001.746v1.31a79 79 0 0 1-.023 2.188l-.006.194c-.008.225-.018.446-.03.712c-.05 1.065-.22 1.79-.466 2.428a4.9 4.9 0 0 1-1.153 1.772a4.9 4.9 0 0 1-1.772 1.153c-.637.247-1.363.415-2.427.465l-.712.03l-.194.006c-.493.014-1.064.021-2.189.023l-.746.001h-1.309a78 78 0 0 1-2.189-.023l-.194-.006a63 63 0 0 1-.712-.031c-1.064-.05-1.79-.218-2.428-.465a4.9 4.9 0 0 1-1.771-1.153a4.9 4.9 0 0 1-1.154-1.772c-.247-.637-.415-1.363-.465-2.428l-.03-.712l-.005-.194A79 79 0 0 1 2 13.028v-2.056a79 79 0 0 1 .022-2.188l.007-.194c.008-.225.018-.446.03-.712c.05-1.065.218-1.79.465-2.428A4.9 4.9 0 0 1 3.68 3.678a4.9 4.9 0 0 1 1.77-1.153c.638-.247 1.363-.415 2.428-.465c.266-.012.488-.022.712-.03l.194-.006a79 79 0 0 1 2.188-.023zM12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10m0 2a3 3 0 1 1 .001 6a3 3 0 0 1 0-6m5.25-3.5a1.25 1.25 0 0 0 0 2.5a1.25 1.25 0 0 0 0-2.5"/></path></svg>
-                <div>
-                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Instagram</div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Yeni Novel ve Bölüm Bildirimleri, Türk Yazar Romanları....</div>
-                </div>
-            </a>
-
-            <!-- YouTube -->
-            <a style="background-color: #ff0033; color: #fff; display: flex; justify-content: center; align-items: center; gap: 1rem; border-radius: 1rem; padding: 1rem; text-decoration: none; transition: all 0.3s; width: 100%; height: 5rem;" href="https://www.youtube.com/@novelturk" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32px" viewbox="0 0 1536 1536"><path fill="#fff" d="M919 1175v-157q0-50-29-50q-17 0-33 16v224q16 16 33 16q29 0 29-49m184-122h66v-34q0-51-33-51t-33 51zM532 787v70h-80v423h-74V857h-78v-70zm201 126v367h-67v-40q-39 45-76 45q-33 0-42-28q-6-17-6-54V913h66v270q0 24 1 26q1 15 15 15q20 0 42-31V913zm252 111v146q0 52-7 73q-12 42-53 42q-35 0-68-41v36h-67V787h67v161q32-40 68-40q41 0 53 42q7 21 7 74m251 129v9q0 29-2 43q-3 22-15 40q-27 40-80 40q-52 0-81-38q-21-27-21-86v-129q0-59 20-86q29-38 80-38t78 38q21 29 21 86v76h-133v65q0 51 34 51q24 0 30-26q0-1 .5-7t.5-16.5V1153zM785 329v156q0 51-32 51t-32-51V329q0-52 32-52t32 52m533 713q0-177-19-260q-10-44-43-73.5t-76-34.5q-136-15-412-15q-275 0-411 15q-44 5-76.5 34.5T238 782q-20 87-20 260q0 176 20 260q10 43 42.5 73t75.5 35q137 15 412 15t412-15q43-5 75.5-35t42.5-73q20-84 20-260M563 391l90-296h-75l-51 195l-53-195h-78q7 23 23 69l24 69q35 103 46 158v201h74zm289 81V342q0-58-21-87q-29-38-78-38q-51 0-78 38q-21 29-21 87v130q0 58 21 87q27 38 78 38q49 0 78-38q21-27 21-87m181 120h67V222h-67v283q-22 31-42 31q-15 0-16-16q-1-2-1-26V222h-67v293q0 37 6 55q11 27 43 27q36 0 77-45zm503-304v960q0 119-84.5 203.5T1248 1536H288q-119 0-203.5-84.5T0 1248V288Q0 169 84.5 84.5T288 0h960q119 0 203.5 84.5T1536 288"/></path></svg>
-                <div>
-                    <div style="font-size: 1rem; font-weight: bold;">Novel Türk Youtube Kanalı</div>
-                    <div style="font-size: 0.875rem; opacity: 0.9;">Sesli Noveller, Noveller Hakkında Bilgiler, Novel ve Bölüm Özetleri...</div>
-                </div>
-            </a>
+        <!-- Hızlı Erişim Pills -->
+        <div class="nt-flex nt-flex-wrap nt-gap-2 nt-mb-6" style="justify-content:center;">
+            <a href="#" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Destek/Bağış</a>
+            <a href="#" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">En Popülerler</a>
+            <a href="/#Fİltreleme" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Filtreleme</a>
+            <a href="/#SiteYorumlari" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Site Yorumları</a>
+            <a href="/#SonYorumlar" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Son Yorumlar</a>
         </div>
 
-        <!-- Spotlight Section -->
-        <?php
-        $spotlight_args = array(
-            'post_type' => 'novel',
-            'posts_per_page' => 1,
-            'orderby' => 'date',
-            'order' => 'DESC'
-        );
-        $spotlight_query = new WP_Query($spotlight_args);
-        if ($spotlight_query->have_posts()) :
-            while ($spotlight_query->have_posts()) : $spotlight_query->the_post();
-                $novel_id = get_the_ID();
-                $cover_url = webnovel_get_cover_url($novel_id, 'large');
-                $novel_chapter_query = new WP_Query(array('post_type' => 'chapter', 'meta_query' => array(array('key' => '_chapter_novel_id', 'value' => $novel_id)), 'posts_per_page' => -1));
-                $novel_chapters = $novel_chapter_query->found_posts;
-                wp_reset_postdata();
-                $total_chapters = wp_count_posts('chapter')->publish;
-        ?>
-        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; min-height: 220px; display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1a2e 100%); border: 1px solid rgba(255,255,255,0.1);">
-            <!-- Cover Image Right Side -->
-            <div style="position: absolute; right: 0; top: 0; width: 45%; height: 100%; overflow: hidden; z-index: 1;">
-                <img src="<?php echo esc_url($cover_url); ?>" alt="<?php the_title_attribute(); ?>" style="width: 100%; height: 100%; object-fit: cover; clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: 0.8;">
-            </div>
-
-            <!-- Diagonal Grid Pattern Overlay - Full Width -->
-            <svg style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; filter: drop-shadow(0 0 8px rgba(0,0,0,0.5)) blur(0.5px);" preserveAspectRatio="none" viewBox="0 0 400 400">
-                <defs>
-                    <pattern id="diagonal-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                        <line x1="0" y1="0" x2="0" y2="30" stroke="rgba(0,0,0,0.7)" stroke-width="30"/>
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#diagonal-grid)"/>
-            </svg>
-
-            <!-- Content -->
-            <div style="position: relative; z-index: 3; padding: 2rem; max-width: 600px;">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                    <span style="padding: 3px 6px; color: #DF3C5F; font-size: 11px; font-weight: 900; border-radius: 4px; text-transform: uppercase;">Spotlight</span>
-                    <span style="color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;"><?php echo esc_html($novel_chapters); ?> Bölüm Mevcut</span>
-                </div>
-
-                <h2 style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.2;">
-                    <a href="<?php echo get_permalink(); ?>" style="color: #fff; text-decoration: none;">
-                        <?php the_title(); ?>
-                    </a>
-                </h2>
-
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <a href="<?php echo get_permalink(); ?>" style="background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s;">
-                        📖 Oku
-                    </a>
-                    <a href="<?php echo get_permalink(); ?>" style="background: rgba(255,255,255,0.1); color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); text-transform: uppercase; transition: all 0.3s;">
-                        Detaylar
-                    </a>
-                </div>
-            </div>
-        </div>
-        <?php
-            endwhile;
-        endif;
-        wp_reset_postdata();
-        ?>
-
+        <!-- Tabbed Novels Grid -->
         <section class="tabbed-novels">
             <div class="titleBox nt-mb-4" style="display:flex; justify-content:space-between; align-items:center;">
                 <h2 style="font-size: 20px; font-weight:700;">Noveller ve Bölümleri</h2>
                 <a href="<?php echo home_url('/novel/'); ?>" style="background:#2563eb; color:#fff; padding:6px 16px; border-radius:20px; text-decoration:none; font-size:13px; font-weight:bold;">Tüm Noveller</a>
             </div>
-
+            
             <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
-                <button class="custom-btn active" style="flex:1; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
-                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
-                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold; font-style:italic;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
+                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold; font-style:italic;" onclick="showTab('diger', this)"><span>Diğer</span></button>
             </div>
 
             <!-- Devam Edenler Tab -->
@@ -285,7 +171,7 @@
             <div id="tab-diger" class="novels-tab-content nt-novels-grid">
                 <?php
                 $args_all = array(
-                    'post_type' => 'novel',
+                    'post_type' => 'novel', 
                     'posts_per_page' => 15,
                     'tax_query' => array(
                         array(
@@ -306,141 +192,88 @@
             </div>
         </section>
 
+        <!-- Comments Section -->
+        <section class="nt-comments-section" style="padding: 16px; background: var(--bg-card); border-radius: 8px;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">Yorumlar</h2>
+            <?php
+            if (comments_open() || get_comments_number()) {
+                comments_template();
+            }
+            ?>
+        </section>
     </main>
 
     <!-- Sidebar Widget Area (NovelTurk specific Filtreleme) -->
     <aside class="nt-sidebar">
-        <div id="Filtreleme" class="nt-card" style="background-color: var(--bg-surface); border:none; overflow:visible;">
-            <div class="nt-card-body" style="overflow:visible;">
+        <div id="Filtreleme" class="nt-card" style="background-color: var(--bg-surface); border:none;">
+            <div class="nt-card-body">
                 <h3 class="nt-text-xl nt-font-bold nt-mb-4" style="color:var(--text-main);">Novel Filtreleme</h3>
-
-                <div class="nt-filters" style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
-                    <!-- Search -->
-                    <div style="position:relative; flex:1 1 100%;">
-                        <input type="text" id="nt-filter-search" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
+                
+                <form action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:12px;">
+                    <input type="hidden" name="post_type" value="novel">
+                    
+                    <!-- Text Search -->
+                    <div style="position:relative;">
+                        <input type="text" name="s" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
                         <svg style="position:absolute; left:14px; top:12px; color:var(--text-dim);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     </div>
 
-                    <!-- Durum -->
-                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
-                        <dt class="filter-toggle" data-target="dd-durum" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
-                            Durum
-                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zM9.455 6.293a.5.5 0 0 0-.902-.017L7.19 9H6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 .447-.276L8.98 7.66l2.066 4.546a.5.5 0 0 0 .884.05L13.283 10h.217a.5.5 0 0 0 0-1H13a.5.5 0 0 0-.429.243l-1.01 1.683z" fill="currentColor"/></svg>
-                        </dt>
-                        <dd id="dd-durum" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-                            <div style="padding:12px;">
-                                <?php
-                                $statuses = array('Tamamlandı' => 'completed', 'Güncel' => 'ongoing', 'Devam Ediyor' => 'ongoing', 'Çok Yakında' => 'upcoming', 'Terk Edildi' => 'discontinued', 'Süresizlik' => 'hiatus');
-                                foreach ($statuses as $label => $val) :
-                                ?>
-                                <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" name="filter_durum" id="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" type="radio" value="<?php echo esc_attr($val); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
-                                    <label for="s-<?php echo esc_attr($val); ?>-<?php echo esc_attr(sanitize_title($label)); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($label); ?></label>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </dd>
-                    </dl>
+                    <!-- Dropdowns x 2 Columns -->
+                    <div style="display:flex; gap:12px;">
+                        <select name="nstatus" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
+                            <option value="">Durum 📋</option>
+                            <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
+                                <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="novel_type" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
+                            <option value="">Tür 🏷️</option>
+                            <?php 
+                            $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
+                            if (!is_wp_error($types)) {
+                                foreach($types as $t) {
+                                    $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
+                                    echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <select name="novel_origin" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
+                            <option value="">Ülke 🌐</option>
+                            <?php 
+                            $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
+                            if (!is_wp_error($origins)) {
+                                foreach($origins as $o) {
+                                    $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
+                                    echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        <select name="novel_genre" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
+                            <option value="">Kategori 📁</option>
+                            <?php 
+                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                            if (!is_wp_error($genres)) {
+                                foreach($genres as $g) {
+                                    $selected = (isset($_GET['novel_genre']) && $_GET['novel_genre'] == $g->slug) ? 'selected' : '';
+                                    echo '<option value="'.esc_attr($g->slug).'" '.$selected.'>'.esc_html($g->name).'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-                    <!-- Tür -->
-                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
-                        <dt class="filter-toggle" data-target="dd-tur" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
-                            Tür
-                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zm-8 7.25q.001-.114.031-.218q.218.165.453.3A5.1 5.1 0 0 0 10 12c.982 0 1.863-.293 2.516-.669q.235-.135.453-.299q.03.105.031.218c0 .3-.182.55-.33.71a2.8 2.8 0 0 1-.653.505A4.1 4.1 0 0 1 10 13a4.1 4.1 0 0 1-2.017-.535a2.8 2.8 0 0 1-.654-.504C7.182 11.8 7 11.55 7 11.25m.031-2.218A.8.8 0 0 0 7 9.25c0 .3.182.551.33.71a2.8 2.8 0 0 0 .653.505A4.1 4.1 0 0 0 10 11c.788 0 1.498-.236 2.017-.535c.26-.15.485-.322.654-.504c.147-.16.329-.41.329-.71a.8.8 0 0 0-.031-.219q-.218.165-.453.3A5.1 5.1 0 0 1 10 10a5.1 5.1 0 0 1-2.516-.669a4 4 0 0 1-.453-.299M8 7c0-.213.126-.448.483-.655C8.841 6.137 9.374 6 10 6s1.159.137 1.517.345S12 6.787 12 7s-.126.448-.483.655C11.159 7.863 10.626 8 10 8s-1.159-.137-1.517-.345S8 7.213 8 7m2-2c-.755 0-1.472.163-2.019.48C7.434 5.798 7 6.313 7 7s.434 1.202.981 1.52C8.528 8.837 9.245 9 10 9s1.472-.163 2.019-.48C12.566 8.202 13 7.687 13 7s-.434-1.202-.981-1.52C11.472 5.163 10.755 5 10 5" fill="currentColor"/></svg>
-                        </dt>
-                        <dd id="dd-tur" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-                            <div style="padding:12px;">
-                                <?php
-                                $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
-                                if (!is_wp_error($types)) :
-                                    foreach ($types as $t) :
-                                ?>
-                                <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" name="filter_tur" id="t-<?php echo esc_attr($t->slug); ?>" type="radio" value="<?php echo esc_attr($t->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
-                                    <label for="t-<?php echo esc_attr($t->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($t->name); ?></label>
-                                </div>
-                                <?php endforeach; endif; ?>
-                            </div>
-                        </dd>
-                    </dl>
-
-                    <!-- Ülke -->
-                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
-                        <dt class="filter-toggle" data-target="dd-ulke" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
-                            Ülke
-                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1H5a1 1 0 0 0 1 1h9.5a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2M15 4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11h10zM7.041 8h.973c.045-.773.192-1.485.42-2.059A3.002 3.002 0 0 0 7.04 8M6 8.5a4 4 0 1 1 8 0a4 4 0 0 1-8 0m6.959-.5a3.002 3.002 0 0 0-1.392-2.059c.227.574.374 1.286.419 2.059zm-.973 1c-.045.773-.192 1.486-.42 2.059A3.002 3.002 0 0 0 12.96 9zm-1.002-1c-.046-.707-.189-1.324-.383-1.778c-.12-.28-.25-.474-.368-.591c-.117-.115-.195-.131-.233-.131c-.038 0-.116.016-.233.13c-.118.118-.248.312-.368.592c-.194.454-.337 1.07-.383 1.778zM9.016 9c.046.707.189 1.324.383 1.778c.12.28.25.474.368.591c.117.115.195.131.233.131c.038 0 .116-.016.233-.13c.118-.118.248-.312.368-.592c.194-.454.336-1.07.383-1.778zM8.014 9h-.973a3.01 3.01 0 0 0 1.392 2.059c-.227-.573-.374-1.286-.419-2.059" fill="currentColor"/></svg>
-                        </dt>
-                        <dd id="dd-ulke" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-                            <div style="padding:12px;">
-                                <?php
-                                $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
-                                if (!is_wp_error($origins)) :
-                                    foreach ($origins as $o) :
-                                ?>
-                                <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" name="filter_ulke" id="o-<?php echo esc_attr($o->slug); ?>" type="radio" value="<?php echo esc_attr($o->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
-                                    <label for="o-<?php echo esc_attr($o->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($o->name); ?></label>
-                                </div>
-                                <?php endforeach; endif; ?>
-                            </div>
-                        </dd>
-                    </dl>
-
-                    <!-- Kategori -->
-                    <style>
-                        #dd-kategori > div::-webkit-scrollbar {
-                            width: 8px;
-                        }
-                        #dd-kategori > div::-webkit-scrollbar-track {
-                            background: var(--bg-surface);
-                            border-radius: 4px;
-                        }
-                        #dd-kategori > div::-webkit-scrollbar-thumb {
-                            background: var(--accent);
-                            border-radius: 4px;
-                            transition: background 0.3s;
-                        }
-                        #dd-kategori > div::-webkit-scrollbar-thumb:hover {
-                            background: var(--text-main);
-                        }
-                    </style>
-                    <dl style="display:grid; align-items:center; flex:1; position:relative;">
-                        <dt class="filter-toggle" data-target="dd-kategori" style="background:var(--bg-card); font-weight:500; border-radius:24px; font-size:14px; padding:8px 20px; text-align:center; display:inline-flex; align-items:center; gap:6px; justify-content:center; cursor:pointer; border:1px solid var(--border); color:var(--text-main);">
-                            Kategori
-                            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 7.505a.5.5 0 0 1 .5-.5h1.29l.221-1.102a.5.5 0 0 1 .98.197l-.18.905h.98l.22-1.101a.5.5 0 0 1 .98.195l-.18.906h.94a.5.5 0 0 1 0 1h-1.14l-.2 1h1.09a.5.5 0 1 1 0 1h-1.289l-.218 1.093a.5.5 0 0 1-.98-.196l.178-.897H9.21l-.219 1.093a.5.5 0 1 1-.98-.196l.18-.897h-.938a.5.5 0 0 1 0-1H8.39l.2-1H7.5a.5.5 0 0 1-.5-.5m3.392 1.5l.2-1H9.61l-.2 1zM6 2h8.004a2 2 0 0 1 2 2v11.501a.5.5 0 0 1-.5.5H5A1 1 0 0 0 6 17h9.504a.5.5 0 0 1 0 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2M5 15.001h10.004V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1z" fill="currentColor"/></svg>
-                        </dt>
-                        <dd id="dd-kategori" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:100; margin-top:4px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); min-width:200px;">
-                            <div style="padding:12px; max-height:288px; overflow-y:auto;">
-                                <?php
-                                $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                                if (!is_wp_error($genres)) :
-                                    foreach ($genres as $g) :
-                                ?>
-                                <div style="display:flex; align-items:center; margin-bottom:4px;">
-                                    <input class="genre" id="g-<?php echo esc_attr($g->slug); ?>" type="checkbox" value="<?php echo esc_attr($g->slug); ?>" style="width:16px; height:16px; cursor:pointer; accent-color:#3b82f6;">
-                                    <label for="g-<?php echo esc_attr($g->slug); ?>" style="font-size:14px; font-weight:500; flex:1; padding:6px; border-radius:24px; cursor:pointer; color:var(--text-main);"><?php echo esc_html($g->name); ?> (<?php echo $g->count; ?>)</label>
-                                </div>
-                                <?php endforeach; endif; ?>
-                            </div>
-                        </dd>
-                    </dl>
-
-                    <!-- Filtrele Button -->
-                    <button type="button" id="nt-filtrele-btn" style="flex:1 1 100%; padding:12px; border-radius:24px; background:linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M6 2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9.5a.5.5 0 0 0 0-1H6a1 1 0 0 1-1-1h10a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2zm5.586 7.879l1.268 1.267a.5.5 0 0 1-.708.708l-1.267-1.268a2.5 2.5 0 1 1 .707-.707M8 8.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0" fill="currentColor"/></svg>
-                        Filtrele
+                    <!-- Submit -->
+                    <button type="submit" style="width:100%; padding:12px; border-radius:24px; background:linear-gradient(to right, #6366f1, #3b82f6); color:#fff; border:none; font-weight:bold; font-size:16px; cursor:pointer; margin-top:8px;">
+                        🔍 Filtrele
                     </button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Sidebar Category Novels Card -->
-        <div class="nt-card" style="background-color: var(--bg-surface); border:none; overflow:visible; margin-bottom:24px;">
-            <div class="nt-card-body" style="overflow:visible;">
+                </form>
 
                 <!-- Sidebar Genre Tabs / Pills -->
-                <div id="sidebar-tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
                     <div class="sidebar-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
                         <?php
                         // Pull 3 random genres as tabs
@@ -451,7 +284,7 @@
                                 $sidebar_tab_genres[] = $genres[$k];
                             }
                         }
-
+                        
                         foreach($sidebar_tab_genres as $index => $g) {
                             $isActive = ($index === 0);
                             $bg = $isActive ? 'background:#3b82f6; color:#fff;' : 'background:transparent; color:var(--text-dim);';
@@ -459,13 +292,12 @@
                         }
                         ?>
                     </div>
-                    <button type="button" id="refresh-sidebar-novels" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
+                    <button type="button" onclick="location.reload()" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                     </button>
                 </div>
 
                 <!-- Recent Novels Mini Cards Array (Tab Contents) -->
-                <div id="sidebar-tab-contents-wrapper">
                 <div class="sidebar-tab-contents">
                     <?php
                     foreach($sidebar_tab_genres as $index => $g):
@@ -514,139 +346,6 @@
                         ?>
                     </div>
                     <?php endforeach; ?>
-                </div>
-                </div>
-
-                <!-- Popüler Novellar Section -->
-                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
-                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Popüler Novellar</h3>
-                    <div id="popular-novels-tabs" style="display:flex; gap:8px; margin-bottom:16px;">
-                        <button type="button" class="popular-tab-btn" data-period="week" style="background:#3b82f6; color:#fff; padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">Bu Hafta</button>
-                        <button type="button" class="popular-tab-btn" data-period="month" style="background:transparent; color:var(--text-dim); padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">3 Ay</button>
-                        <button type="button" class="popular-tab-btn" data-period="all" style="background:transparent; color:var(--text-dim); padding:6px 12px; font-size:12px; border:none; border-radius:20px; font-weight:600; cursor:pointer;">Tüm Zamanlar</button>
-                    </div>
-                    <div id="popular-novels-content" style="display:flex; flex-direction:column; gap:12px;">
-                        <?php
-                        $popular_args = array(
-                            'post_type' => 'novel',
-                            'posts_per_page' => 7,
-                            'orderby' => 'comment_count',
-                            'order' => 'DESC',
-                            'date_query' => array(
-                                array(
-                                    'after' => '7 days ago',
-                                    'inclusive' => true
-                                )
-                            )
-                        );
-                        $popular_query = new WP_Query($popular_args);
-                        if ($popular_query->have_posts()) :
-                            while ($popular_query->have_posts()) : $popular_query->the_post();
-                                $thumb = webnovel_get_cover_url(get_the_ID(), 'medium');
-                        ?>
-                        <a href="<?php the_permalink(); ?>" style="display:flex; background-color:var(--bg-card); border-radius:8px; overflow:hidden; text-decoration:none; color:var(--text-main); height:100px; border:1px solid var(--border); box-shadow:var(--shadow-sm); transition:transform 0.2s;">
-                            <div style="width:70px; flex-shrink:0; position:relative;">
-                                <?php if($thumb): ?>
-                                    <img src="<?php echo esc_url($thumb); ?>" style="width:100%; height:100%; object-fit:cover;" alt="<?php the_title_attribute(); ?>">
-                                <?php else: ?>
-                                    <div style="width:100%; height:100%; background:var(--bg-surface);"></div>
-                                <?php endif; ?>
-                            </div>
-                            <div style="padding:12px; display:flex; align-items:center; flex:1;">
-                                <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
-                                    <h4 style="font-size:12px; font-weight:700; margin:0; color:var(--text-main); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;"><?php the_title(); ?></h4>
-                                    <div style="font-size:11px; color:var(--text-dim); display:flex; gap:8px;">
-                                        <?php
-                                        $rating_avg = get_post_meta(get_the_ID(), '_novel_rating_avg', true);
-                                        $rating_count = get_post_meta(get_the_ID(), '_novel_rating_count', true);
-                                        if ($rating_avg) :
-                                        ?>
-                                        <span>⭐ <?php echo number_format((float)$rating_avg, 1); ?> (<?php echo (int)$rating_count; ?>)</span>
-                                        <?php endif; ?>
-                                        <span>💭 <?php echo get_comments_number(); ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <?php
-                            endwhile;
-                        endif;
-                        wp_reset_postdata();
-                        ?>
-                    </div>
-                </div>
-
-                <!-- Dostlar Siteleri Section -->
-                <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
-                    <h3 style="color:var(--text-main); margin:0 0 16px 0; font-size:16px; font-weight:700;">Dostlar Siteleri</h3>
-                    <style>
-.dost-site-link {
-    align-items: center;
-    background-image: linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB);
-    border: 0;
-    border-radius: 8px;
-    box-shadow: rgba(151,65,252,0.2) 0 15px 30px -5px;
-    box-sizing: border-box;
-    display: flex;
-    font-size: 20px;
-    justify-content: center;
-    max-width: 100%;
-    min-width: 140px;
-    max-height: 80px;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    cursor: pointer;
-}
-.dost-site-kapali {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-}
-.dost-site-logo {
-    width: 60px;
-    height: 60px;
-}
-.dost-site-metin {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-.dost-site-yazi {
-    margin-top: unset;
-    margin-bottom: unset;
-}
-                    </style>
-                    <div style="display:flex; flex-direction:column; gap:12px;">
-                        <a class="dost-site-link" target="_blank" href="https://lnmakineceviri.blogspot.com/">
-<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
-  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfkYEF7zq82_XWA-gONRlP_w8LGwiRBhgshsNqtR3ll9ImnFeZ430Ry6FLuM4EBPA120qrzuV39Gc5D65uOUYors0A-2cgQ_Z0LXNXAW2KuwXD2Pl6pybX6lITiExafcynzexwsOlSR0QcTImAX9_vTDLAXwl5W50SwrK7O4mkXJIsPuw/s1600/lnmakineceviri%202.png"/>
-  <span class="dost-site-metin">
-    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">LN Makine Çeviri</p>
-    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Novel Makine Çeviri</p>
-  </span>
-</button>
-                        </a>
-                        <a class="dost-site-link" target="_blank" href="https://turkcenoveloku.blogspot.com/">
-<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
-  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/a/AVvXsEhLSKPMPx2FInqS7Szc02_peWF93hUZm9ngIckwnlxZXQYNRQ9RVQcE1j7RpdtTz9lCdJ4ArIKr26Ur8CFFR2q0scGH2zqO7x6jVJRkRnKoXyyQHahtXcE5s9mzxRfxVtmYJPRMxGYZfKqPCdmx3xtHSo-19RJqU9bi_uOef8jgzFrxgr7MgY4VyeFWdBVc=s0"/>
-  <span class="dost-site-metin">
-    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">Türkçe Novel Oku</p>
-    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Novel Yapay Zeka Çeviri</p>
-  </span>
-</button>
-                        </a>
-                        <a class="dost-site-link dost-site-kapali" target="_blank" href="https://culturesubs.com/">
-<button style='text-white rounded-full px-5 py-2.5 text-center flex items-center grow; background:none; border:none; cursor:pointer; display:flex; align-items:center; width:100%; color:#fff;'>
-  <img class="dost-site-logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhpL_KEdWpIt3W43RztLPZevpcqjVnsgl2yjRkvUs-9T4ggOu-tECuxBvqTCgfKsfLVGTsXuEzaG-u7ZxIH5mNBbcusqDMQAUPVuVtE6qylFWksTYKqSRR6uJiVwNegcePL2JuVQc7-5MXfks_mZxH_TKte74a-p09kxTP1HjcaxlHZXNQ/s1600/2d99fe28-57f9-4c9a-b025-3fa44396de6b_1%20(1).png"/>
-  <span class="dost-site-metin">
-    <p class="dost-site-yazi" style="font-size:0.875rem; padding-left:1rem; margin:0;">Culture Subs</p>
-    <p class="dost-site-yazi" style="font-size:0.75rem; padding-left:1.25rem; margin:0;">Türkçe Manga ve Anime</p>
-  </span>
-</button>
-                        </a>
-                    </div>
                 </div>
 
             </div>
@@ -883,6 +582,27 @@
     });
 })();
 
+function showTab(tabId, el) {
+    const tabs = document.querySelectorAll('.novels-tab-content');
+    tabs.forEach(t => t.classList.remove('is-visible'));
+
+    const target = document.getElementById('tab-' + tabId);
+    if (target) target.classList.add('is-visible');
+
+    const btns = document.querySelectorAll('.tabs .custom-btn');
+    btns.forEach(b => {
+        b.classList.remove('active');
+        b.style.background = 'var(--bg-card)';
+        b.style.color = 'var(--text-main)';
+        b.style.border = '1px solid var(--border)';
+    });
+
+    el.classList.add('active');
+    el.style.background = 'var(--accent)';
+    el.style.color = '#fff';
+    el.style.border = '1px solid var(--accent)';
+}
+
 // Featured Slider Auto-Scroll & Navigation
 document.addEventListener('DOMContentLoaded', function() {
     const sliderTrack = document.querySelector('.nt-featured-slider .slider-track');
@@ -971,164 +691,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.color = '#fff';
         });
     });
-});
-
-// Sidebar Filter System — Blogger-style dropdowns
-document.addEventListener('DOMContentLoaded', function() {
-    const toggles = document.querySelectorAll('.filter-toggle');
-    const allDDs = document.querySelectorAll('.nt-filters dd');
-
-    // Toggle dropdowns
-    toggles.forEach(dt => {
-        dt.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const targetId = this.dataset.target;
-            const dd = document.getElementById(targetId);
-            if (!dd) return;
-
-            // Close others
-            allDDs.forEach(d => { if (d.id !== targetId) d.style.display = 'none'; });
-
-            dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
-        });
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.nt-filters dd') && !e.target.closest('.filter-toggle')) {
-            allDDs.forEach(d => d.style.display = 'none');
-        }
-    });
-
-    // Filtrele button
-    document.getElementById('nt-filtrele-btn').addEventListener('click', function() {
-        var checked = document.querySelectorAll('.nt-filters .genre:checked');
-        var values = [];
-        checked.forEach(function(cb) { values.push(cb.value); });
-
-        var search = document.getElementById('nt-filter-search').value;
-        var url = '<?php echo home_url(); ?>/?post_type=novel';
-
-        if (search) url += '&s=' + encodeURIComponent(search);
-        if (values.length > 0) url += '&filter_labels=' + encodeURIComponent(values.join('+'));
-
-        window.location.href = url;
-    });
-
-    // Refresh sidebar categories and novels
-    document.getElementById('refresh-sidebar-novels').addEventListener('click', function() {
-        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'action=refresh_sidebar_categories'
-        })
-        .then(r => r.text())
-        .then(html => {
-            if (html) {
-                // Extract tabs and contents from returned HTML
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = html;
-                var newTabs = tempDiv.querySelector('.sidebar-tabs');
-                var newContents = tempDiv.querySelector('.sidebar-tab-contents');
-
-                // Update tabs buttons
-                var oldTabs = document.querySelector('.sidebar-tabs');
-                if (oldTabs && newTabs) oldTabs.innerHTML = newTabs.innerHTML;
-
-                // Update contents
-                var oldContents = document.querySelector('.sidebar-tab-contents');
-                if (oldContents && newContents) oldContents.innerHTML = newContents.innerHTML;
-
-                // Re-attach tab click handlers
-                attachTabHandlers();
-            }
-        })
-        .catch(e => console.error('Refresh error:', e));
-    });
-
-    // Tab click handler
-    function attachTabHandlers() {
-        var tabBtns = document.querySelectorAll('.sidebar-tab-btn');
-        tabBtns.forEach(btn => {
-            btn.removeEventListener('click', tabClickHandler);
-            btn.addEventListener('click', tabClickHandler);
-        });
-    }
-
-    function tabClickHandler(e) {
-        var targetId = this.getAttribute('data-target');
-        var targetTab = document.getElementById(targetId);
-        if (!targetTab) return;
-
-        // Hide all tabs
-        var allTabs = document.querySelectorAll('.sidebar-novel-list');
-        allTabs.forEach(tab => tab.style.display = 'none');
-
-        // Show clicked tab
-        targetTab.style.display = 'flex';
-
-        // Update button styles
-        var allBtns = document.querySelectorAll('.sidebar-tab-btn');
-        allBtns.forEach(btn => {
-            if (btn === this) {
-                btn.style.background = '#3b82f6';
-                btn.style.color = '#fff';
-            } else {
-                btn.style.background = 'transparent';
-                btn.style.color = 'var(--text-dim)';
-            }
-        });
-    }
-
-    // Initial tab handlers
-    attachTabHandlers();
-
-    // Popular novels tab handlers
-    var popularTabBtns = document.querySelectorAll('.popular-tab-btn');
-    popularTabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            var period = this.getAttribute('data-period');
-
-            // Update button styles
-            popularTabBtns.forEach(b => {
-                if (b === this) {
-                    b.style.background = '#3b82f6';
-                    b.style.color = '#fff';
-                } else {
-                    b.style.background = 'transparent';
-                    b.style.color = 'var(--text-dim)';
-                }
-            });
-
-            // Fetch popular novels for this period
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=fetch_popular_novels&period=' + encodeURIComponent(period)
-            })
-            .then(r => r.text())
-            .then(html => {
-                if (html) {
-                    var content = document.getElementById('popular-novels-content');
-                    if (content) content.innerHTML = html;
-                }
-            })
-            .catch(e => console.error('Popular novels error:', e));
-        });
-    });
-
-    // Tab switching function
-    window.showTab = function(tabName, btn) {
-        var tabs = document.querySelectorAll('.novels-tab-content');
-        tabs.forEach(tab => tab.classList.remove('is-visible'));
-        document.getElementById('tab-' + tabName).classList.add('is-visible');
-
-        var buttons = document.querySelectorAll('.custom-btn');
-        buttons.forEach(b => {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-    };
 });
 </script>
 
