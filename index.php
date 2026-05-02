@@ -192,15 +192,6 @@
             </div>
         </section>
 
-        <!-- Comments Section -->
-        <section class="nt-comments-section" style="padding: 16px; background: var(--bg-card); border-radius: 8px;">
-            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">Yorumlar</h2>
-            <?php
-            if (comments_open() || get_comments_number()) {
-                comments_template();
-            }
-            ?>
-        </section>
     </main>
 
     <!-- Sidebar Widget Area (NovelTurk specific Filtreleme) -->
