@@ -157,9 +157,12 @@ get_header();
         <!-- Off-canvas Chapter Drawer -->
         <div id="chapter-drawer" style="position:fixed; top:0; left:-350px; width:350px; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:9999; transition:left 0.3s ease; display:flex; flex-direction:column; box-shadow: 2px 0 10px rgba(0,0,0,0.5);">
             <div style="padding:12px 16px; background-color:#334155; font-size:12px; color:#94a3b8; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><?php echo esc_html(get_the_title($novel_id)); ?></div>
-            <div style="padding:16px; background-color:#334155; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                <input type="text" id="chapter-search" placeholder="Bölüm ara..." style="flex:1; min-width:200px; padding:8px 16px; background-color:#1e293b; border:1px solid #475569; color:#f8fafc; border-radius:24px; outline:none; font-size:14px;">
-                <button id="chapter-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
+            <div style="padding:16px; background-color:#334155; display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="chapter-search" placeholder="Bölüm ara..." style="flex:1; min-width:200px; padding:8px 16px; background-color:#1e293b; border:1px solid #475569; color:#f8fafc; border-radius:24px; outline:none; font-size:14px;">
+                    <button id="chapter-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
+                </div>
+                <div style="font-size:12px; color:#94a3b8;"><?php echo esc_html(get_the_title($novel_id)); ?></div>
             </div>
             <div id="drawer-chapter-list" style="flex:1; overflow-y:auto; padding:0;">
                 <?php
