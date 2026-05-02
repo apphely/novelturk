@@ -20,8 +20,7 @@
 <!-- NovelTurk-Style Navbar -->
 <style>
     .site-header {
-        position: sticky;
-        top: 0;
+        position: static;
         z-index: 999;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
