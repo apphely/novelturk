@@ -172,6 +172,9 @@ get_header();
                     $v = get_post_meta($ch->ID, '_chapter_volume', true);
                     $ch_labels = webnovel_get_chapter_labels($ch->ID);
 
+                    // Check if chapter is read (stored in localStorage via JS, we'll show checkmark if it's current chapter or add indicator)
+                    $isRead = webnovel_is_chapter_read($ch->ID);
+
                     $display_name = ($v ? 'Cilt ' . $v . ' ' : '') . 'Bölüm ' . $n;
 
                     $itemBg = $isActive ? '#2563eb' : 'transparent';
@@ -179,16 +182,21 @@ get_header();
                 ?>
                 <a href="<?php echo get_permalink($ch->ID); ?>" class="drawer-ch-item<?php echo $isActive ? ' is-active' : ''; ?>" data-title="<?php echo esc_attr(strtolower($display_name)); ?>" style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:16px 20px; text-decoration:none; color:<?php echo $itemColor; ?>; background-color:<?php echo $itemBg; ?>; border-bottom:1px solid #334155; font-size:14px; transition:background 0.2s;">
                     <span style="font-weight:600; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><?php echo esc_html($display_name); ?></span>
-                    <?php if (!empty($ch_labels)) : ?>
-                        <span class="drawer-ch-badges" style="flex-shrink:0; display:inline-flex; gap:4px;">
-                            <?php if (in_array('revize', $ch_labels, true)) : ?>
-                                <span class="drawer-badge drawer-badge--fix">Revize</span>
-                            <?php endif; ?>
-                            <?php if (in_array('son', $ch_labels, true)) : ?>
-                                <span class="drawer-badge drawer-badge--end">Son</span>
-                            <?php endif; ?>
-                        </span>
-                    <?php endif; ?>
+                    <span style="flex-shrink:0; display:inline-flex; gap:4px; align-items:center;">
+                        <?php if ($isRead) : ?>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#10b981;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <?php endif; ?>
+                        <?php if (!empty($ch_labels)) : ?>
+                            <span class="drawer-ch-badges" style="display:inline-flex; gap:4px;">
+                                <?php if (in_array('revize', $ch_labels, true)) : ?>
+                                    <span class="drawer-badge drawer-badge--fix">Revize</span>
+                                <?php endif; ?>
+                                <?php if (in_array('son', $ch_labels, true)) : ?>
+                                    <span class="drawer-badge drawer-badge--end">Son</span>
+                                <?php endif; ?>
+                            </span>
+                        <?php endif; ?>
+                    </span>
                 </a>
                 <?php endforeach; ?>
                 <div style="padding:32px 16px; text-align:center; color:#334155;">
