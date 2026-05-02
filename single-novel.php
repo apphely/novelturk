@@ -460,7 +460,20 @@ $bc_origin  = ($bc_origins && !is_wp_error($bc_origins)) ? $bc_origins[0] : null
             <youtube-button href="<?php echo esc_url($yt_url); ?>" label="<?php echo esc_attr($yt_label); ?>"></youtube-button>
         <?php endif; ?>
 
-<!-- Önerilen Noveller — mobilde yorumların altında (masaüstünde sidebar'da) -->
+        <!-- Yorumlar -->
+        <section class="nt-card nt-mb-6">
+            <div class="nt-card-body">
+                <div class="titleBox nt-mb-4 nt-flex nt-justify-between nt-items-center nt-border-b nt-pb-2">
+                    <h2 class="nt-text-xl nt-font-bold nt-text-accent nt-flex nt-items-center nt-gap-2" style="margin:0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2"/></svg>
+                        Yorumlar
+                    </h2>
+                </div>
+                <?php webnovel_render_comments(); ?>
+            </div>
+        </section>
+
+        <!-- Önerilen Noveller — mobilde yorumların altında (masaüstünde sidebar'da) -->
         <?php if (!empty($recommended_novels)) : ?>
         <section class="nt-card nt-rec-mobile-only">
             <div class="nt-card-body">
@@ -485,13 +498,6 @@ $bc_origin  = ($bc_origins && !is_wp_error($bc_origins)) ? $bc_origins[0] : null
             </div>
         </section>
         <?php endif; ?>
-
-        <!-- Yorumlar Bölümü -->
-        <section class="nt-card">
-            <div class="nt-card-body">
-                <?php comments_template(); ?>
-            </div>
-        </section>
 
         <!-- SEO Hidden -->
         <div style="display:none">

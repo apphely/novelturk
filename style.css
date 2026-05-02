@@ -4015,11 +4015,12 @@ img {
     margin: 0 auto;
     padding: 24px 16px;
     display: flex;
+    flex-wrap: wrap;
     gap: 24px;
 }
 
 .nt-main {
-    flex: 1;
+    flex: 1 1 70%;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -4027,15 +4028,16 @@ img {
 }
 
 .nt-sidebar {
-    flex: 0 0 280px;
+    width: 100%;
+    flex: 1 1 25%;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
 @media (max-width: 992px) {
-    .nt-container {
-        flex-direction: column;
+    .nt-main {
+        flex: 1 1 100%;
     }
 
     .nt-sidebar {
