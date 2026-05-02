@@ -297,7 +297,7 @@ get_header();
 </style>
 
 <!-- Advanced Settings Modal (Matches Screenshot) -->
-<div id="settings-panel" class="settings-panel" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; background:#2a3447; border-radius:12px; border:1px solid #334155; width:90%; max-width:450px; color:#cbd5e1; font-family:inherit; box-shadow:0 10px 40px rgba(0,0,0,0.6); display:none;">
+<div id="settings-panel" class="settings-panel" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; background:#3a4557; border-radius:12px; border:1px solid #4a5568; width:90%; max-width:500px; color:#cbd5e1; font-family:inherit; box-shadow:0 10px 40px rgba(0,0,0,0.6); display:none;">
     <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #334155;">
         <h3 style="margin:0; font-size:18px; font-weight:700; color:#f8fafc;">Okuma Ayarları</h3>
         <button id="settings-close" class="settings-close" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">&times;</button>
@@ -401,7 +401,7 @@ get_header();
 .settings-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.5);
     z-index: 9999;
     display: none;
     backdrop-filter: blur(2px);
