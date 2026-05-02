@@ -4015,12 +4015,11 @@ img {
     margin: 0 auto;
     padding: 24px 16px;
     display: flex;
-    flex-wrap: wrap;
     gap: 24px;
 }
 
 .nt-main {
-    flex: 1 1 70%;
+    flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -4037,10 +4036,6 @@ img {
 @media (max-width: 992px) {
     .nt-container {
         flex-direction: column;
-    }
-
-    .nt-main {
-        flex: 1 1 100%;
     }
 
     .nt-sidebar {
