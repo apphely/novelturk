@@ -156,9 +156,9 @@ get_header();
     <div class="nt-card" style="overflow:hidden; margin-top:24px;">
         <!-- Off-canvas Chapter Drawer -->
         <div id="chapter-drawer" style="position:fixed; top:0; left:-350px; width:350px; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:9999; transition:left 0.3s ease; display:flex; flex-direction:column; box-shadow: 2px 0 10px rgba(0,0,0,0.5);">
-            <div style="padding:16px; background-color:#334155; display:flex; align-items:center; justify-content:space-between;">
-                <input type="text" id="chapter-search" placeholder="Bölüm ara..." style="flex:1; padding:8px 16px; background-color:#1e293b; border:1px solid #475569; color:#f8fafc; border-radius:24px; outline:none; font-size:14px;">
-                <button id="chapter-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; margin-left:8px;">&times;</button>
+            <div style="padding:16px; background-color:#334155; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <input type="text" id="chapter-search" placeholder="Bölüm ara..." style="flex:1; min-width:200px; padding:8px 16px; background-color:#1e293b; border:1px solid #475569; color:#f8fafc; border-radius:24px; outline:none; font-size:14px;">
+                <button id="chapter-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
             </div>
             <div id="drawer-chapter-list" style="flex:1; overflow-y:auto; padding:0;">
                 <?php
