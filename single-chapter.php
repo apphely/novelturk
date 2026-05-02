@@ -162,7 +162,7 @@ get_header();
                     <input type="text" id="chapter-search" placeholder="Bölüm ara..." style="flex:1; min-width:200px; padding:8px 16px; background-color:#1e293b; border:1px solid #475569; color:#f8fafc; border-radius:24px; outline:none; font-size:14px;">
                     <button id="chapter-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
                 </div>
-                <div style="font-size:12px; color:#94a3b8;"><?php echo esc_html(get_the_title($novel_id)); ?></div>
+                <div style="font-size:12px; color:#94a3b8; text-align:center;"><?php echo esc_html(get_the_title($novel_id)); ?></div>
             </div>
             <div id="drawer-chapter-list" style="flex:1; overflow-y:auto; padding:0;">
                 <?php
