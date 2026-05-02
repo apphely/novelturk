@@ -20,10 +20,18 @@
 <!-- NovelTurk-Style Navbar -->
 <style>
     .site-header {
-        position: static;
+        position: sticky;
+        top: 0;
         z-index: 999;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+
+    <?php if (is_singular('chapter')) : ?>
+    .site-header {
+        position: static;
+        top: auto;
+    }
+    <?php endif; ?>
 </style>
 <nav class="site-header bg-accent dark:bg-gray-950" id="site-header">
     <div class="header-container">
