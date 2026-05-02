@@ -2147,10 +2147,7 @@ function webnovel_render_comments() {
         echo '<div class="comments-embed">' . $embed . '</div>';
         echo '</div>';
     } else {
-        // Fallback to Native WP comments
-        if ( comments_open() || get_comments_number() ) {
-            comments_template();
-        }
+        comments_template();
     }
 }
 
@@ -3295,14 +3292,21 @@ function webnovel_theme_options_page() {
     <?php
 }
 
-// Ensure comments are forcibly open for novels and chapters
+// Force comments open for novel and chapter post types
 add_filter('comments_open', function($open, $post_id) {
     if (in_array(get_post_type($post_id), array('novel', 'chapter'))) {
         return true;
     }
     return $open;
-}, 10, 2);
+}, 999, 2);
 
+// When creating novel/chapter posts, default comment_status to 'open'
+add_filter('wp_insert_post_data', function($data) {
+    if (in_array($data['post_type'], array('novel', 'chapter')) && $data['comment_status'] === 'closed') {
+        $data['comment_status'] = 'open';
+    }
+    return $data;
+});
 
 // Handle Comment Like
 add_action('wp_ajax_webnovel_like_comment', 'webnovel_like_comment_handler');
@@ -3312,18 +3316,18 @@ function webnovel_like_comment_handler() {
     if ($comment_id) {
         $user_ip = $_SERVER['REMOTE_ADDR'];
         $liked_ips = get_comment_meta($comment_id, '_liked_ips', true) ?: array();
-        
+
         if (in_array($user_ip, $liked_ips)) {
             wp_send_json_error('Bu yorumu zaten beğendiniz.');
         }
 
         $likes = (int)get_comment_meta($comment_id, '_comment_likes', true);
         $likes++;
-        
+
         $liked_ips[] = $user_ip;
         update_comment_meta($comment_id, '_liked_ips', $liked_ips);
         update_comment_meta($comment_id, '_comment_likes', $likes);
-        
+
         wp_send_json_success(array('likes' => $likes));
     }
     wp_send_json_error('Comment ID missing');
@@ -3362,11 +3366,9 @@ function webnovel_custom_comment_layout($comment, $args, $depth) {
             </div>
 
             <div class="reply" style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-                    <!-- Like Button -->
                     <button class="comment-like-btn" data-id="<?php comment_ID(); ?>" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:13px; font-weight:600; display:flex; gap:6px; align-items:center; transition: all 0.2s;">
                         <span class="heart-icon">❤️</span> <span class="like-count"><?php echo (int)$likes; ?></span>
                     </button>
-                    <!-- Native Reply -->
                     <?php
                     comment_reply_link(array_merge($args, array(
                         'add_below' => 'div-comment',
@@ -3383,14 +3385,6 @@ function webnovel_custom_comment_layout($comment, $args, $depth) {
         </article>
     <?php
 }
-
-// Close comments on non-homepage pages (except novels and chapters)
-add_filter('comments_open', function($open) {
-    if (!is_home() && !is_front_page() && !in_array(get_post_type(), array('novel', 'chapter'))) {
-        return false;
-    }
-    return $open;
-}, 10, 1);
 
 // Register status field in REST API for novel posts
 add_action('rest_api_init', function() {

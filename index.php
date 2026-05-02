@@ -250,9 +250,9 @@
             </div>
 
             <div class="tabs nt-flex nt-gap-2 nt-mb-4" style="border:none;">
-                <button class="custom-btn active" style="flex:1; border: 1px solid var(--border); background:var(--accent); color:#fff; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
-                <button class="custom-btn" style="flex:1; border: 1px solid var(--border); background:var(--bg-card); color:var(--text-main); font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
+                <button class="custom-btn active" style="flex:1; font-weight:bold;" onclick="showTab('devam', this)"><span>Devam Eden</span></button>
+                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('tamamlandi', this)"><span>Tamamlanan</span></button>
+                <button class="custom-btn" style="flex:1; font-weight:bold;" onclick="showTab('diger', this)"><span>Diğer</span></button>
             </div>
 
             <!-- Devam Edenler Tab -->
@@ -883,27 +883,6 @@
     });
 })();
 
-function showTab(tabId, el) {
-    const tabs = document.querySelectorAll('.novels-tab-content');
-    tabs.forEach(t => t.classList.remove('is-visible'));
-
-    const target = document.getElementById('tab-' + tabId);
-    if (target) target.classList.add('is-visible');
-
-    const btns = document.querySelectorAll('.tabs .custom-btn');
-    btns.forEach(b => {
-        b.classList.remove('active');
-        b.style.background = 'var(--bg-card)';
-        b.style.color = 'var(--text-main)';
-        b.style.border = '1px solid var(--border)';
-    });
-
-    el.classList.add('active');
-    el.style.background = 'var(--accent)';
-    el.style.color = '#fff';
-    el.style.border = '1px solid var(--accent)';
-}
-
 // Featured Slider Auto-Scroll & Navigation
 document.addEventListener('DOMContentLoaded', function() {
     const sliderTrack = document.querySelector('.nt-featured-slider .slider-track');
@@ -1146,11 +1125,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var buttons = document.querySelectorAll('.custom-btn');
         buttons.forEach(b => {
-            b.style.background = 'var(--bg-card)';
-            b.style.color = 'var(--text-main)';
+            b.classList.remove('active');
         });
-        btn.style.background = 'var(--accent) !important';
-        btn.style.color = '#fff !important';
+        btn.classList.add('active');
     };
 });
 </script>

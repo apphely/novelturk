@@ -5,6 +5,12 @@
 if ( post_password_required() ) {
     return;
 }
+
+// Force comment_status open for novel and chapter posts
+global $post;
+if ( $post && in_array( $post->post_type, array( 'novel', 'chapter' ) ) ) {
+    $post->comment_status = 'open';
+}
 ?>
 
 <div id="comments" class="comments-area" style="margin-top:24px;">
@@ -42,13 +48,6 @@ if ( post_password_required() ) {
         </ul>
 
         <?php the_comments_navigation(); ?>
-    <?php endif; // Check for have_comments(). ?>
-
-    <?php
-    // If comments are closed and there are comments, let's leave a little note, shall we?
-    if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
-    ?>
-        <p class="no-comments" style="color:var(--text-dim); text-align:center; font-style:italic;">Yorumlar kapatıldı.</p>
     <?php endif; ?>
 
     <?php
@@ -78,11 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             if(btn.disabled || likedComments.includes(cId)) return;
-            
+
             var formData = new FormData();
             formData.append('action', 'webnovel_like_comment');
             formData.append('comment_id', cId);
-            
+
             btn.disabled = true;
             btn.style.opacity = '0.5';
 
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.classList.add('liked');
                     btn.style.color = '#ef4444';
                     btn.style.opacity = '1';
-                    
+
                     likedComments.push(cId);
                     localStorage.setItem('nt_liked_comments', JSON.stringify(likedComments));
                 }
