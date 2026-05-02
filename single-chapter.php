@@ -191,10 +191,13 @@ get_header();
                     <?php endif; ?>
                 </a>
                 <?php endforeach; ?>
-                <div style="padding:24px 16px; text-align:center; color:#475569;">
-                    <svg width="80" height="20" viewBox="0 0 100 20" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M 5 10 Q 20 5 35 10 T 65 10 T 95 10" stroke-linecap="round"/>
-                        <circle cx="50" cy="10" r="4" fill="currentColor"/>
+                <div style="padding:32px 16px; text-align:center; color:#334155;">
+                    <svg width="100%" height="30" viewBox="0 0 200 30" fill="none" stroke="currentColor" stroke-width="1">
+                        <line x1="20" y1="15" x2="70" y2="15" stroke-linecap="round"/>
+                        <path d="M 80 8 Q 90 15 80 22" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="100" cy="15" r="3" fill="currentColor"/>
+                        <path d="M 120 8 Q 110 15 120 22" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="130" y1="15" x2="180" y2="15" stroke-linecap="round"/>
                     </svg>
                 </div>
             </div>
