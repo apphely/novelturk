@@ -466,18 +466,16 @@ get_header();
 .drawer-badge--fix { background: #FFD580; color: #000; }
 </style>
 
-<!-- Advanced Settings Modal (Matches Screenshot) -->
-<div id="settings-panel" class="settings-panel" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; background:#3a4557; border-radius:12px; border:1px solid #4a5568; width:90%; max-width:500px; color:#cbd5e1; font-family:inherit; box-shadow:0 10px 40px rgba(0,0,0,0.6); display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #334155;">
-        <h3 style="margin:0; font-size:18px; font-weight:700; color:#f8fafc;">Okuma Ayarları</h3>
-        <button id="settings-close" class="settings-close" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">&times;</button>
+<!-- Advanced Settings Modal -->
+<div id="settings-panel" class="settings-panel">
+    <div class="sp-header">
+        <h3 class="sp-title">Okuma Ayarları</h3>
+        <button id="settings-close" class="settings-close sp-close">&times;</button>
     </div>
-    
-    <div style="padding:20px; display:flex; flex-direction:column; gap:16px;">
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Yazı Boyutu:</span>
-            <select id="set-font-size" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+    <div class="sp-body">
+        <div class="sp-row">
+            <label class="sp-label">Yazı Boyutu:</label>
+            <select id="set-font-size" class="sp-select">
                 <option value="14px">14px</option>
                 <option value="16px">16px</option>
                 <option value="18px" selected>Varsayılan(18px)</option>
@@ -485,10 +483,9 @@ get_header();
                 <option value="24px">24px</option>
             </select>
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Yazı Tipi:</span>
-            <select id="set-font-family" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+        <div class="sp-row">
+            <label class="sp-label">Yazı Tipi:</label>
+            <select id="set-font-family" class="sp-select">
                 <option value="inherit" selected>Varsayılan</option>
                 <option value="'Roboto', sans-serif">Roboto</option>
                 <option value="'Sriracha', cursive">Sriracha</option>
@@ -503,60 +500,50 @@ get_header();
                 <option value="'Amatic SC', cursive">AMATIC SC</option>
             </select>
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Yazı Hizalama:</span>
-            <select id="set-text-align" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+        <div class="sp-row">
+            <label class="sp-label">Yazı Hizalama:</label>
+            <select id="set-text-align" class="sp-select">
                 <option value="left" selected>Solda</option>
                 <option value="center">Ortada</option>
                 <option value="justify">İki Yana Yasla</option>
             </select>
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Yazı Kalınlığı:</span>
-            <select id="set-font-weight" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+        <div class="sp-row">
+            <label class="sp-label">Yazı Kalınlığı:</label>
+            <select id="set-font-weight" class="sp-select">
                 <option value="normal" selected>Normal</option>
                 <option value="bold">Kalın (Bold)</option>
                 <option value="300">İnce (Light)</option>
             </select>
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Yazı İtalikliği:</span>
-            <select id="set-font-style" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+        <div class="sp-row">
+            <label class="sp-label">Yazı İtalikliği:</label>
+            <select id="set-font-style" class="sp-select">
                 <option value="normal" selected>Normal</option>
                 <option value="italic">İtalik</option>
             </select>
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span style="font-size:14px; font-weight:600; width:45%;">Satır İçi Yükseklik:</span>
-            <select id="set-line-height" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 12px; width:55%; outline:none; font-size:13px; appearance:none;">
+        <div class="sp-row">
+            <label class="sp-label">Satır İçi Yükseklik:</label>
+            <select id="set-line-height" class="sp-select">
                 <option value="1.2">Dar (1.2)</option>
                 <option value="1.5">Orta (1.5)</option>
                 <option value="1.8" selected>Varsayılan (1.8)</option>
                 <option value="2.2">Geniş (2.2)</option>
             </select>
         </div>
-
-        <button id="settings-save" style="margin-top:12px; background:#1d4ed8; color:#fff; border:none; border-radius:6px; padding:10px; font-size:14px; font-weight:600; cursor:pointer; width:100%; transition:background 0.2s;">
-            Ayarları Uygula ve Kaydet
-        </button>
-
-        <div style="margin-top:8px;">
-            <span style="font-size:16px; font-weight:700; color:#f8fafc; display:block; margin-bottom:12px;">Genişliği Sınırla</span>
-            <input type="range" id="set-max-width" min="40" max="100" value="100" style="width:100%; accent-color:#3b82f6;">
-            <div style="font-size:11px; color:#64748b; margin-top:12px; line-height:1.4;">
+        <button id="settings-save" class="sp-save">Ayarları Uygula ve Kaydet</button>
+        <div class="sp-width-section">
+            <span class="sp-width-title">Genişliği Sınırla</span>
+            <input type="range" id="set-max-width" min="40" max="100" value="100" class="sp-range">
+            <div class="sp-note">
                 * Seçenek önizlemeleri mobil cihazlarda gözükmez.<br>
                 * Genişlik sınırlaması mobil cihazlarda uygulanmaz.
             </div>
         </div>
-
     </div>
 </div>
 <style>
-/* Reset basic modal styles */
 .settings-panel {
     position: fixed;
     top: 50%;
@@ -564,27 +551,120 @@ get_header();
     transform: translate(-50%, -50%);
     z-index: 10000;
     display: none;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    background: #2d3a4a;
+    border-radius: 14px;
+    border: 1px solid #3d4f63;
+    color: #cbd5e1;
+    font-family: inherit;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+    overflow: hidden;
+    flex-direction: column;
 }
-.settings-panel.active {
+.settings-panel.active { display: flex; }
+.sp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid #3d4f63;
+    flex-shrink: 0;
+}
+.sp-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+.sp-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color 0.15s;
+}
+.sp-close:hover { color: #f1f5f9; }
+.sp-body {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+}
+.sp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+.sp-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #cbd5e1;
+    width: 45%;
+    flex-shrink: 0;
+}
+.sp-select {
+    width: 55%;
+    background-color: #1a2535;
+    color: #cbd5e1;
+    border: 1px solid #3d4f63;
+    border-radius: 8px;
+    padding: 8px 36px 8px 12px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color 0.15s;
+}
+.sp-select:focus { border-color: #3b82f6; }
+.sp-save {
+    margin-top: 4px;
+    background: #1d4ed8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+.sp-save:hover { background: #2563eb; }
+.sp-width-section { margin-top: 4px; }
+.sp-width-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1f5f9;
     display: block;
+    margin-bottom: 12px;
+}
+.sp-range { width: 100%; accent-color: #3b82f6; }
+.sp-note {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 12px;
+    line-height: 1.5;
 }
 .settings-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.55);
     z-index: 9999;
     display: none;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
 }
-.settings-overlay.active {
-    display: block;
-}
-select {
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23cbd5e1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem top 50%;
-    background-size: 0.65rem auto;
-}
+.settings-overlay.active { display: block; }
 </style>
 <div id="reader-controls" class="reader-controls">
     <div id="reader-progress-wrap" class="reader-progress-wrap">
