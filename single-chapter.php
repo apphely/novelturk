@@ -575,10 +575,10 @@ select {
 </style>
 <div id="reader-controls" class="reader-controls">
     <div id="reader-progress-wrap" class="reader-progress-wrap">
-        <svg class="progress-ring" width="60" height="74" viewBox="0 0 60 74">
-            <path d="M 30,4 C 48,4 54,24 54,48 A 24,24 0 1,1 6,48 C 6,24 12,4 30,4 Z" fill="var(--bg-card)"/>
-            <path class="progress-ring-bg" d="M 30,4 C 48,4 52,24 52,48 A 22,22 0 1,1 8,48 C 8,24 12,4 30,4" stroke="#334155" stroke-width="3" fill="transparent"/>
-            <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,4 C 48,4 52,24 52,48 A 22,22 0 1,1 8,48 C 8,24 12,4 30,4" stroke="#3b82f6" stroke-width="3" fill="transparent"/>
+        <svg class="progress-ring" width="60" height="68" viewBox="0 0 60 68">
+            <path d="M 30,6 C 30,14 54,24 54,44 A 24,24 0 1,1 6,44 C 6,24 30,14 30,6 Z" fill="var(--bg-card)"/>
+            <path class="progress-ring-bg" d="M 30,6 C 30,14 52,24 52,44 A 22,22 0 1,1 8,44 C 8,24 30,14 30,6" stroke="#334155" stroke-width="3" fill="transparent"/>
+            <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,6 C 30,14 52,24 52,44 A 22,22 0 1,1 8,44 C 8,24 30,14 30,6" stroke="#3b82f6" stroke-width="3" fill="transparent"/>
         </svg>
         <span id="reader-progress-text" class="progress-text">0%</span>
     </div>
