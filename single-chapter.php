@@ -19,7 +19,12 @@ $chapter_yt_label = get_post_meta($chapter_id, '_chapter_youtube_label', true) ?
 get_header();
 ?>
 
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+<?php if (have_posts()) : while (have_posts()) : the_post();
+    $_ch_dash    = strpos(get_the_title(), ' - ');
+    $_ch_inner   = $_ch_dash !== false ? substr(get_the_title(), $_ch_dash + 3) : get_the_title();
+    $_novel_name = $novel_id ? get_the_title($novel_id) : '';
+    $_baslik_text = ($_novel_name ? $_novel_name . ' > ' : '') . $chapter_number . ' - ' . $_ch_inner;
+?>
 
 <!-- Reader Nav Styles -->
 <style>
@@ -313,6 +318,8 @@ get_header();
                      data-next-url="<?php echo $next_chapter ? esc_attr(get_permalink($next_chapter->ID)) : ''; ?>"
                      data-prev-id="<?php echo $prev_chapter ? $prev_chapter->ID : ''; ?>"
                      data-prev-url="<?php echo $prev_chapter ? esc_attr(get_permalink($prev_chapter->ID)) : ''; ?>"
+                     data-novel-title="<?php echo esc_attr($_novel_name); ?>"
+                     data-chapter-title="<?php echo esc_attr($_ch_inner); ?>"
                      style="font-size:1.125rem; line-height:1.8; color:var(--text-main);">
                     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 0; color:var(--text-dim);">
                         <div style="width:48px; height:48px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; margin-bottom:16px;"></div>
@@ -572,14 +579,61 @@ select {
     </div>
 </div>
 
-<button id="btn-jump-comments" class="pop-up-yorum" type="button" title="Yorumlara Git">
-    <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" stroke="currentColor" stroke-linejoin="round">
-            <path d="M12 21a9 9 0 1 0-8-4.873L3 21l4.873-1c1.236.639 2.64 1 4.127 1Z" stroke-linecap="round" stroke-width="2.5"></path>
-            <path d="M7.5 12h.01v.01H7.5zm4.5 0h.01v.01H12zm4.5 0h.01v.01h-.01z" stroke-width="3.75"></path>
-        </g>
-    </svg>
-</button>
+<div id="bottom-bar" style="position:fixed;bottom:20px;right:20px;display:flex;align-items:center;gap:8px;z-index:9998;max-width:calc(100vw - 40px);">
+    <div class="bolum-baslik" id="bolumBaslikDiv">
+        <svg class="bolum-baslik-close" id="closeBaslik" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" x2="6" y1="6" y2="18"></line>
+            <line x1="6" x2="18" y1="6" y2="18"></line>
+        </svg>
+        <div class="bolum-baslik-container">
+            <div class="bolum-baslik-wrapper" id="bolumWrapper">
+                <span class="bolum-baslik-text"><?php echo esc_html($_baslik_text); ?></span>
+            </div>
+        </div>
+    </div>
+    <button id="btn-jump-comments" class="pop-up-yorum" type="button" title="Yorumlara Git">
+        <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="currentColor" stroke-linejoin="round">
+                <path d="M12 21a9 9 0 1 0-8-4.873L3 21l4.873-1c1.236.639 2.64 1 4.127 1Z" stroke-linecap="round" stroke-width="2.5"></path>
+                <path d="M7.5 12h.01v.01H7.5zm4.5 0h.01v.01H12zm4.5 0h.01v.01h-.01z" stroke-width="3.75"></path>
+            </g>
+        </svg>
+    </button>
+</div>
+<script>
+(function() {
+    function initBaslik() {
+        var wrapper   = document.getElementById('bolumWrapper');
+        if (!wrapper) return;
+        var container = wrapper.parentElement;
+        var text      = wrapper.querySelector('.bolum-baslik-text');
+        var baslikDiv = document.getElementById('bolumBaslikDiv');
+        var closeBtn  = document.getElementById('closeBaslik');
+        if (localStorage.getItem('bolumBaslikGizli') === 'true') baslikDiv.classList.add('hidden');
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            baslikDiv.classList.add('hidden');
+            localStorage.setItem('bolumBaslikGizli', 'true');
+        });
+        function checkOverflow() {
+            wrapper.classList.remove('animate');
+            wrapper.querySelectorAll('.clone').forEach(function(c) { c.remove(); });
+            setTimeout(function() {
+                if (text.scrollWidth > container.clientWidth) {
+                    var clone = text.cloneNode(true);
+                    clone.classList.add('clone');
+                    wrapper.appendChild(clone);
+                    wrapper.classList.add('animate');
+                }
+            }, 100);
+        }
+        checkOverflow();
+        window.addEventListener('resize', checkOverflow);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBaslik);
+    else initBaslik();
+})();
+</script>
 
 <div id="settings-overlay" class="settings-overlay"></div>
 

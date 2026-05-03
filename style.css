@@ -855,11 +855,18 @@ img {
     color: var(--text-main);
 }
 
-/* Bölüm içi Yorum Pop-Up */
+/* Bölüm Alt Bar (başlık + yorum butonu) */
+#bottom-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9998;
+    max-width: calc(100vw - 40px);
+}
 .pop-up-yorum {
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 20px !important;
     border: 0;
     outline: 0;
     background-color: #224193;
@@ -871,10 +878,62 @@ img {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 9998;
+    flex-shrink: 0;
     transition: opacity 0.2s;
 }
 .pop-up-yorum:hover { opacity: 0.85; }
+.bolum-baslik {
+    border: 0;
+    outline: 0;
+    background-color: #224193;
+    color: white;
+    height: 36px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    padding: 0 14px 0 32px;
+    flex: 1;
+    min-width: 0;
+    max-width: 300px;
+}
+.bolum-baslik.hidden { display: none !important; }
+.bolum-baslik-close {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+.bolum-baslik-close:hover { opacity: 1; }
+.bolum-baslik-container {
+    overflow: hidden;
+    max-width: 100%;
+}
+.bolum-baslik-wrapper {
+    display: inline-flex;
+    white-space: nowrap;
+}
+.bolum-baslik-wrapper.animate {
+    animation: marquee 20s linear infinite;
+    animation-delay: 1s;
+}
+.bolum-baslik-text { padding-right: 30px; font-size: 13px; }
+@keyframes marquee {
+    0%, 10%  { transform: translateX(0); }
+    90%, 100%{ transform: translateX(-50%); }
+}
+@media (max-width: 768px) {
+    .bolum-baslik-wrapper.animate { animation-duration: 12s; }
+    .bolum-baslik { max-width: calc(100vw - 150px); }
+}
 @media (max-width: 768px) {
     .reader-controls {
         right: 20px;

@@ -993,6 +993,9 @@
                             ' data-prev-id="' + prevId + '"' +
                             ' data-prev-url="' + prevUrl + '"' +
                             ' data-chapter-url="' + (chData.url || '') + '"' +
+                            ' data-chapter-number="' + (chData.number || '') + '"' +
+                            ' data-chapter-title="' + (function(t){var i=t?t.indexOf(' - '):-1;return(i!==-1?t.substring(i+3):t||'').replace(/"/g,'&quot;');})(chData.title||'') + '"' +
+                            ' data-novel-title="' + (novelTitleGlobal||'').replace(/"/g,'&quot;') + '"' +
                             '>' +
                             b64DecodeUnicode(chData.content) +
                         '</div>' +
@@ -1021,8 +1024,9 @@
     // ============================================
     // Chapter Visibility — URL + Comments Sync
     // ============================================
-    var currentChapterId = null;
+    var currentChapterId  = null;
     var chapterScrollTimer = null;
+    var novelTitleGlobal  = '';
 
     function applyChapterNav(block) {
         var url     = block.dataset.chapterUrl;
@@ -1048,6 +1052,34 @@
             item.style.backgroundColor = isActive ? '#2563eb' : 'transparent';
             item.style.color = isActive ? '#ffffff' : '#cbd5e1';
         });
+
+        updateBottomBarTitle(block);
+    }
+
+    function updateBottomBarTitle(block) {
+        var textEl = document.querySelector('.bolum-baslik-text');
+        if (!textEl) return;
+        var novelTitle  = (block.dataset.novelTitle || novelTitleGlobal || '');
+        var chNum       = block.dataset.chapterNumber || '';
+        var innerTitle  = block.dataset.chapterTitle  || '';
+        var display     = (novelTitle ? novelTitle + ' > ' : '') + (chNum ? chNum + ' - ' : '') + innerTitle;
+        if (!display.trim()) return;
+        textEl.textContent = display;
+        var baslikDiv = document.getElementById('bolumBaslikDiv');
+        if (baslikDiv) { baslikDiv.classList.remove('hidden'); localStorage.removeItem('bolumBaslikGizli'); }
+        var wrapper = document.getElementById('bolumWrapper');
+        if (!wrapper) return;
+        wrapper.classList.remove('animate');
+        wrapper.querySelectorAll('.clone').forEach(function(c) { c.remove(); });
+        setTimeout(function() {
+            var container = wrapper.parentElement;
+            if (textEl.scrollWidth > container.clientWidth) {
+                var clone = textEl.cloneNode(true);
+                clone.classList.add('clone');
+                wrapper.appendChild(clone);
+                wrapper.classList.add('animate');
+            }
+        }, 100);
     }
 
     function loadCommentsForChapter(chapterId) {
@@ -1143,6 +1175,7 @@
         fetchChapterContent();
         infiniteScroll.init();
         currentChapterId = document.getElementById('reader-text').dataset.chapterId || null;
+        novelTitleGlobal = document.getElementById('reader-text').dataset.novelTitle || '';
         window.addEventListener('scroll', function () {
             clearTimeout(chapterScrollTimer);
             chapterScrollTimer = setTimeout(detectCurrentChapter, 150);
