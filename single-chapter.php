@@ -307,6 +307,19 @@ get_header();
                 <p class="nt-text-sm nt-font-bold nt-text-accent" style="margin-bottom:8px;">Cilt <?php echo intval($volume_number); ?></p>
                 <?php endif; ?>
                 <h1 class="nt-text-2xl nt-font-bold nt-text-main" style="margin:0;"><?php the_title(); ?></h1>
+                <?php
+                $_raw   = wp_strip_all_tags(get_the_content());
+                $_wc    = count(preg_split('/\s+/u', trim($_raw), -1, PREG_SPLIT_NO_EMPTY));
+                $_mins  = max(1, ceil($_wc / 200));
+                $_pages = max(1, round($_wc / 250));
+                ?>
+                <p style="font-size:12px; color:var(--text-dim); margin-top:10px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <span><?php echo number_format($_wc, 0, ',', '.'); ?> kelime</span>
+                    <span>·</span>
+                    <span>~<?php echo $_mins; ?> dk okuma</span>
+                    <span>·</span>
+                    <span>~<?php echo $_pages; ?> roman sayfası</span>
+                </p>
             </div>
 
             <?php webnovel_render_ad('before_content'); ?>
