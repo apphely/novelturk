@@ -801,8 +801,7 @@
     // ============================================
     // Paragraph Copy Icons
     // ============================================
-    var allParaIcons = [];
-    var paraIconsVisible = false;
+    var currentParaIcon = null;
     var paraNotif = null;
 
     function showParaCopyToast(success) {
@@ -821,16 +820,16 @@
         }, success ? 2000 : 3000);
     }
 
-    function setupParagraphCopyIcons(rt, show) {
-        if (!rt) return [];
-        var icons = [];
+    function setupParagraphCopyIcons(rt) {
+        if (!rt) return;
         rt.querySelectorAll('p').forEach(function (p) {
             if (p.textContent.trim().length < 2) return;
             var icon = document.createElement('span');
             icon.className = 'para-copy-icon';
             icon.title = 'Paragrafı kopyala';
-            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="display:inline;vertical-align:middle"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1m0-11.999v6m-3-3h6" /></svg>';
-            icon.style.cssText = 'cursor:pointer;margin-left:8px;display:' + (show ? 'inline' : 'none') + ';opacity:' + (show ? '1' : '0') + ';transition:opacity .5s ease;color:var(--accent);vertical-align:middle;';
+            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" style="display:inline;vertical-align:middle"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1m0-11.999v6m-3-3h6" /></svg>';
+            icon.style.cssText = 'cursor:pointer;margin-left:8px;display:none;opacity:0;transition:opacity .5s ease;color:var(--text-main);vertical-align:middle;line-height:1;';
+            p._paraIcon = icon;
             (function (para, ic) {
                 ic.addEventListener('click', function (e) {
                     e.stopPropagation();
@@ -843,10 +842,7 @@
                 });
             })(p, icon);
             p.appendChild(icon);
-            icons.push(icon);
-            allParaIcons.push(icon);
         });
-        return icons;
     }
 
     // ============================================
@@ -873,14 +869,7 @@
                 if (data.success) {
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
                     loadPreferences();
-                    var initIcons = setupParagraphCopyIcons(readerText, true);
-                    setTimeout(function () {
-                        initIcons.forEach(function (ic) {
-                            ic.style.opacity = '0';
-                            setTimeout(function () { ic.style.display = 'none'; }, 500);
-                        });
-                        paraIconsVisible = false;
-                    }, 2000);
+                    setupParagraphCopyIcons(readerText);
                 }
             })
             .catch(function (err) { console.error('Fetch error:', err); });
@@ -1021,7 +1010,7 @@
                 newBlock.style.color      = 'var(--text-main)';
             }
 
-            setupParagraphCopyIcons(card.querySelector('.reader-text'), paraIconsVisible);
+            setupParagraphCopyIcons(card.querySelector('.reader-text'));
 
             // URL & nav update via IntersectionObserver
             this.watchChapterVisibility(card, chData);
@@ -1121,16 +1110,24 @@
         if (readerContainer) {
             readerContainer.addEventListener('click', function (e) {
                 if (e.target.closest('.para-copy-icon')) return;
-                paraIconsVisible = !paraIconsVisible;
-                allParaIcons.forEach(function (ic) {
-                    if (paraIconsVisible) {
-                        ic.style.display = 'inline';
-                        setTimeout(function () { ic.style.opacity = '1'; }, 10);
+                var p = e.target.closest('.reader-text p');
+                var icon = p ? p._paraIcon : null;
+                if (currentParaIcon && currentParaIcon !== icon) {
+                    currentParaIcon.style.opacity = '0';
+                    setTimeout(function () { currentParaIcon.style.display = 'none'; }, 500);
+                    currentParaIcon = null;
+                }
+                if (icon) {
+                    if (icon.style.display === 'none' || icon.style.opacity === '0') {
+                        icon.style.display = 'inline';
+                        setTimeout(function () { icon.style.opacity = '1'; }, 10);
+                        currentParaIcon = icon;
                     } else {
-                        ic.style.opacity = '0';
-                        setTimeout(function () { ic.style.display = 'none'; }, 500);
+                        icon.style.opacity = '0';
+                        setTimeout(function () { icon.style.display = 'none'; }, 500);
+                        currentParaIcon = null;
                     }
-                });
+                }
             });
         }
     }
