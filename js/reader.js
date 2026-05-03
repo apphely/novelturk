@@ -748,25 +748,25 @@
     var settingsClose = document.getElementById('settings-close');
     var settingsOverlay = document.getElementById('settings-overlay');
 
+    function openSettings() {
+        settingsPanel.style.display = 'block';
+        if (settingsOverlay) settingsOverlay.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+    function closeSettings() {
+        settingsPanel.style.display = 'none';
+        if (settingsOverlay) settingsOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
     if (settingsBtn && settingsPanel) {
-        settingsBtn.addEventListener('click', function () {
-            settingsPanel.style.display = 'block';
-            if (settingsOverlay) settingsOverlay.classList.add('active');
-        });
+        settingsBtn.addEventListener('click', openSettings);
     }
-
     if (settingsClose && settingsPanel) {
-        settingsClose.addEventListener('click', function () {
-            settingsPanel.style.display = 'none';
-            if (settingsOverlay) settingsOverlay.classList.remove('active');
-        });
+        settingsClose.addEventListener('click', closeSettings);
     }
-
     if (settingsOverlay && settingsPanel) {
-        settingsOverlay.addEventListener('click', function () {
-            settingsPanel.style.display = 'none';
-            settingsOverlay.classList.remove('active');
-        });
+        settingsOverlay.addEventListener('click', closeSettings);
     }
 
 

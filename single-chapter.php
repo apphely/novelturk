@@ -280,10 +280,12 @@ get_header();
                 commentsDrawer.style.right = '0px';
                 commentsOverlay.style.display = 'block';
                 document.getElementById('chapter-drawer').style.left = '-350px';
+                document.body.classList.add('modal-open');
             }
             function closeCommentsDrawer() {
                 commentsDrawer.style.right = '-480px';
                 commentsOverlay.style.display = 'none';
+                document.body.classList.remove('modal-open');
             }
 
             if (btnJumpComments) btnJumpComments.addEventListener('click', openCommentsDrawer);

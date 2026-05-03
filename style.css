@@ -2460,6 +2460,16 @@ img {
     border-top: 1px solid var(--border);
 }
 
+/* Modal blur: blur navi-bar and bottom-bar when any modal is open */
+.modal-open .navi-bar,
+.modal-open #bottom-bar {
+    filter: blur(3px);
+}
+.navi-bar,
+#bottom-bar {
+    transition: filter 0.3s ease;
+}
+
 /* Settings overlay (modal backdrop) */
 .settings-overlay {
     position: fixed;
