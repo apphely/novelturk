@@ -473,66 +473,77 @@ get_header();
         <button id="settings-close" class="settings-close sp-close">&times;</button>
     </div>
     <div class="sp-body">
-        <div class="sp-row">
-            <label class="sp-label">Yazı Boyutu:</label>
+        <span class="ayar-ap">
+            <label class="yazilar">Yazı Boyutu:</label>
             <select id="set-font-size" class="sp-select">
-                <option value="14px">14px</option>
-                <option value="16px">16px</option>
-                <option value="18px" selected>Varsayılan(18px)</option>
-                <option value="20px">20px</option>
-                <option value="24px">24px</option>
+                <option class="secenekler" value="14px">14px</option>
+                <option class="secenekler" value="16px">16px</option>
+                <option class="secenekler" value="18px" selected>Varsayılan(18px)</option>
+                <option class="secenekler" value="20px">20px</option>
+                <option class="secenekler" value="22px">22px</option>
+                <option class="secenekler" value="24px">24px</option>
+                <option class="secenekler" value="28px">28px</option>
             </select>
-        </div>
-        <div class="sp-row">
-            <label class="sp-label">Yazı Tipi:</label>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Yazı Tipi:</label>
             <select id="set-font-family" class="sp-select">
-                <option value="inherit" selected>Varsayılan</option>
-                <option value="'Roboto', sans-serif">Roboto</option>
-                <option value="'Sriracha', cursive">Sriracha</option>
-                <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
-                <option value="'Courier New', monospace">Courier New</option>
-                <option value="'Shantell Sans', cursive">Shantell Sans</option>
-                <option value="'Nunito', sans-serif">Nunito</option>
-                <option value="'Merienda', cursive">Merienda</option>
-                <option value="'Chakra Petch', sans-serif">Chakra Petch</option>
-                <option value="'Quicksand', sans-serif">Quicksand</option>
-                <option value="'Lobster', cursive">Lobster</option>
-                <option value="'Amatic SC', cursive">AMATIC SC</option>
+                <option class="secenekler" value="inherit" selected>Varsayılan</option>
+                <option class="secenekler" value="'Roboto', sans-serif">Roboto</option>
+                <option class="secenekler" value="'Sriracha', cursive">Sriracha</option>
+                <option class="secenekler" value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                <option class="secenekler" value="'Courier New', monospace">Courier New</option>
+                <option class="secenekler" value="'Shantell Sans', cursive">Shantell Sans</option>
+                <option class="secenekler" value="'Nunito', sans-serif">Nunito</option>
+                <option class="secenekler" value="'Merienda', cursive">Merienda</option>
+                <option class="secenekler" value="'Chakra Petch', sans-serif">Chakra Petch</option>
+                <option class="secenekler" value="'Quicksand', sans-serif">Quicksand</option>
+                <option class="secenekler" value="'Lobster', cursive">Lobster</option>
+                <option class="secenekler" value="'Amatic SC', cursive">AMATIC SC</option>
             </select>
-        </div>
-        <div class="sp-row">
-            <label class="sp-label">Yazı Hizalama:</label>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Yazı Hizalama:</label>
             <select id="set-text-align" class="sp-select">
-                <option value="left" selected>Solda</option>
-                <option value="center">Ortada</option>
-                <option value="justify">İki Yana Yasla</option>
+                <option class="secenekler" value="left" selected>Solda</option>
+                <option class="secenekler" value="center">Ortada</option>
+                <option class="secenekler" value="justify">İki Yana Yasla</option>
             </select>
-        </div>
-        <div class="sp-row">
-            <label class="sp-label">Yazı Kalınlığı:</label>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Yazı Kalınlığı:</label>
             <select id="set-font-weight" class="sp-select">
-                <option value="normal" selected>Normal</option>
-                <option value="bold">Kalın (Bold)</option>
-                <option value="300">İnce (Light)</option>
+                <option class="secenekler" value="normal" selected>Normal</option>
+                <option class="secenekler" value="bold">Kalın</option>
+                <option class="secenekler" value="300">İnce</option>
             </select>
-        </div>
-        <div class="sp-row">
-            <label class="sp-label">Yazı İtalikliği:</label>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Yazı İtalikliği:</label>
             <select id="set-font-style" class="sp-select">
-                <option value="normal" selected>Normal</option>
-                <option value="italic">İtalik</option>
+                <option class="secenekler" value="normal" selected>Normal</option>
+                <option class="secenekler" value="italic">İtalik</option>
             </select>
-        </div>
-        <div class="sp-row">
-            <label class="sp-label">Satır İçi Yükseklik:</label>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Harf Özellikleri:</label>
+            <select id="set-text-transform" class="sp-select">
+                <option class="secenekler" value="none" selected>Varsayılan</option>
+                <option class="secenekler" value="capitalize">Kelimelerin İlk Harfi Büyük</option>
+                <option class="secenekler" value="uppercase">Bütün Harfler Büyük</option>
+                <option class="secenekler" value="lowercase">Bütün Harfler Küçük</option>
+            </select>
+        </span>
+        <span class="ayar-ap">
+            <label class="yazilar">Satır İçi Yükseklik:</label>
             <select id="set-line-height" class="sp-select">
-                <option value="1.2">Dar (1.2)</option>
-                <option value="1.5">Orta (1.5)</option>
-                <option value="1.8" selected>Varsayılan (1.8)</option>
-                <option value="2.2">Geniş (2.2)</option>
+                <option class="secenekler" value="1.2">Dar (1.2)</option>
+                <option class="secenekler" value="1.5">Orta (1.5)</option>
+                <option class="secenekler" value="1.8" selected>Varsayılan (1.8)</option>
+                <option class="secenekler" value="2.2">Geniş (2.2)</option>
             </select>
-        </div>
-        <button id="settings-save" class="sp-save">Ayarları Uygula ve Kaydet</button>
+        </span>
+        <input id="settings-save" class="sp-save" type="button" value="Ayarları Uygula ve Kaydet">
         <div class="sp-width-section">
             <span class="sp-width-title">Genişliği Sınırla</span>
             <input type="range" id="set-max-width" min="40" max="100" value="100" class="sp-range">
@@ -552,12 +563,12 @@ get_header();
     z-index: 10000;
     display: none;
     width: 90%;
-    max-width: 500px;
+    max-width: 460px;
     max-height: 90vh;
-    background: #2d3a4a;
+    background: var(--bg-card);
     border-radius: 14px;
-    border: 1px solid #3d4f63;
-    color: #cbd5e1;
+    border: 1px solid var(--border);
+    color: var(--text-main);
     font-family: inherit;
     box-shadow: 0 16px 48px rgba(0,0,0,0.7);
     overflow: hidden;
@@ -568,91 +579,94 @@ get_header();
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 22px;
-    border-bottom: 1px solid #3d4f63;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
 }
-.sp-title {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-    color: #f1f5f9;
-}
+.sp-title { margin: 0; font-size: 17px; font-weight: 700; }
 .sp-close {
     background: none;
     border: none;
-    color: #94a3b8;
+    color: var(--text-dim);
     font-size: 22px;
     cursor: pointer;
     line-height: 1;
     padding: 0 2px;
     transition: color 0.15s;
 }
-.sp-close:hover { color: #f1f5f9; }
+.sp-close:hover { color: var(--text-main); }
 .sp-body {
-    padding: 20px 22px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
     overflow-y: auto;
 }
-.sp-row {
+.ayar-ap {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    border: 0;
+    border-radius: 10px;
+    height: 34px;
+    background-color: rgba(0, 0, 0, 0.08);
+    margin-bottom: 10px;
+    position: relative;
 }
-.sp-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #cbd5e1;
-    width: 45%;
-    flex-shrink: 0;
+[data-theme="dark"] .ayar-ap,
+[data-theme="sepia"] .ayar-ap {
+    background-color: #17202e;
+}
+.yazilar {
+    margin-left: 3%;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    white-space: nowrap;
 }
 .sp-select {
-    width: 55%;
-    background-color: #1a2535;
-    color: #cbd5e1;
-    border: 1px solid #3d4f63;
-    border-radius: 8px;
-    padding: 8px 36px 8px 12px;
+    position: absolute;
+    right: 4%;
+    width: 48%;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    color: var(--text-main);
     font-size: 13px;
     outline: none;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 10px center;
-    transition: border-color 0.15s;
+    background-position: right 6px center;
+    padding-right: 22px;
 }
-.sp-select:focus { border-color: #3b82f6; }
+.secenekler { background-color: var(--bg-card); }
 .sp-save {
-    margin-top: 4px;
-    background: #1d4ed8;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 11px;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #224193;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 9px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
-    width: 100%;
+    margin-bottom: 14px;
     transition: background 0.2s;
 }
-.sp-save:hover { background: #2563eb; }
+.sp-save:hover { background-color: #2a52b8; }
 .sp-width-section { margin-top: 4px; }
 .sp-width-title {
     font-size: 15px;
     font-weight: 700;
-    color: #f1f5f9;
     display: block;
     margin-bottom: 12px;
 }
 .sp-range { width: 100%; accent-color: #3b82f6; }
 .sp-note {
     font-size: 11px;
-    color: #64748b;
+    color: var(--text-dim);
     margin-top: 12px;
     line-height: 1.5;
 }

@@ -624,7 +624,8 @@
         weight: 'webnovel-font-weight',
         style: 'webnovel-font-style',
         height: 'webnovel-line-height',
-        width: 'webnovel-max-width'
+        width: 'webnovel-max-width',
+        transform: 'webnovel-text-transform'
     };
 
     function loadPreferences() {
@@ -636,6 +637,7 @@
         applyFontStyle(localStorage.getItem(KEYS.style) || 'normal');
         applyLineHeight(localStorage.getItem(KEYS.height) || '1.8');
         applyMaxWidth(localStorage.getItem(KEYS.width) || '100');
+        applyTextTransform(localStorage.getItem(KEYS.transform) || 'none');
     }
 
     function syncSelect(id, val) {
@@ -687,6 +689,12 @@
         syncSelect('set-line-height', val);
     }
 
+    function applyTextTransform(val) {
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.textTransform = val; });
+        localStorage.setItem(KEYS.transform, val);
+        syncSelect('set-text-transform', val);
+    }
+
     function applyMaxWidth(val) {
         var rc = document.getElementById('reader-container');
         if (rc) rc.style.maxWidth = val == 100 ? 'none' : (val + '%');
@@ -697,7 +705,7 @@
     }
 
     // Event Listeners for new selects
-    ['set-font-size', 'set-font-family', 'set-text-align', 'set-font-weight', 'set-font-style', 'set-line-height'].forEach(function (id) {
+    ['set-font-size', 'set-font-family', 'set-text-align', 'set-font-weight', 'set-font-style', 'set-line-height', 'set-text-transform'].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) {
             el.addEventListener('change', function () {
@@ -708,6 +716,7 @@
                 if (id == 'set-font-weight') applyFontWeight(v);
                 if (id == 'set-font-style') applyFontStyle(v);
                 if (id == 'set-line-height') applyLineHeight(v);
+                if (id == 'set-text-transform') applyTextTransform(v);
             });
         }
     });
@@ -722,11 +731,12 @@
     if (settingsSave) {
         settingsSave.addEventListener('click', function () {
             var btn = this;
-            btn.textContent = '✓ Kaydedildi!';
-            btn.style.background = '#10b981';
+            btn.value = '✓ Kaydedildi!';
+            btn.style.backgroundColor = '#10b981';
+            applyTextTransform(document.getElementById('set-text-transform') ? document.getElementById('set-text-transform').value : 'none');
             setTimeout(function () {
-                btn.textContent = 'Ayarları Uygula ve Kaydet';
-                btn.style.background = '#1d4ed8';
+                btn.value = 'Ayarları Uygula ve Kaydet';
+                btn.style.backgroundColor = '#224193';
                 document.getElementById('settings-close').click();
             }, 1000);
         });
