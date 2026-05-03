@@ -897,7 +897,6 @@ img {
     padding: 0 14px 0 24px;
     flex: 1;
     min-width: 0;
-    max-width: 300px;
 }
 .bolum-baslik.hidden { display: none !important; }
 .bolum-baslik-close {
@@ -933,7 +932,6 @@ img {
 }
 @media (max-width: 768px) {
     .bolum-baslik-wrapper.animate { animation-duration: 12s; }
-    .bolum-baslik { max-width: calc(100vw - 150px); }
 }
 @media (max-width: 768px) {
     .reader-controls {

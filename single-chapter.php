@@ -23,7 +23,7 @@ get_header();
     $_ch_dash    = strpos(get_the_title(), ' - ');
     $_ch_inner   = $_ch_dash !== false ? substr(get_the_title(), $_ch_dash + 3) : get_the_title();
     $_novel_name = $novel_id ? get_the_title($novel_id) : '';
-    $_baslik_text = ($_novel_name ? $_novel_name . ' > ' : '') . $chapter_number . ' - ' . $_ch_inner;
+    $_baslik_text = 'Novel Türk > ' . ($_novel_name ? $_novel_name . ' > ' : '') . 'Bölüm ' . $chapter_number . ' ' . $_ch_inner;
 ?>
 
 <!-- Reader Nav Styles -->
