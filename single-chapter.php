@@ -657,7 +657,7 @@ get_header();
 }
 .sp-save:hover { background-color: #2a52b8; }
 .sp-width-section { margin-top: 4px; }
-@media (max-width: 768px) { .sp-width-section { display: none; } }
+@media (max-width: 768px) { .sp-width-section { display: none !important; } }
 .sp-width-title {
     font-size: 15px;
     font-weight: 700;
