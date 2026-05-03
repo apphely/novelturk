@@ -870,6 +870,16 @@
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
                     loadPreferences();
                     setupParagraphCopyIcons(readerText);
+                    readerText.querySelectorAll('.para-copy-icon').forEach(function (ic) {
+                        ic.style.display = 'inline';
+                        setTimeout(function () { ic.style.opacity = '1'; }, 10);
+                    });
+                    setTimeout(function () {
+                        readerText.querySelectorAll('.para-copy-icon').forEach(function (ic) {
+                            ic.style.opacity = '0';
+                            setTimeout(function () { ic.style.display = 'none'; }, 500);
+                        });
+                    }, 2000);
                 }
             })
             .catch(function (err) { console.error('Fetch error:', err); });
