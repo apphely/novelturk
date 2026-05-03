@@ -568,22 +568,20 @@
             progressRing.style.strokeDasharray = circumference + ' ' + circumference;
             progressRing.style.strokeDashoffset = circumference;
 
+            var wrap = document.querySelector('.reader-text-wrap');
             window.addEventListener('scroll', function () {
-                var wrap = document.querySelector('.reader-text-wrap');
                 var scrolled = 0;
                 if (wrap) {
                     var rect = wrap.getBoundingClientRect();
-                    var wrapTop = rect.top + window.scrollY;
-                    var wrapHeight = wrap.offsetHeight;
-                    var winScroll = window.scrollY;
-                    var viewH = window.innerHeight;
-                    var progress = (winScroll + viewH - wrapTop) / (wrapHeight + viewH);
-                    scrolled = Math.min(100, Math.max(0, progress * 100));
+                    var wrapAbsTop = rect.top + window.scrollY;
+                    var scrollStart = wrapAbsTop;
+                    var scrollEnd = wrapAbsTop + wrap.offsetHeight - window.innerHeight;
+                    if (scrollEnd > scrollStart) {
+                        scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
+                    }
                 }
-
                 if (progressText) progressText.innerText = Math.round(scrolled) + '%';
-                var offset = circumference - (scrolled / 100) * circumference;
-                progressRing.style.strokeDashoffset = offset;
+                progressRing.style.strokeDashoffset = circumference - (scrolled / 100) * circumference;
             });
         }
     }
