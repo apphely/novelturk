@@ -1015,61 +1015,81 @@
             }
 
             setupParagraphCopyIcons(card.querySelector('.reader-text'));
-
-            // URL & nav update via IntersectionObserver
-            this.watchChapterVisibility(card, chData);
-        },
-
-
-        watchChapterVisibility: function (card, chData) {
-            var visObs = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        // Update browser URL
-                        if (chData.url) {
-                            history.replaceState(null, '', chData.url);
-                        }
-                        // Update nav bar prev/next links
-                        var navPrev = document.querySelector('[rel="prev"]');
-                        var navNext = document.querySelector('[rel="next"]');
-
-                        if (navPrev) {
-                            if (chData.prev) {
-                                navPrev.href = chData.prev.url;
-                                navPrev.style.opacity = '';
-                                navPrev.style.cursor = '';
-                            } else {
-                                navPrev.removeAttribute('href');
-                                navPrev.style.opacity = '0.5';
-                                navPrev.style.cursor = 'not-allowed';
-                            }
-                        }
-                        if (navNext) {
-                            if (chData.next) {
-                                navNext.href = chData.next.url;
-                                navNext.style.opacity = '';
-                                navNext.style.cursor = '';
-                            } else {
-                                navNext.removeAttribute('href');
-                                navNext.style.opacity = '0.5';
-                                navNext.style.cursor = 'not-allowed';
-                            }
-                        }
-
-                        // Update drawer active state
-                        document.querySelectorAll('.drawer-ch-item').forEach(function (item) {
-                            var isActive = item.href && item.href.indexOf(chData.url) !== -1;
-                            item.classList.toggle('is-active', isActive);
-                            item.style.backgroundColor = isActive ? '#2563eb' : 'transparent';
-                            item.style.color = isActive ? '#ffffff' : '#cbd5e1';
-                        });
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            visObs.observe(card);
         }
     };
+
+    // ============================================
+    // Chapter Visibility — URL + Comments Sync
+    // ============================================
+    var currentChapterId = null;
+    var chapterScrollTimer = null;
+
+    function applyChapterNav(block) {
+        var url     = block.dataset.chapterUrl;
+        var nextUrl = block.dataset.nextUrl;
+        var prevUrl = block.dataset.prevUrl;
+
+        if (url) history.replaceState(null, '', url);
+
+        var navPrev = document.querySelector('[rel="prev"]');
+        var navNext = document.querySelector('[rel="next"]');
+        if (navPrev) {
+            if (prevUrl) { navPrev.href = prevUrl; navPrev.style.opacity = ''; navPrev.style.cursor = ''; }
+            else { navPrev.removeAttribute('href'); navPrev.style.opacity = '0.5'; navPrev.style.cursor = 'not-allowed'; }
+        }
+        if (navNext) {
+            if (nextUrl) { navNext.href = nextUrl; navNext.style.opacity = ''; navNext.style.cursor = ''; }
+            else { navNext.removeAttribute('href'); navNext.style.opacity = '0.5'; navNext.style.cursor = 'not-allowed'; }
+        }
+
+        document.querySelectorAll('.drawer-ch-item').forEach(function (item) {
+            var isActive = url && item.href && item.href.indexOf(url) !== -1;
+            item.classList.toggle('is-active', isActive);
+            item.style.backgroundColor = isActive ? '#2563eb' : 'transparent';
+            item.style.color = isActive ? '#ffffff' : '#cbd5e1';
+        });
+    }
+
+    function loadCommentsForChapter(chapterId) {
+        var body = document.getElementById('comments-drawer-body');
+        if (!body || typeof webnovelReader === 'undefined') return;
+        body.innerHTML = '<div style="text-align:center;padding:40px 0;color:#94a3b8;">Yükleniyor...</div>';
+        var formData = new FormData();
+        formData.append('action', 'webnovel_get_chapter_comments');
+        formData.append('chapter_id', chapterId);
+        formData.append('nonce', webnovelReader.nonce);
+        fetch(webnovelReader.ajaxUrl, { method: 'POST', body: formData })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (!data.success) return;
+                body.innerHTML = data.data.html;
+                var subtitle = document.getElementById('comments-drawer-subtitle');
+                if (subtitle) subtitle.textContent = data.data.title;
+                body.querySelectorAll('script').forEach(function (old) {
+                    var ns = document.createElement('script');
+                    Array.from(old.attributes).forEach(function (a) { ns.setAttribute(a.name, a.value); });
+                    ns.textContent = old.textContent;
+                    old.parentNode.replaceChild(ns, old);
+                });
+            })
+            .catch(function () {});
+    }
+
+    function detectCurrentChapter() {
+        var allBlocks = document.querySelectorAll('.reader-text');
+        if (!allBlocks.length) return;
+        var midY = window.innerHeight * 0.4;
+        var current = null;
+        allBlocks.forEach(function (block) {
+            if (block.getBoundingClientRect().top <= midY) current = block;
+        });
+        if (!current) current = allBlocks[0];
+        var chId = current.dataset.chapterId;
+        if (!chId || chId === currentChapterId) return;
+        currentChapterId = chId;
+        applyChapterNav(current);
+        loadCommentsForChapter(chId);
+    }
 
     // ============================================
     // Copy Protection
@@ -1111,6 +1131,11 @@
     if (document.getElementById('reader-text')) {
         fetchChapterContent();
         infiniteScroll.init();
+        currentChapterId = document.getElementById('reader-text').dataset.chapterId || null;
+        window.addEventListener('scroll', function () {
+            clearTimeout(chapterScrollTimer);
+            chapterScrollTimer = setTimeout(detectCurrentChapter, 150);
+        });
         var readerContainer = document.getElementById('reader-container');
         if (readerContainer) {
             readerContainer.addEventListener('click', function (e) {

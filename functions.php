@@ -2704,6 +2704,34 @@ function webnovel_ajax_get_chapter_content() {
 add_action('wp_ajax_webnovel_get_chapter', 'webnovel_ajax_get_chapter_content');
 add_action('wp_ajax_nopriv_webnovel_get_chapter', 'webnovel_ajax_get_chapter_content');
 
+// ============================================
+// AJAX: Get chapter comments (for infinite scroll)
+// ============================================
+function webnovel_ajax_get_chapter_comments() {
+    if (!check_ajax_referer('webnovel_reader_nonce', 'nonce', false)) {
+        wp_send_json_error('invalid nonce');
+    }
+    $chapter_id = intval($_POST['chapter_id'] ?? 0);
+    if (!$chapter_id || get_post_type($chapter_id) !== 'chapter') {
+        wp_send_json_error('invalid chapter');
+    }
+    global $post;
+    $saved_post = $post;
+    $post = get_post($chapter_id);
+    setup_postdata($post);
+    ob_start();
+    webnovel_render_comments();
+    $html = ob_get_clean();
+    $post = $saved_post;
+    wp_reset_postdata();
+    wp_send_json_success(array(
+        'html'  => $html,
+        'title' => get_the_title($chapter_id),
+    ));
+}
+add_action('wp_ajax_webnovel_get_chapter_comments', 'webnovel_ajax_get_chapter_comments');
+add_action('wp_ajax_nopriv_webnovel_get_chapter_comments', 'webnovel_ajax_get_chapter_comments');
+
 // Localize moved into webnovel_scripts() for reliability
 // ============================================
 // Global Query Filters

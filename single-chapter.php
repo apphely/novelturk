@@ -364,7 +364,7 @@ get_header();
     <div style="padding:16px 20px; background-color:#334155; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #475569;">
         <div>
             <div style="font-size:16px; font-weight:700; color:#f8fafc;">Bölüm Yorumları</div>
-            <div style="font-size:12px; color:#94a3b8; margin-top:2px;"><?php echo esc_html(get_the_title()); ?></div>
+            <div id="comments-drawer-subtitle" style="font-size:12px; color:#94a3b8; margin-top:2px;"><?php echo esc_html(get_the_title()); ?></div>
         </div>
         <button id="comments-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
     </div>
