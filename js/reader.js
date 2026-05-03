@@ -575,9 +575,9 @@
                     var rect = wrap.getBoundingClientRect();
                     var wrapAbsTop = rect.top + window.scrollY;
                     var viewH = window.innerHeight;
-                    var buffer = 0.25 * viewH;
-                    var scrollStart = wrapAbsTop - buffer;
-                    var scrollEnd = wrapAbsTop + wrap.offsetHeight - viewH + buffer;
+                    var buffer = 0.20 * viewH;
+                    var scrollStart = wrapAbsTop + buffer;
+                    var scrollEnd = wrapAbsTop + wrap.offsetHeight - viewH - buffer;
                     if (scrollEnd > scrollStart) {
                         scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
                     }
