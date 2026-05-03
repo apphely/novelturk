@@ -20,10 +20,17 @@ get_header();
 ?>
 
 <?php if (have_posts()) : while (have_posts()) : the_post();
-    $_ch_dash    = strpos(get_the_title(), ' - ');
-    $_ch_inner   = $_ch_dash !== false ? substr(get_the_title(), $_ch_dash + 3) : get_the_title();
-    $_novel_name = $novel_id ? get_the_title($novel_id) : '';
-    $_baslik_text = 'Novel Türk > ' . ($_novel_name ? $_novel_name . ' > ' : '') . 'Bölüm ' . $chapter_number . ' ' . $_ch_inner;
+    $_ch_title   = get_the_title();
+    $_ch_inner   = $_ch_title;
+    foreach ( [' – ', ' — ', ' - '] as $_sep ) {
+        $pos = mb_strpos( $_ch_title, $_sep );
+        if ( $pos !== false ) {
+            $_ch_inner = mb_substr( $_ch_title, $pos + mb_strlen( $_sep ) );
+            break;
+        }
+    }
+    $_novel_name  = $novel_id ? get_the_title($novel_id) : '';
+    $_baslik_text = $_ch_inner;
 ?>
 
 <!-- Reader Nav Styles -->
