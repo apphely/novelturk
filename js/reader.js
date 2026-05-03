@@ -600,6 +600,27 @@
         width: 'webnovel-max-width'
     };
 
+    // ============================================
+    // Paragraph Comments (LocalStorage)
+    // ============================================
+    var paragraphComments = {
+        key: 'nt_para_comments',
+        data: {},
+        init: function () {
+            try { this.data = JSON.parse(localStorage.getItem(this.key) || '{}'); }
+            catch (e) { this.data = {}; }
+        },
+        get: function (k) { return this.data[k] || null; },
+        save: function (k, comment, quote) {
+            this.data[k] = { comment: comment, quote: quote, time: Date.now() };
+            localStorage.setItem(this.key, JSON.stringify(this.data));
+        },
+        remove: function (k) {
+            delete this.data[k];
+            localStorage.setItem(this.key, JSON.stringify(this.data));
+        }
+    };
+
     function loadPreferences() {
         applyTheme(localStorage.getItem(KEYS.theme) || 'dark');
         applyFontSize(localStorage.getItem(KEYS.font) || '18px');
@@ -838,6 +859,116 @@
     }
 
     // ============================================
+    // Paragraph Comments Setup
+    // ============================================
+    var _pcActiveBtn = null;
+    var _pcActiveKey = null;
+
+    function setupParagraphComments(rt, chapterId) {
+        if (!rt) return;
+        rt.querySelectorAll('p').forEach(function (p, index) {
+            if (p.innerText.trim().length < 2) return;
+            var paraKey = chapterId + '_' + index;
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'comment-p-btn';
+            btn.dataset.paraKey = paraKey;
+            btn.title = 'Paragraf Yorumu';
+            btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+
+            if (paragraphComments.get(paraKey)) btn.classList.add('has-comment');
+
+            p.addEventListener('click', function (e) {
+                if (e.target.closest('.comment-p-btn') || e.target.closest('.copy-p-btn')) return;
+                document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) { b.classList.remove('visible'); });
+                btn.classList.add('visible');
+                e.stopPropagation();
+            });
+
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var text = p.innerText.replace(/[​-‍﻿]/g, '').trim();
+                _pcActiveBtn = btn;
+                _pcActiveKey = paraKey;
+                openParaCommentPopup(paraKey, text);
+            });
+
+            p.style.position = 'relative';
+            p.appendChild(btn);
+        });
+    }
+
+    function openParaCommentPopup(paraKey, paraText) {
+        var popup = document.getElementById('para-comment-popup');
+        if (!popup) return;
+        var quoteEl   = document.getElementById('pcpopup-quote');
+        var quoteText = document.getElementById('pcpopup-quote-text');
+        var textarea  = document.getElementById('pcpopup-textarea');
+        var deleteBtn = document.getElementById('pcpopup-delete');
+
+        var truncated = paraText.length > 200 ? paraText.substring(0, 200) + '…' : paraText;
+        quoteText.textContent = '“' + truncated + '”';
+        quoteEl.classList.remove('removed');
+
+        var existing = paragraphComments.get(paraKey);
+        textarea.value = existing ? (existing.comment || '') : '';
+        if (deleteBtn) deleteBtn.style.display = existing ? 'block' : 'none';
+
+        popup.classList.add('active');
+        setTimeout(function () { textarea.focus(); }, 50);
+    }
+
+    function closeParaCommentPopup() {
+        var popup = document.getElementById('para-comment-popup');
+        if (popup) popup.classList.remove('active');
+        _pcActiveBtn = null;
+        _pcActiveKey = null;
+    }
+
+    function initParaCommentPopup() {
+        var popup = document.getElementById('para-comment-popup');
+        if (!popup) return;
+
+        document.getElementById('pcpopup-close').addEventListener('click', closeParaCommentPopup);
+        document.getElementById('pcpopup-cancel').addEventListener('click', closeParaCommentPopup);
+
+        document.getElementById('pcpopup-quote-remove').addEventListener('click', function () {
+            document.getElementById('pcpopup-quote').classList.add('removed');
+        });
+
+        document.getElementById('pcpopup-submit').addEventListener('click', function () {
+            var textarea  = document.getElementById('pcpopup-textarea');
+            var quoteEl   = document.getElementById('pcpopup-quote');
+            var quoteText = document.getElementById('pcpopup-quote-text').textContent;
+            var comment   = textarea.value.trim();
+            if (!comment || !_pcActiveKey) { closeParaCommentPopup(); return; }
+            var quote = quoteEl.classList.contains('removed') ? '' : quoteText;
+            paragraphComments.save(_pcActiveKey, comment, quote);
+            if (_pcActiveBtn) _pcActiveBtn.classList.add('has-comment');
+            closeParaCommentPopup();
+        });
+
+        document.getElementById('pcpopup-delete').addEventListener('click', function () {
+            if (!_pcActiveKey) return;
+            paragraphComments.remove(_pcActiveKey);
+            if (_pcActiveBtn) _pcActiveBtn.classList.remove('has-comment');
+            closeParaCommentPopup();
+        });
+
+        popup.addEventListener('click', function (e) {
+            if (e.target === popup) closeParaCommentPopup();
+        });
+
+        document.addEventListener('click', function () {
+            document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) {
+                b.classList.remove('visible');
+            });
+        });
+    }
+
+    // ============================================
     // Dynamic Content Loading
     // ============================================
     function fetchChapterContent() {
@@ -861,6 +992,7 @@
                 if (data.success) {
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
                     setupParagraphCopy();
+                    setupParagraphComments(readerText, chapterId);
                     loadPreferences();
                 }
             })
@@ -1004,6 +1136,7 @@
 
             // Paragraph copy buttons for new block
             this.setupParagraphCopyForBlock(card.querySelector('.reader-text'));
+            setupParagraphComments(card.querySelector('.reader-text'), chapterId);
 
             // URL & nav update via IntersectionObserver
             this.watchChapterVisibility(card, chData);
@@ -1120,11 +1253,13 @@
     loadPreferences();
     webnovelFollow.init();
     webnovelHistory.init();
+    paragraphComments.init();
     setupDropdowns();
     setupReadingProgress();
     if (document.getElementById('reader-text')) {
         fetchChapterContent();
         infiniteScroll.init();
     }
+    initParaCommentPopup();
 
 })();
