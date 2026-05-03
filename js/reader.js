@@ -799,45 +799,6 @@
     }
 
     // ============================================
-    // Paragraph Copy System
-    // ============================================
-    function setupParagraphCopy() {
-        var rt = document.getElementById('reader-text');
-        if (!rt) return;
-
-        // Clean existing
-        rt.querySelectorAll('.copy-p-btn').forEach(function (b) { b.remove(); });
-
-        var ps = rt.querySelectorAll('p');
-        ps.forEach(function (p) {
-            if (p.innerText.trim().length < 2) return;
-
-            var btn = document.createElement('button');
-            btn.className = 'copy-p-btn';
-            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-            btn.title = 'Paragrafı Kopyala';
-
-            btn.onclick = function (e) {
-                e.preventDefault();
-                e.stopPropagation(); // Bypass reader text copy protection
-
-                var text = p.innerText.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
-                navigator.clipboard.writeText(text).then(function () {
-                    btn.classList.add('copied');
-                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg>';
-                    setTimeout(function () {
-                        btn.classList.remove('copied');
-                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-                    }, 2000);
-                });
-            };
-
-            p.style.position = 'relative';
-            p.appendChild(btn);
-        });
-    }
-
-    // ============================================
     // Dynamic Content Loading
     // ============================================
     function fetchChapterContent() {
@@ -860,7 +821,6 @@
             .then(function (data) {
                 if (data.success) {
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
-                    setupParagraphCopy();
                     loadPreferences();
                 }
             })
@@ -1002,38 +962,11 @@
                 newBlock.style.color      = 'var(--text-main)';
             }
 
-            // Paragraph copy buttons for new block
-            this.setupParagraphCopyForBlock(card.querySelector('.reader-text'));
 
             // URL & nav update via IntersectionObserver
             this.watchChapterVisibility(card, chData);
         },
 
-        setupParagraphCopyForBlock: function (rt) {
-            if (!rt) return;
-            rt.querySelectorAll('p').forEach(function (p) {
-                if (p.innerText.trim().length < 2) return;
-                var btn = document.createElement('button');
-                btn.className = 'copy-p-btn';
-                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-                btn.title = 'Paragrafı Kopyala';
-                btn.onclick = function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var text = p.innerText.replace(/[​-‍﻿]/g, '').trim();
-                    navigator.clipboard.writeText(text).then(function () {
-                        btn.classList.add('copied');
-                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg>';
-                        setTimeout(function () {
-                            btn.classList.remove('copied');
-                            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-                        }, 2000);
-                    });
-                };
-                p.style.position = 'relative';
-                p.appendChild(btn);
-            });
-        },
 
         watchChapterVisibility: function (card, chData) {
             var visObs = new IntersectionObserver(function (entries) {
@@ -1094,7 +1027,6 @@
         var blockEvents = ['contextmenu', 'copy', 'cut', 'paste', 'selectstart', 'dragstart'];
         blockEvents.forEach(function (ev) {
             readerContainer.addEventListener(ev, function (e) {
-                if (e.target.closest('.copy-p-btn')) return; // Don't block our buttons
                 e.preventDefault();
                 return false;
             });
