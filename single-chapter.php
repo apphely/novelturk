@@ -577,8 +577,8 @@ select {
     <div id="reader-progress-wrap" class="reader-progress-wrap">
         <svg class="progress-ring" width="60" height="74" viewBox="0 0 60 74">
             <path d="M 30,4 C 48,4 54,24 54,48 A 24,24 0 1,1 6,48 C 6,24 12,4 30,4 Z" fill="var(--bg-card)"/>
-            <circle class="progress-ring-bg" stroke="#334155" stroke-width="3" fill="transparent" r="22" cx="30" cy="48" transform="rotate(-90 30 48)"/>
-            <circle id="reader-progress-ring" class="progress-ring-circle" stroke="#3b82f6" stroke-width="3" fill="transparent" r="22" cx="30" cy="48" transform="rotate(-90 30 48)"/>
+            <path class="progress-ring-bg" d="M 30,4 C 48,4 52,24 52,48 A 22,22 0 1,1 8,48 C 8,24 12,4 30,4" stroke="#334155" stroke-width="3" fill="transparent"/>
+            <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,4 C 48,4 52,24 52,48 A 22,22 0 1,1 8,48 C 8,24 12,4 30,4" stroke="#3b82f6" stroke-width="3" fill="transparent"/>
         </svg>
         <span id="reader-progress-text" class="progress-text">0%</span>
     </div>

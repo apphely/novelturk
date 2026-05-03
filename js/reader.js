@@ -564,9 +564,8 @@
         var progressRing = document.getElementById('reader-progress-ring');
         var progressText = document.getElementById('reader-progress-text');
         if (progressRing) {
-            var radius = 22;
-            var circumference = 2 * Math.PI * radius;
-            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            var circumference = progressRing.getTotalLength();
+            progressRing.style.strokeDasharray = circumference + ' ' + circumference;
             progressRing.style.strokeDashoffset = circumference;
 
             window.addEventListener('scroll', function () {
