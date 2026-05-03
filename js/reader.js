@@ -574,7 +574,7 @@
                 for (var i = 0; i < wraps.length; i++) {
                     var r = wraps[i].getBoundingClientRect();
                     if (r.bottom > 0) {
-                        var parent = wraps[i].closest('.nt-card-body, .infinite-chapter-block');
+                        var parent = wraps[i].closest('.infinite-chapter-block') || wraps[i].closest('.nt-card-body');
                         var titleEl = parent ? parent.querySelector('h1, h2') : null;
                         if (titleEl) {
                             var viewH = window.innerHeight;
