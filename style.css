@@ -2464,6 +2464,7 @@ img {
 .modal-open .navi-bar,
 .modal-open #bottom-bar {
     filter: blur(3px);
+    pointer-events: none;
 }
 .navi-bar,
 #bottom-bar {
