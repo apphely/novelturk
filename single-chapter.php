@@ -575,7 +575,7 @@ select {
 </style>
 <div id="reader-controls" class="reader-controls">
     <div id="reader-progress-wrap" class="reader-progress-wrap">
-        <svg class="progress-ring" width="60" height="66" viewBox="0 0 60 66">
+        <svg class="progress-ring" width="60" height="70" viewBox="0 0 60 70">
             <circle cx="30" cy="44" r="24" fill="var(--bg-card)"/>
             <polygon points="30,10 47,29 13,29" fill="var(--bg-card)"/>
             <path class="progress-ring-bg" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 L 30,12" stroke="#334155" stroke-width="3" fill="transparent" stroke-linejoin="round"/>
