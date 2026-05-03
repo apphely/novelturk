@@ -895,8 +895,8 @@ img {
     overflow: hidden;
     position: relative;
     padding: 0 14px 0 24px;
-    flex: none;
-    max-width: calc(100vw - 80px);
+    flex: 0 1 auto;
+    min-width: 0;
 }
 .bolum-baslik.hidden { display: none !important; }
 .bolum-baslik-close {
