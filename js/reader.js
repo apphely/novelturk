@@ -600,7 +600,6 @@
         width: 'webnovel-max-width'
     };
 
-
     function loadPreferences() {
         applyTheme(localStorage.getItem(KEYS.theme) || 'dark');
         applyFontSize(localStorage.getItem(KEYS.font) || '18px');
@@ -839,104 +838,6 @@
     }
 
     // ============================================
-    // Paragraph Comments Setup
-    // ============================================
-    var _paraClickTs = 0;
-
-    function setupParagraphComments(rt) {
-        if (!rt) return;
-        rt.querySelectorAll('p').forEach(function (p) {
-            if (p.innerText.trim().length < 2) return;
-
-            var btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'comment-p-btn';
-            btn.title = 'Paragraf Yorumu';
-            btn.innerHTML = '<svg width=”15” height=”15” viewBox=”0 0 24 24” fill=”currentColor”><path d=”M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z”></path></svg>';
-
-            p.style.cursor = 'pointer';
-            p.addEventListener('click', function (e) {
-                if (e.target.closest('.comment-p-btn') || e.target.closest('.copy-p-btn')) return;
-                _paraClickTs = Date.now();
-                document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) { b.classList.remove('visible'); });
-                btn.classList.add('visible');
-            });
-
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                // Clone to strip button elements before extracting text
-                var clone = p.cloneNode(true);
-                clone.querySelectorAll('button').forEach(function (b) { b.remove(); });
-                var text = clone.innerText.trim();
-                openCommentsDrawerWithQuote(text);
-            });
-
-            p.style.position = 'relative';
-            p.appendChild(btn);
-        });
-    }
-
-    function openCommentsDrawerWithQuote(text) {
-        var drawer   = document.getElementById('comments-drawer');
-        var overlay  = document.getElementById('comments-drawer-overlay');
-        var chDrawer = document.getElementById('chapter-drawer');
-        if (!drawer) return;
-        drawer.style.right = '0';
-        if (overlay) overlay.style.display = 'block';
-        if (chDrawer) chDrawer.style.left = '-350px';
-        showParagraphQuote(text);
-    }
-
-    function showParagraphQuote(text) {
-        var body = document.getElementById('comments-drawer-body');
-        if (!body) return;
-        var truncated = text.length > 300 ? text.substring(0, 300) + '…' : text;
-        var prefix = '”' + truncated + '”\n\n';
-
-        // Reuse existing block or create and pin to top of drawer body
-        var block = document.getElementById('para-quote-block');
-        if (!block) {
-            block = document.createElement('div');
-            block.id = 'para-quote-block';
-            block.className = 'para-quote-block';
-            block.innerHTML =
-                '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
-                '<div class=”para-quote-text”></div>';
-            body.insertBefore(block, body.firstChild);
-
-            block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
-                e.stopPropagation();
-                var ta = body.querySelector('textarea#comment, textarea[name=”comment”]');
-                if (ta) ta.value = '';
-                block.remove();
-            });
-        }
-        block.querySelector('.para-quote-text').textContent = '”' + truncated + '”';
-
-        // Pre-fill native WP textarea
-        var textarea = body.querySelector('textarea#comment, textarea[name=”comment”]');
-        if (textarea) {
-            textarea.value = prefix;
-            setTimeout(function () {
-                try { textarea.focus(); textarea.setSelectionRange(prefix.length, prefix.length); } catch (e) {}
-            }, 200);
-        }
-
-        // Scroll drawer to top so the quote block is immediately visible
-        body.scrollTop = 0;
-    }
-
-    function initParaCommentUI() {
-        document.addEventListener('click', function () {
-            if (Date.now() - _paraClickTs < 50) return;
-            document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) {
-                b.classList.remove('visible');
-            });
-        });
-    }
-
-    // ============================================
     // Dynamic Content Loading
     // ============================================
     function fetchChapterContent() {
@@ -960,7 +861,6 @@
                 if (data.success) {
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
                     setupParagraphCopy();
-                    setupParagraphComments(readerText);
                     loadPreferences();
                 }
             })
@@ -1104,7 +1004,6 @@
 
             // Paragraph copy buttons for new block
             this.setupParagraphCopyForBlock(card.querySelector('.reader-text'));
-            setupParagraphComments(card.querySelector('.reader-text'));
 
             // URL & nav update via IntersectionObserver
             this.watchChapterVisibility(card, chData);
@@ -1227,6 +1126,5 @@
         fetchChapterContent();
         infiniteScroll.init();
     }
-    initParaCommentUI();
 
 })();

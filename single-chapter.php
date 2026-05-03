@@ -347,7 +347,6 @@ get_header();
 </div>
 <div id="comments-drawer-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9998; backdrop-filter:blur(2px);"></div>
 
-
 <style>
 @keyframes spin { 100% { transform: rotate(360deg); } }
 .chapter-separator {
@@ -402,65 +401,6 @@ get_header();
 }
 .drawer-badge--end { background: #4F8C12; color: #fff; }
 .drawer-badge--fix { background: #FFD580; color: #000; }
-</style>
-
-<style>
-/* ── Paragraf Yorum Butonu ── */
-.comment-p-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    background: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: var(--accent, #3b82f6);
-    opacity: 0;
-    transition: opacity 0.15s, background 0.15s;
-    vertical-align: middle;
-    margin-left: 5px;
-    padding: 0;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-}
-.comment-p-btn.visible { opacity: 1; background: rgba(59,130,246,0.1); }
-.comment-p-btn:hover   { opacity: 1 !important; }
-
-/* ── Yorumlar Drawer – Alıntı Bloğu ── */
-.para-quote-block {
-    position: relative;
-    background: rgba(37,99,235,0.15);
-    border-left: 3px solid #2563eb;
-    border-radius: 0 6px 6px 0;
-    padding: 10px 36px 10px 14px;
-    font-size: 13px;
-    color: #94a3b8;
-    line-height: 1.55;
-    margin-bottom: 16px;
-}
-.para-quote-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-.para-quote-remove {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    background: none;
-    border: none;
-    color: #64748b;
-    font-size: 20px;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
-    transition: color 0.15s;
-}
-.para-quote-remove:hover { color: #94a3b8; }
 </style>
 
 <!-- Advanced Settings Modal (Matches Screenshot) -->
