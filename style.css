@@ -922,7 +922,7 @@ img {
     white-space: nowrap;
 }
 .bolum-baslik-wrapper.animate {
-    animation: marquee 40s linear infinite;
+    animation: marquee 30s linear infinite;
     animation-delay: 2s;
 }
 .bolum-baslik-text { font-size: 13px; }
@@ -931,7 +931,7 @@ img {
     90%, 100%{ transform: translateX(-50%); }
 }
 @media (max-width: 768px) {
-    .bolum-baslik-wrapper.animate { animation-duration: 28s; }
+    .bolum-baslik-wrapper.animate { animation-duration: 24s; }
 }
 @media (max-width: 768px) {
     .reader-controls {
