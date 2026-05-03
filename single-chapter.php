@@ -383,7 +383,7 @@ get_header();
 </div>
 
 <!-- Comments Drawer (right side) -->
-<div id="comments-drawer" style="position:fixed; top:0; right:-480px; width:460px; max-width:100vw; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:9999; transition:right 0.3s ease; display:flex; flex-direction:column; box-shadow:-2px 0 10px rgba(0,0,0,0.5);">
+<div id="comments-drawer" style="position:fixed; top:0; right:-480px; width:460px; max-width:100vw; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:10001; transition:right 0.3s ease; display:flex; flex-direction:column; box-shadow:-2px 0 10px rgba(0,0,0,0.5);">
     <div style="padding:16px 20px; background-color:#334155; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #475569;">
         <div>
             <div style="font-size:16px; font-weight:700; color:#f8fafc;">Bölüm Yorumları</div>
@@ -395,7 +395,7 @@ get_header();
         <?php webnovel_render_comments(); ?>
     </div>
 </div>
-<div id="comments-drawer-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9998; backdrop-filter:blur(2px);"></div>
+<div id="comments-drawer-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:10000; backdrop-filter:blur(2px);"></div>
 
 <style>
 @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -577,8 +577,9 @@ select {
     <div id="reader-progress-wrap" class="reader-progress-wrap">
         <svg class="progress-ring" width="60" height="70" viewBox="0 0 60 70">
             <circle cx="30" cy="44" r="24" fill="var(--bg-card)"/>
-            <polygon points="30,10 47,29 13,29" fill="var(--bg-card)"/>
-            <path class="progress-ring-bg" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 Z" stroke="#334155" stroke-width="3" fill="transparent" stroke-linejoin="round" stroke-linecap="round"/>
+            <polygon id="ring-spike-fill" points="30,10 47,29 13,29" fill="var(--bg-card)" style="opacity:0;transition:opacity 0.5s ease;"/>
+            <circle id="ring-zero-state" r="22" cx="30" cy="44" stroke="#334155" stroke-width="3" fill="transparent" style="transition:opacity 0.5s ease;"/>
+            <path class="progress-ring-bg" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 Z" stroke="#334155" stroke-width="3" fill="transparent" stroke-linejoin="round" stroke-linecap="round" style="opacity:0;transition:opacity 0.5s ease;"/>
             <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 Z" stroke="#3b82f6" stroke-width="3" fill="transparent" stroke-linejoin="round" stroke-linecap="round"/>
         </svg>
         <span id="reader-progress-text" class="progress-text">0%</span>
