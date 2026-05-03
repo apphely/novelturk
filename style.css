@@ -837,24 +837,17 @@ img {
 .reader-progress-wrap {
     position: relative;
     width: 50px;
-    height: 50px;
-    background: var(--bg-card);
-    border-radius: 50%;
-    box-shadow: var(--shadow-lg);
-}
-
-.progress-ring {
-    transform: rotate(-90deg);
+    height: 70px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
 }
 
 .progress-ring-circle {
     transition: stroke-dashoffset 0.35s;
-    transform-origin: 50% 50%;
 }
 
 .progress-text {
     position: absolute;
-    top: 50%;
+    top: 69%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 10px;
