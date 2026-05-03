@@ -855,10 +855,34 @@ img {
     color: var(--text-main);
 }
 
+/* Bölüm içi Yorum Pop-Up */
+.pop-up-yorum {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    border: 0;
+    outline: 0;
+    background-color: #224193;
+    color: white;
+    width: 80px;
+    height: 36px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9998;
+    transition: opacity 0.2s;
+}
+.pop-up-yorum:hover { opacity: 0.85; }
+@media (min-width: 768px) {
+    .pop-up-yorum { bottom: 110px !important; right: 20px !important; }
+}
+
 @media (max-width: 768px) {
     .reader-controls {
-        right: 16px;
-        bottom: 16px;
+        right: 20px;
+        bottom: 68px;
     }
 }
 

@@ -560,9 +560,6 @@ select {
 }
 </style>
 <div id="reader-controls" class="reader-controls">
-    <button id="btn-jump-comments" class="reader-control-btn" title="Yorumlara Git">
-        <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12c0 2.02.6 3.9 1.63 5.48L2 22l4.52-1.63C7.1 21.4 8.98 22 11 22h1c5.53 0 10-4.47 10-10S17.53 2 12 2zm0 18c-1.74 0-3.37-.5-4.75-1.37l-.25-.13l-3 1.08l1.08-3l-.13-.25C4.33 14.87 3.84 13.48 3.84 12c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16c0 4.51-3.66 8.16-8.16 8.16zM13 11V9l-1 2-1-2v2H9v1.5h1.5V14h1.5v-1.5h1.5V11h-1.5z"/></svg>
-    </button>
     <div id="reader-progress-wrap" class="reader-progress-wrap">
         <svg class="progress-ring" width="60" height="74" viewBox="0 0 60 74">
             <circle cx="30" cy="48" r="24" fill="var(--bg-card)"/>
@@ -574,6 +571,15 @@ select {
         <span id="reader-progress-text" class="progress-text">0%</span>
     </div>
 </div>
+
+<button id="btn-jump-comments" class="pop-up-yorum" type="button" title="Yorumlara Git">
+    <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="currentColor" stroke-linejoin="round">
+            <path d="M12 21a9 9 0 1 0-8-4.873L3 21l4.873-1c1.236.639 2.64 1 4.127 1Z" stroke-linecap="round" stroke-width="2.5"></path>
+            <path d="M7.5 12h.01v.01H7.5zm4.5 0h.01v.01H12zm4.5 0h.01v.01h-.01z" stroke-width="3.75"></path>
+        </g>
+    </svg>
+</button>
 
 <div id="settings-overlay" class="settings-overlay"></div>
 
