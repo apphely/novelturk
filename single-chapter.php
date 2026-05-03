@@ -256,7 +256,7 @@ get_header();
 
             function openCommentsDrawer(e) {
                 if (e) e.stopPropagation();
-                commentsDrawer.style.right = '0';
+                commentsDrawer.style.right = '0px';
                 commentsOverlay.style.display = 'block';
                 document.getElementById('chapter-drawer').style.left = '-350px';
             }
@@ -316,7 +316,34 @@ get_header();
 
             <!-- Bottom Navigation -->
             <div class="nt-flex-row nt-items-center nt-justify-center nt-border-b" style="margin-top: 48px; padding-top: 32px; border-bottom:none; border-top: 1px solid var(--border); gap:16px; flex-wrap:wrap;">
-                
+                <?php if ($prev_chapter) : ?>
+                <a class="navi-btn" rel="prev" href="<?php echo get_permalink($prev_chapter->ID); ?>">
+                    <svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                    Önceki
+                </a>
+                <?php else: ?>
+                <span class="navi-btn" style="opacity:0.5; cursor:not-allowed;">
+                    <svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                    Önceki
+                </span>
+                <?php endif; ?>
+
+                <a class="navi-btn-primary" href="<?php echo $novel ? get_permalink($novel->ID) : home_url(); ?>">
+                    <svg width="20" height="20" aria-hidden="true" viewBox="0 0 512 512"><path fill="currentColor" d="m102.5 26.03l90.03 345.75l289.22 23.25l-90.063-345.75zm-18.906 1.564c-30.466 11.873-55.68 53.098-49.75 75.312l3.25 11.78c.667-1.76 1.36-3.522 2.093-5.28C49.097 85.7 65.748 62.64 89.564 50.5zm10.844 41.593c-16.657 10.012-29.92 28.077-38 47.407c-5.247 12.55-8.038 25.63-8.75 36.53L112.5 388.407c.294-.55.572-1.106.875-1.656c10.603-19.252 27.823-37.695 51.125-48.47L94.437 69.19zm74.874 287.594c-17.677 9.078-31.145 23.717-39.562 39c-4.464 8.107-7.27 16.364-8.688 23.75l11.688 42.408l1.625.125c-3.84-27.548 11.352-60.504 41.25-81.094zm26.344 34c-32.567 17.27-46.51 52.44-41.844 72.94l289.844 24.5c-5.34-7.79-8.673-17.947-8.594-28.5l-22.406-9L459 443.436l-13.5-12.875c5.604-6.917 13.707-13.05 24.813-17.687L195.656 390.78z"></path></svg>
+                    Novel Sayfası
+                </a>
+
+                <?php if ($next_chapter) : ?>
+                <a class="navi-btn" rel="next" href="<?php echo get_permalink($next_chapter->ID); ?>">
+                    Sonraki
+                    <svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" style="transform:rotate(180deg);"><path clip-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                </a>
+                <?php else: ?>
+                <span class="navi-btn" style="opacity:0.5; cursor:not-allowed;">
+                    Sonraki
+                    <svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 20 20" style="transform:rotate(180deg);"><path clip-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                </span>
+                <?php endif; ?>
             </div>
         </div>
     </div>

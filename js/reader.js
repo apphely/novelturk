@@ -625,43 +625,37 @@
     }
 
     function applyFontSize(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.fontSize = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.fontSize = val; });
         localStorage.setItem(KEYS.font, val);
         syncSelect('set-font-size', val);
     }
 
     function applyFontFamily(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.fontFamily = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.fontFamily = val; });
         localStorage.setItem(KEYS.family, val);
         syncSelect('set-font-family', val);
     }
 
     function applyTextAlign(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.textAlign = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.textAlign = val; });
         localStorage.setItem(KEYS.align, val);
         syncSelect('set-text-align', val);
     }
 
     function applyFontWeight(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.fontWeight = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.fontWeight = val; });
         localStorage.setItem(KEYS.weight, val);
         syncSelect('set-font-weight', val);
     }
 
     function applyFontStyle(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.fontStyle = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.fontStyle = val; });
         localStorage.setItem(KEYS.style, val);
         syncSelect('set-font-style', val);
     }
 
     function applyLineHeight(val) {
-        var rt = document.getElementById('reader-text');
-        if (rt) rt.style.lineHeight = val;
+        document.querySelectorAll('.reader-text').forEach(function(rt) { rt.style.lineHeight = val; });
         localStorage.setItem(KEYS.height, val);
         syncSelect('set-line-height', val);
     }
@@ -744,8 +738,8 @@
     // ============================================
     document.addEventListener('keydown', function (e) {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
-        var prev = document.getElementById('btn-prev-chapter');
-        var next = document.getElementById('btn-next-chapter');
+        var prev = document.querySelector('[rel="prev"]');
+        var next = document.querySelector('[rel="next"]');
         if (e.key === 'ArrowLeft' && prev && prev.href) { e.preventDefault(); window.location.href = prev.href; }
         if (e.key === 'ArrowRight' && next && next.href) { e.preventDefault(); window.location.href = next.href; }
     });
@@ -1086,6 +1080,7 @@
         var blockEvents = ['contextmenu', 'copy', 'cut', 'paste', 'selectstart', 'dragstart'];
         blockEvents.forEach(function (ev) {
             readerContainer.addEventListener(ev, function (e) {
+                if (e.target.closest('.para-copy-icon')) return;
                 e.preventDefault();
                 return false;
             });
