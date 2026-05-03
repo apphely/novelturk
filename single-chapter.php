@@ -578,8 +578,8 @@ select {
         <svg class="progress-ring" width="60" height="70" viewBox="0 0 60 70">
             <circle cx="30" cy="44" r="24" fill="var(--bg-card)"/>
             <polygon points="30,10 47,29 13,29" fill="var(--bg-card)"/>
-            <path class="progress-ring-bg" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 L 30,12" stroke="#334155" stroke-width="3" fill="transparent" stroke-linejoin="round"/>
-            <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 L 30,12" stroke="#3b82f6" stroke-width="3" fill="transparent" stroke-linejoin="round"/>
+            <path class="progress-ring-bg" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 Z" stroke="#334155" stroke-width="3" fill="transparent" stroke-linejoin="round" stroke-linecap="round"/>
+            <path id="reader-progress-ring" class="progress-ring-circle" d="M 30,12 L 45,28 A 22,22 0 1,1 15,28 Z" stroke="#3b82f6" stroke-width="3" fill="transparent" stroke-linejoin="round" stroke-linecap="round"/>
         </svg>
         <span id="reader-progress-text" class="progress-text">0%</span>
     </div>
