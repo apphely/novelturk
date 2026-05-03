@@ -564,7 +564,7 @@ get_header();
     display: none;
     width: 90%;
     max-width: 460px;
-    max-height: 90vh;
+    max-height: 80vh;
     background: var(--bg-card);
     border-radius: 14px;
     border: 1px solid var(--border);
