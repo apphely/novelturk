@@ -347,25 +347,6 @@ get_header();
 </div>
 <div id="comments-drawer-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9998; backdrop-filter:blur(2px);"></div>
 
-<!-- Paragraf Yorum Popup -->
-<div id="para-comment-popup">
-    <div class="pcpopup-inner">
-        <div class="pcpopup-header">
-            <span>Paragraf Yorumu</span>
-            <button class="pcpopup-close" id="pcpopup-close" type="button">&times;</button>
-        </div>
-        <div class="pcpopup-quote" id="pcpopup-quote">
-            <span class="pcpopup-quote-text" id="pcpopup-quote-text"></span>
-            <button class="pcpopup-quote-remove" id="pcpopup-quote-remove" type="button" title="Alıntıyı kaldır">&times;</button>
-        </div>
-        <textarea class="pcpopup-textarea" id="pcpopup-textarea" placeholder="Yorumunuzu yazın..."></textarea>
-        <div class="pcpopup-actions">
-            <button class="pcpopup-btn-delete" id="pcpopup-delete" type="button" style="display:none;">Yorumu Sil</button>
-            <button class="pcpopup-btn-cancel" id="pcpopup-cancel" type="button">İptal</button>
-            <button class="pcpopup-btn-submit" id="pcpopup-submit" type="button">Kaydet</button>
-        </div>
-    </div>
-</div>
 
 <style>
 @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -445,85 +426,41 @@ get_header();
     position: relative;
     z-index: 1;
 }
-.comment-p-btn.has-comment { opacity: 0.35; }
-.comment-p-btn.visible     { opacity: 1; background: rgba(59,130,246,0.1); }
-.comment-p-btn:hover       { opacity: 1 !important; }
+.comment-p-btn.visible { opacity: 1; background: rgba(59,130,246,0.1); }
+.comment-p-btn:hover   { opacity: 1 !important; }
 
-/* ── Paragraf Yorum Popup ── */
-#para-comment-popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 10500;
-    background: rgba(0,0,0,0.5);
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(2px);
-}
-#para-comment-popup.active { display: flex; }
-.pcpopup-inner {
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 520px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    color: #cbd5e1;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    max-height: 90vh;
-    overflow-y: auto;
-}
-.pcpopup-header { display: flex; justify-content: space-between; align-items: center; }
-.pcpopup-header > span { font-size: 15px; font-weight: 700; color: #f8fafc; }
-.pcpopup-close { background: none; border: none; color: #94a3b8; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; }
-.pcpopup-quote {
-    background: rgba(37,99,235,0.12);
+/* ── Yorumlar Drawer – Alıntı Bloğu ── */
+.para-quote-block {
+    position: relative;
+    background: rgba(37,99,235,0.15);
     border-left: 3px solid #2563eb;
     border-radius: 0 6px 6px 0;
-    padding: 10px 14px;
+    padding: 10px 36px 10px 14px;
     font-size: 13px;
     color: #94a3b8;
     line-height: 1.55;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
+    margin-bottom: 16px;
 }
-.pcpopup-quote-text {
-    flex: 1;
+.para-quote-text {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.pcpopup-quote-remove { background: none; border: none; color: #64748b; font-size: 18px; cursor: pointer; padding: 0; line-height: 1; flex-shrink: 0; transition: color 0.15s; }
-.pcpopup-quote-remove:hover { color: #94a3b8; }
-.pcpopup-quote.removed { display: none; }
-.pcpopup-textarea {
-    background: #0f172a;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    color: #f8fafc;
-    font-size: 14px;
-    line-height: 1.6;
-    padding: 10px 14px;
-    resize: vertical;
-    min-height: 90px;
-    outline: none;
-    font-family: inherit;
-    width: 100%;
-    box-sizing: border-box;
+.para-quote-remove {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.15s;
 }
-.pcpopup-textarea:focus { border-color: #2563eb; }
-.pcpopup-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
-.pcpopup-btn-delete { margin-right: auto; background: none; border: 1px solid #dc2626; color: #dc2626; border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; transition: background 0.15s; }
-.pcpopup-btn-delete:hover { background: rgba(220,38,38,0.1); }
-.pcpopup-btn-cancel { background: #334155; color: #cbd5e1; border: none; border-radius: 8px; padding: 7px 16px; font-size: 14px; cursor: pointer; transition: background 0.15s; }
-.pcpopup-btn-cancel:hover { background: #475569; }
-.pcpopup-btn-submit { background: #2563eb; color: #fff; border: none; border-radius: 8px; padding: 7px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-.pcpopup-btn-submit:hover { background: #1d4ed8; }
+.para-quote-remove:hover { color: #94a3b8; }
 </style>
 
 <!-- Advanced Settings Modal (Matches Screenshot) -->

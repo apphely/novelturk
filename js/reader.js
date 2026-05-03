@@ -600,26 +600,6 @@
         width: 'webnovel-max-width'
     };
 
-    // ============================================
-    // Paragraph Comments (LocalStorage)
-    // ============================================
-    var paragraphComments = {
-        key: 'nt_para_comments',
-        data: {},
-        init: function () {
-            try { this.data = JSON.parse(localStorage.getItem(this.key) || '{}'); }
-            catch (e) { this.data = {}; }
-        },
-        get: function (k) { return this.data[k] || null; },
-        save: function (k, comment, quote) {
-            this.data[k] = { comment: comment, quote: quote, time: Date.now() };
-            localStorage.setItem(this.key, JSON.stringify(this.data));
-        },
-        remove: function (k) {
-            delete this.data[k];
-            localStorage.setItem(this.key, JSON.stringify(this.data));
-        }
-    };
 
     function loadPreferences() {
         applyTheme(localStorage.getItem(KEYS.theme) || 'dark');
@@ -861,24 +841,18 @@
     // ============================================
     // Paragraph Comments Setup
     // ============================================
-    var _pcActiveBtn = null;
-    var _pcActiveKey = null;
     var _paraClickTs = 0;
 
-    function setupParagraphComments(rt, chapterId) {
+    function setupParagraphComments(rt) {
         if (!rt) return;
-        rt.querySelectorAll('p').forEach(function (p, index) {
+        rt.querySelectorAll('p').forEach(function (p) {
             if (p.innerText.trim().length < 2) return;
-            var paraKey = chapterId + '_' + index;
 
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'comment-p-btn';
-            btn.dataset.paraKey = paraKey;
             btn.title = 'Paragraf Yorumu';
-            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
-
-            if (paragraphComments.get(paraKey)) btn.classList.add('has-comment');
+            btn.innerHTML = '<svg width=”15” height=”15” viewBox=”0 0 24 24” fill=”currentColor”><path d=”M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z”></path></svg>';
 
             p.style.cursor = 'pointer';
             p.addEventListener('click', function (e) {
@@ -892,9 +866,7 @@
                 e.preventDefault();
                 e.stopPropagation();
                 var text = p.innerText.replace(/[​-‍﻿]/g, '').trim();
-                _pcActiveBtn = btn;
-                _pcActiveKey = paraKey;
-                openParaCommentPopup(paraKey, text);
+                openCommentsDrawerWithQuote(text);
             });
 
             p.style.position = 'relative';
@@ -902,67 +874,39 @@
         });
     }
 
-    function openParaCommentPopup(paraKey, paraText) {
-        var popup = document.getElementById('para-comment-popup');
-        if (!popup) return;
-        var quoteEl   = document.getElementById('pcpopup-quote');
-        var quoteText = document.getElementById('pcpopup-quote-text');
-        var textarea  = document.getElementById('pcpopup-textarea');
-        var deleteBtn = document.getElementById('pcpopup-delete');
-
-        var truncated = paraText.length > 200 ? paraText.substring(0, 200) + '…' : paraText;
-        quoteText.textContent = '“' + truncated + '”';
-        quoteEl.classList.remove('removed');
-
-        var existing = paragraphComments.get(paraKey);
-        textarea.value = existing ? (existing.comment || '') : '';
-        if (deleteBtn) deleteBtn.style.display = existing ? 'block' : 'none';
-
-        popup.classList.add('active');
-        setTimeout(function () { textarea.focus(); }, 50);
+    function openCommentsDrawerWithQuote(text) {
+        var drawer   = document.getElementById('comments-drawer');
+        var overlay  = document.getElementById('comments-drawer-overlay');
+        var chDrawer = document.getElementById('chapter-drawer');
+        if (!drawer) return;
+        drawer.style.right = '0';
+        if (overlay) overlay.style.display = 'block';
+        if (chDrawer) chDrawer.style.left = '-350px';
+        showParagraphQuote(text);
     }
 
-    function closeParaCommentPopup() {
-        var popup = document.getElementById('para-comment-popup');
-        if (popup) popup.classList.remove('active');
-        _pcActiveBtn = null;
-        _pcActiveKey = null;
+    function showParagraphQuote(text) {
+        var body = document.getElementById('comments-drawer-body');
+        if (!body) return;
+        var block = document.getElementById('para-quote-block');
+        if (!block) {
+            block = document.createElement('div');
+            block.id = 'para-quote-block';
+            block.className = 'para-quote-block';
+            block.innerHTML =
+                '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
+                '<div class=”para-quote-text”></div>';
+            body.insertBefore(block, body.firstChild);
+            block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
+                e.stopPropagation();
+                block.remove();
+            });
+        }
+        var truncated = text.length > 300 ? text.substring(0, 300) + '…' : text;
+        block.querySelector('.para-quote-text').textContent = '“' + truncated + '”';
     }
 
-    function initParaCommentPopup() {
-        var popup = document.getElementById('para-comment-popup');
-        if (!popup) return;
-
-        document.getElementById('pcpopup-close').addEventListener('click', closeParaCommentPopup);
-        document.getElementById('pcpopup-cancel').addEventListener('click', closeParaCommentPopup);
-
-        document.getElementById('pcpopup-quote-remove').addEventListener('click', function () {
-            document.getElementById('pcpopup-quote').classList.add('removed');
-        });
-
-        document.getElementById('pcpopup-submit').addEventListener('click', function () {
-            var textarea  = document.getElementById('pcpopup-textarea');
-            var quoteEl   = document.getElementById('pcpopup-quote');
-            var quoteText = document.getElementById('pcpopup-quote-text').textContent;
-            var comment   = textarea.value.trim();
-            if (!comment || !_pcActiveKey) { closeParaCommentPopup(); return; }
-            var quote = quoteEl.classList.contains('removed') ? '' : quoteText;
-            paragraphComments.save(_pcActiveKey, comment, quote);
-            if (_pcActiveBtn) _pcActiveBtn.classList.add('has-comment');
-            closeParaCommentPopup();
-        });
-
-        document.getElementById('pcpopup-delete').addEventListener('click', function () {
-            if (!_pcActiveKey) return;
-            paragraphComments.remove(_pcActiveKey);
-            if (_pcActiveBtn) _pcActiveBtn.classList.remove('has-comment');
-            closeParaCommentPopup();
-        });
-
-        popup.addEventListener('click', function (e) {
-            if (e.target === popup) closeParaCommentPopup();
-        });
-
+    function initParaCommentUI() {
         document.addEventListener('click', function () {
             if (Date.now() - _paraClickTs < 50) return;
             document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) {
@@ -995,7 +939,7 @@
                 if (data.success) {
                     readerText.innerHTML = b64DecodeUnicode(data.data.content);
                     setupParagraphCopy();
-                    setupParagraphComments(readerText, chapterId);
+                    setupParagraphComments(readerText);
                     loadPreferences();
                 }
             })
@@ -1139,7 +1083,7 @@
 
             // Paragraph copy buttons for new block
             this.setupParagraphCopyForBlock(card.querySelector('.reader-text'));
-            setupParagraphComments(card.querySelector('.reader-text'), chapterId);
+            setupParagraphComments(card.querySelector('.reader-text'));
 
             // URL & nav update via IntersectionObserver
             this.watchChapterVisibility(card, chData);
@@ -1256,13 +1200,12 @@
     loadPreferences();
     webnovelFollow.init();
     webnovelHistory.init();
-    paragraphComments.init();
     setupDropdowns();
     setupReadingProgress();
     if (document.getElementById('reader-text')) {
         fetchChapterContent();
         infiniteScroll.init();
     }
-    initParaCommentPopup();
+    initParaCommentUI();
 
 })();
