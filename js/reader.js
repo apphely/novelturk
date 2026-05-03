@@ -578,7 +578,7 @@
                     var viewH = window.innerHeight;
                     var scrollStart = _titleEl.getBoundingClientRect().top + window.scrollY;
                     var wrapAbsTop = _wrap.getBoundingClientRect().top + window.scrollY;
-                    var scrollEnd = wrapAbsTop + _wrap.offsetHeight * 1.10 - viewH;
+                    var scrollEnd = wrapAbsTop + _wrap.offsetHeight * 1.06 - viewH;
                     if (scrollEnd > scrollStart) {
                         scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
                     }
