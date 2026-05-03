@@ -564,7 +564,7 @@ select {
         <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12c0 2.02.6 3.9 1.63 5.48L2 22l4.52-1.63C7.1 21.4 8.98 22 11 22h1c5.53 0 10-4.47 10-10S17.53 2 12 2zm0 18c-1.74 0-3.37-.5-4.75-1.37l-.25-.13l-3 1.08l1.08-3l-.13-.25C4.33 14.87 3.84 13.48 3.84 12c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16c0 4.51-3.66 8.16-8.16 8.16zM13 11V9l-1 2-1-2v2H9v1.5h1.5V14h1.5v-1.5h1.5V11h-1.5z"/></svg>
     </button>
     <div id="reader-progress-wrap" class="reader-progress-wrap">
-        <svg class="progress-ring" width="60" height="70" viewBox="0 0 60 70">
+        <svg class="progress-ring" width="60" height="74" viewBox="0 0 60 74">
             <circle cx="30" cy="48" r="24" fill="var(--bg-card)"/>
             <line x1="30" y1="4" x2="6" y2="36" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
             <line x1="30" y1="4" x2="54" y2="36" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
