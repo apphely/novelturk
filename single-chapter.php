@@ -314,9 +314,9 @@ get_header();
                 $_pages = max(1, round($_wc / 250));
                 ?>
                 <p style="font-size:12px; color:var(--text-dim); margin-top:10px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                    <span><?php echo number_format($_wc, 0, ',', '.'); ?> kelime</span>
-                    <span>·</span>
                     <span>~<?php echo $_mins; ?> dk okuma</span>
+                    <span>·</span>
+                    <span><?php echo number_format($_wc, 0, ',', '.'); ?> kelime</span>
                     <span>·</span>
                     <span>~<?php echo $_pages; ?> roman sayfası</span>
                 </p>
