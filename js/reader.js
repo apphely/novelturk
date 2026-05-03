@@ -865,7 +865,10 @@
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var text = p.innerText.replace(/[​-‍﻿]/g, '').trim();
+                // Clone to strip button elements before extracting text
+                var clone = p.cloneNode(true);
+                clone.querySelectorAll('button').forEach(function (b) { b.remove(); });
+                var text = clone.innerText.trim();
                 openCommentsDrawerWithQuote(text);
             });
 
@@ -889,54 +892,39 @@
         var body = document.getElementById('comments-drawer-body');
         if (!body) return;
         var truncated = text.length > 300 ? text.substring(0, 300) + '…' : text;
+        var prefix = '”' + truncated + '”\n\n';
 
-        // Remove existing block so we can re-insert at the correct position
-        var existing = document.getElementById('para-quote-block');
-        if (existing) existing.remove();
+        // Reuse existing block or create and pin to top of drawer body
+        var block = document.getElementById('para-quote-block');
+        if (!block) {
+            block = document.createElement('div');
+            block.id = 'para-quote-block';
+            block.className = 'para-quote-block';
+            block.innerHTML =
+                '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
+                '<div class=”para-quote-text”></div>';
+            body.insertBefore(block, body.firstChild);
 
-        var block = document.createElement('div');
-        block.id = 'para-quote-block';
-        block.className = 'para-quote-block';
-        block.innerHTML =
-            '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
-            '<div class=”para-quote-text”></div>';
-        block.querySelector('.para-quote-text').textContent = '“' + truncated + '”';
-
-        // Insert right before the comment form / embed — not at the very top
-        var anchor =
-            body.querySelector('#respond') ||
-            body.querySelector('.comment-respond') ||
-            body.querySelector('.comments-embed') ||
-            body.querySelector('form') ||
-            null;
-        if (anchor) {
-            anchor.parentNode.insertBefore(block, anchor);
-        } else {
-            body.appendChild(block);
+            block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
+                e.stopPropagation();
+                var ta = body.querySelector('textarea#comment, textarea[name=”comment”]');
+                if (ta) ta.value = '';
+                block.remove();
+            });
         }
+        block.querySelector('.para-quote-text').textContent = '”' + truncated + '”';
 
-        // Also pre-fill native WP textarea if empty
+        // Pre-fill native WP textarea
         var textarea = body.querySelector('textarea#comment, textarea[name=”comment”]');
-        if (textarea && !textarea.value.trim()) {
-            var prefix = '“' + truncated + '”\n\n';
+        if (textarea) {
             textarea.value = prefix;
             setTimeout(function () {
-                textarea.focus();
-                textarea.setSelectionRange(prefix.length, prefix.length);
-            }, 150);
+                try { textarea.focus(); textarea.setSelectionRange(prefix.length, prefix.length); } catch (e) {}
+            }, 200);
         }
 
-        // × removes block and clears textarea prefix
-        block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
-            e.stopPropagation();
-            if (textarea) textarea.value = textarea.value.replace('“' + truncated + '”\n\n', '');
-            block.remove();
-        });
-
-        // Scroll the drawer body so the quote block is visible
-        setTimeout(function () {
-            body.scrollTop = block.offsetTop - 16;
-        }, 80);
+        // Scroll drawer to top so the quote block is immediately visible
+        body.scrollTop = 0;
     }
 
     function initParaCommentUI() {
