@@ -863,6 +863,7 @@
     // ============================================
     var _pcActiveBtn = null;
     var _pcActiveKey = null;
+    var _paraClickTs = 0;
 
     function setupParagraphComments(rt, chapterId) {
         if (!rt) return;
@@ -875,15 +876,16 @@
             btn.className = 'comment-p-btn';
             btn.dataset.paraKey = paraKey;
             btn.title = 'Paragraf Yorumu';
-            btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
+            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
 
             if (paragraphComments.get(paraKey)) btn.classList.add('has-comment');
 
+            p.style.cursor = 'pointer';
             p.addEventListener('click', function (e) {
                 if (e.target.closest('.comment-p-btn') || e.target.closest('.copy-p-btn')) return;
+                _paraClickTs = Date.now();
                 document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) { b.classList.remove('visible'); });
                 btn.classList.add('visible');
-                e.stopPropagation();
             });
 
             btn.addEventListener('click', function (e) {
@@ -962,6 +964,7 @@
         });
 
         document.addEventListener('click', function () {
+            if (Date.now() - _paraClickTs < 50) return;
             document.querySelectorAll('.comment-p-btn.visible').forEach(function (b) {
                 b.classList.remove('visible');
             });
