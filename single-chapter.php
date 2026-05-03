@@ -173,7 +173,9 @@ get_header();
                     $v = get_post_meta($ch->ID, '_chapter_volume', true);
                     $ch_labels = webnovel_get_chapter_labels($ch->ID);
 
-                    $display_name = ($v ? 'Cilt ' . $v . ' ' : '') . 'Bölüm ' . $n . ($ch->post_title ? ' – ' . $ch->post_title : '');
+                    $dash_pos     = strpos($ch->post_title, ' - ');
+                    $inner_title  = $dash_pos !== false ? substr($ch->post_title, $dash_pos + 3) : '';
+                    $display_name = ($v ? 'Cilt ' . $v . ' ' : '') . 'Bölüm ' . $n . ($inner_title ? ' – ' . $inner_title : '');
                     $ch_time_ago  = human_time_diff(get_post_time('U', true, $ch)) . ' önce';
                     $ch_comments  = get_comments_number($ch->ID);
 
