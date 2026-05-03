@@ -568,19 +568,24 @@
             progressRing.style.strokeDasharray = circumference + ' ' + circumference;
             progressRing.style.strokeDashoffset = circumference;
 
-            var _wrap = null;
-            var _titleEl = null;
             window.addEventListener('scroll', function () {
-                if (!_wrap) _wrap = document.querySelector('.reader-text-wrap');
-                if (!_titleEl) _titleEl = document.querySelector('.nt-card-body h1');
                 var scrolled = 0;
-                if (_wrap && _titleEl) {
-                    var viewH = window.innerHeight;
-                    var scrollStart = _titleEl.getBoundingClientRect().top + window.scrollY;
-                    var wrapAbsTop = _wrap.getBoundingClientRect().top + window.scrollY;
-                    var scrollEnd = wrapAbsTop + _wrap.offsetHeight * 1.06 - viewH;
-                    if (scrollEnd > scrollStart) {
-                        scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
+                var wraps = document.querySelectorAll('.reader-text-wrap');
+                for (var i = 0; i < wraps.length; i++) {
+                    var r = wraps[i].getBoundingClientRect();
+                    if (r.bottom > 0) {
+                        var parent = wraps[i].closest('.nt-card-body, .infinite-chapter-block');
+                        var titleEl = parent ? parent.querySelector('h1, h2') : null;
+                        if (titleEl) {
+                            var viewH = window.innerHeight;
+                            var scrollStart = titleEl.getBoundingClientRect().top + window.scrollY;
+                            var wrapAbsTop = r.top + window.scrollY;
+                            var scrollEnd = wrapAbsTop + wraps[i].offsetHeight * 1.06 - viewH;
+                            if (scrollEnd > scrollStart) {
+                                scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
+                            }
+                        }
+                        break;
                     }
                 }
                 if (progressText) progressText.innerText = Math.round(scrolled) + '%';
