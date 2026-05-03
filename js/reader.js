@@ -567,8 +567,12 @@
 
         if (btnJumpComments) {
             btnJumpComments.onclick = function () {
-                var comments = document.getElementById('comments');
-                if (comments) comments.scrollIntoView({ behavior: 'smooth' });
+                var commentsDrawer = document.getElementById('comments-drawer');
+                var commentsOverlay = document.getElementById('comments-drawer-overlay');
+                if (commentsDrawer) {
+                    commentsDrawer.style.right = '0';
+                    if (commentsOverlay) commentsOverlay.style.display = 'block';
+                }
             };
         }
 

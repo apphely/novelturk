@@ -136,6 +136,11 @@ get_header();
             <svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1h10M6 5h10M6 9h10M1.49 1h.01m-.01 4h.01m-.01 4h.01"></path></svg>
             <span class="hidden-md">Bölüm Listesi</span>
         </button>
+
+        <button class="navi-btn" id="btn-comments" type="button">
+            <svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12c0 2.02.6 3.9 1.63 5.48L2 22l4.52-1.63C7.1 21.4 8.98 22 11 22h1c5.53 0 10-4.47 10-10S17.53 2 12 2zm0 18c-1.74 0-3.37-.5-4.75-1.37l-.25-.13l-3 1.08l1.08-3l-.13-.25C4.33 14.87 3.84 13.48 3.84 12c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16c0 4.51-3.66 8.16-8.16 8.16z"/></svg>
+            <span class="hidden-md">Yorumlar</span>
+        </button>
         
         <div class="ms-auto">
             <button class="navi-btn" style="padding-left:10px; padding-right:10px;" id="btn-save"
@@ -246,6 +251,23 @@ get_header();
                 }
             });
         });
+
+        // Comments Drawer
+        function openCommentsDrawer() {
+            document.getElementById('comments-drawer').style.right = '0';
+            document.getElementById('comments-drawer-overlay').style.display = 'block';
+            document.getElementById('chapter-drawer').style.left = '-350px';
+        }
+        function closeCommentsDrawer() {
+            document.getElementById('comments-drawer').style.right = '-480px';
+            document.getElementById('comments-drawer-overlay').style.display = 'none';
+        }
+        document.getElementById('btn-comments').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openCommentsDrawer();
+        });
+        document.getElementById('comments-drawer-close').addEventListener('click', closeCommentsDrawer);
+        document.getElementById('comments-drawer-overlay').addEventListener('click', closeCommentsDrawer);
         </script>
 
         <div class="nt-card-body" style="padding: 32px 24px;">
@@ -298,14 +320,22 @@ get_header();
         <p style="font-size:14px;">Sonraki bölüm yükleniyor...</p>
     </div>
 
-    <!-- Comments Section -->
-    <div class="nt-card">
-        <div class="nt-card-body" style="padding: 32px 24px;">
-            <h3 class="nt-text-xl nt-font-bold nt-mb-4 nt-border-b nt-pb-2 nt-text-accent">Bölüm Yorumları</h3>
-            <?php webnovel_render_comments(); ?>
+</div>
+
+<!-- Comments Drawer (right side) -->
+<div id="comments-drawer" style="position:fixed; top:0; right:-480px; width:460px; max-width:100vw; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:9999; transition:right 0.3s ease; display:flex; flex-direction:column; box-shadow:-2px 0 10px rgba(0,0,0,0.5);">
+    <div style="padding:16px 20px; background-color:#334155; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #475569;">
+        <div>
+            <div style="font-size:16px; font-weight:700; color:#f8fafc;">Bölüm Yorumları</div>
+            <div style="font-size:12px; color:#94a3b8; margin-top:2px;"><?php echo esc_html(get_the_title()); ?></div>
         </div>
+        <button id="comments-drawer-close" style="background:none; border:none; color:#f8fafc; font-size:24px; cursor:pointer; flex-shrink:0;">&times;</button>
+    </div>
+    <div id="comments-drawer-body" style="flex:1; overflow-y:auto; padding:24px 20px;">
+        <?php webnovel_render_comments(); ?>
     </div>
 </div>
+<div id="comments-drawer-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9998; backdrop-filter:blur(2px);"></div>
 
 <style>
 @keyframes spin { 100% { transform: rotate(360deg); } }
