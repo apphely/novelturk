@@ -2466,7 +2466,7 @@ img {
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
     display: none;
-    z-index: 9999;
+    z-index: 10002;
     backdrop-filter: blur(3px);
 }
 

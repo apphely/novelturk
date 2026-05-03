@@ -560,7 +560,7 @@ get_header();
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10000;
+    z-index: 10003;
     display: none;
     width: 90%;
     max-width: 460px;
