@@ -888,22 +888,55 @@
     function showParagraphQuote(text) {
         var body = document.getElementById('comments-drawer-body');
         if (!body) return;
-        var block = document.getElementById('para-quote-block');
-        if (!block) {
-            block = document.createElement('div');
-            block.id = 'para-quote-block';
-            block.className = 'para-quote-block';
-            block.innerHTML =
-                '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
-                '<div class=”para-quote-text”></div>';
-            body.insertBefore(block, body.firstChild);
-            block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
-                e.stopPropagation();
-                block.remove();
-            });
-        }
         var truncated = text.length > 300 ? text.substring(0, 300) + '…' : text;
+
+        // Remove existing block so we can re-insert at the correct position
+        var existing = document.getElementById('para-quote-block');
+        if (existing) existing.remove();
+
+        var block = document.createElement('div');
+        block.id = 'para-quote-block';
+        block.className = 'para-quote-block';
+        block.innerHTML =
+            '<button class=”para-quote-remove” type=”button” title=”Alıntıyı kaldır”>&times;</button>' +
+            '<div class=”para-quote-text”></div>';
         block.querySelector('.para-quote-text').textContent = '“' + truncated + '”';
+
+        // Insert right before the comment form / embed — not at the very top
+        var anchor =
+            body.querySelector('#respond') ||
+            body.querySelector('.comment-respond') ||
+            body.querySelector('.comments-embed') ||
+            body.querySelector('form') ||
+            null;
+        if (anchor) {
+            anchor.parentNode.insertBefore(block, anchor);
+        } else {
+            body.appendChild(block);
+        }
+
+        // Also pre-fill native WP textarea if empty
+        var textarea = body.querySelector('textarea#comment, textarea[name=”comment”]');
+        if (textarea && !textarea.value.trim()) {
+            var prefix = '“' + truncated + '”\n\n';
+            textarea.value = prefix;
+            setTimeout(function () {
+                textarea.focus();
+                textarea.setSelectionRange(prefix.length, prefix.length);
+            }, 150);
+        }
+
+        // × removes block and clears textarea prefix
+        block.querySelector('.para-quote-remove').addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (textarea) textarea.value = textarea.value.replace('“' + truncated + '”\n\n', '');
+            block.remove();
+        });
+
+        // Scroll the drawer body so the quote block is visible
+        setTimeout(function () {
+            body.scrollTop = block.offsetTop - 16;
+        }, 80);
     }
 
     function initParaCommentUI() {
