@@ -574,7 +574,7 @@ get_header();
     overflow: hidden;
     flex-direction: column;
 }
-.settings-panel.active { display: flex; }
+.settings-panel.active { display: flex; transform: translate(-50%, -50%); }
 .sp-header {
     display: flex;
     justify-content: space-between;
@@ -670,15 +670,6 @@ get_header();
     margin-top: 12px;
     line-height: 1.5;
 }
-.settings-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 9999;
-    display: none;
-    backdrop-filter: blur(3px);
-}
-.settings-overlay.active { display: block; }
 </style>
 <div id="reader-controls" class="reader-controls">
     <div id="reader-progress-wrap" class="reader-progress-wrap">
