@@ -174,13 +174,17 @@ get_header();
                     $ch_labels = webnovel_get_chapter_labels($ch->ID);
 
                     $display_name = ($v ? 'Cilt ' . $v . ' ' : '') . 'Bölüm ' . $n;
+                    $ch_time_ago  = human_time_diff(get_post_time('U', true, $ch)) . ' önce';
+                    $ch_comments  = get_comments_number($ch->ID);
 
                     $itemBg = $isActive ? '#2563eb' : 'transparent';
                     $itemColor = $isActive ? '#ffffff' : '#cbd5e1';
+                    $metaColor = $isActive ? 'rgba(255,255,255,0.6)' : '#64748b';
                 ?>
-                <a href="<?php echo get_permalink($ch->ID); ?>" class="drawer-ch-item<?php echo $isActive ? ' is-active' : ''; ?>" data-title="<?php echo esc_attr(strtolower($display_name)); ?>" style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:16px 20px; text-decoration:none; color:<?php echo $itemColor; ?>; background-color:<?php echo $itemBg; ?>; border-bottom:1px solid #334155; font-size:14px; transition:background 0.2s;">
-                    <span style="font-weight:600; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><?php echo esc_html($display_name); ?></span>
-                    <?php if (!empty($ch_labels)) : ?>
+                <a href="<?php echo get_permalink($ch->ID); ?>" class="drawer-ch-item<?php echo $isActive ? ' is-active' : ''; ?>" data-title="<?php echo esc_attr(strtolower($display_name)); ?>" style="display:flex; flex-direction:column; gap:3px; padding:10px 16px; text-decoration:none; color:<?php echo $itemColor; ?>; background-color:<?php echo $itemBg; ?>; border-bottom:1px solid #334155; font-size:13px; transition:background 0.2s;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                        <span style="font-weight:600; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><?php echo esc_html($display_name); ?></span>
+                        <?php if (!empty($ch_labels)) : ?>
                         <span class="drawer-ch-badges" style="flex-shrink:0; display:inline-flex; gap:4px;">
                             <?php if (in_array('revize', $ch_labels, true)) : ?>
                                 <span class="drawer-badge drawer-badge--fix">Revize</span>
@@ -189,7 +193,13 @@ get_header();
                                 <span class="drawer-badge drawer-badge--end">Son</span>
                             <?php endif; ?>
                         </span>
-                    <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div style="font-size:11px; color:<?php echo $metaColor; ?>; display:flex; align-items:center; gap:4px;">
+                        <span><?php echo intval($ch_comments); ?> yorum</span>
+                        <span>·</span>
+                        <span><?php echo esc_html($ch_time_ago); ?></span>
+                    </div>
                 </a>
                 <?php endforeach; ?>
                 <div style="padding:32px 16px; text-align:center; color:#334155;">
