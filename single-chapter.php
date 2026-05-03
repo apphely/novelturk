@@ -247,17 +247,25 @@ get_header();
             });
         });
 
-        // Comments Drawer — listeners attached after full DOM load
+        // Comments Drawer — attached after full DOM load
         document.addEventListener('DOMContentLoaded', function() {
             var commentsDrawer = document.getElementById('comments-drawer');
             var commentsOverlay = document.getElementById('comments-drawer-overlay');
+            var btnJumpComments = document.getElementById('btn-jump-comments');
             if (!commentsDrawer) return;
 
+            function openCommentsDrawer(e) {
+                if (e) e.stopPropagation();
+                commentsDrawer.style.right = '0';
+                commentsOverlay.style.display = 'block';
+                document.getElementById('chapter-drawer').style.left = '-350px';
+            }
             function closeCommentsDrawer() {
                 commentsDrawer.style.right = '-480px';
                 commentsOverlay.style.display = 'none';
             }
 
+            if (btnJumpComments) btnJumpComments.addEventListener('click', openCommentsDrawer);
             document.getElementById('comments-drawer-close').addEventListener('click', function(e) {
                 e.stopPropagation();
                 closeCommentsDrawer();
@@ -516,7 +524,7 @@ select {
 }
 </style>
 <div id="reader-controls" class="reader-controls">
-    <button id="btn-jump-comments" class="reader-control-btn" title="Yorumlara Git" onclick="document.getElementById('comments-drawer').style.right='0'; document.getElementById('comments-drawer-overlay').style.display='block';">
+    <button id="btn-jump-comments" class="reader-control-btn" title="Yorumlara Git">
         <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12c0 2.02.6 3.9 1.63 5.48L2 22l4.52-1.63C7.1 21.4 8.98 22 11 22h1c5.53 0 10-4.47 10-10S17.53 2 12 2zm0 18c-1.74 0-3.37-.5-4.75-1.37l-.25-.13l-3 1.08l1.08-3l-.13-.25C4.33 14.87 3.84 13.48 3.84 12c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16c0 4.51-3.66 8.16-8.16 8.16zM13 11V9l-1 2-1-2v2H9v1.5h1.5V14h1.5v-1.5h1.5V11h-1.5z"/></svg>
     </button>
     <div id="reader-progress-wrap" class="reader-progress-wrap">
