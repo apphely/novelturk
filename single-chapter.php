@@ -237,6 +237,11 @@ get_header();
         document.getElementById('btn-chapter-list').addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById('chapter-drawer').style.left = '0';
+            var list = document.getElementById('drawer-chapter-list');
+            var active = list.querySelector('.drawer-ch-item.is-active');
+            if (active) {
+                list.scrollTop = active.offsetTop - list.clientHeight / 2 + active.clientHeight / 2;
+            }
         });
         document.getElementById('chapter-drawer-close').addEventListener('click', function() {
             document.getElementById('chapter-drawer').style.left = '-350px';
