@@ -925,7 +925,7 @@ img {
     animation: marquee 40s linear infinite;
     animation-delay: 2s;
 }
-.bolum-baslik-text { padding-right: 30px; font-size: 13px; }
+.bolum-baslik-text { font-size: 13px; }
 @keyframes marquee {
     0%, 10%  { transform: translateX(0); }
     90%, 100%{ transform: translateX(-50%); }
