@@ -836,7 +836,7 @@ img {
 
 .reader-progress-wrap {
     position: relative;
-    width: 50px;
+    width: 60px;
     height: 70px;
     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
 }
