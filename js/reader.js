@@ -568,6 +568,20 @@
             progressRing.style.strokeDasharray = circumference + ' ' + circumference;
             progressRing.style.strokeDashoffset = circumference;
 
+            var ringZero = document.getElementById('ring-zero-state');
+            var ringBg = document.querySelector('.progress-ring-bg');
+            var ringSpike = document.getElementById('ring-spike-fill');
+            var _arrowMode = false;
+
+            function setArrowMode(on) {
+                if (on === _arrowMode) return;
+                _arrowMode = on;
+                if (ringZero) ringZero.style.opacity = on ? '0' : '1';
+                if (ringBg) ringBg.style.opacity = on ? '1' : '0';
+                if (ringSpike) ringSpike.style.opacity = on ? '1' : '0';
+            }
+            setArrowMode(false);
+
             window.addEventListener('scroll', function () {
                 var scrolled = 0;
                 var wraps = document.querySelectorAll('.reader-text-wrap');
@@ -588,6 +602,7 @@
                         break;
                     }
                 }
+                setArrowMode(scrolled > 0);
                 if (progressText) progressText.innerText = Math.round(scrolled) + '%';
                 progressRing.style.strokeDashoffset = circumference - (scrolled / 100) * circumference;
             });
