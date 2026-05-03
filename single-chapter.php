@@ -153,7 +153,8 @@ get_header();
         </div>
     </div>
 
-    <div class="nt-card" style="overflow:hidden; margin-top:24px;">
+    <div id="infinite-chapters-container" style="display:flex; flex-direction:column; gap:24px; margin-top:24px;">
+    <div class="nt-card" style="overflow:hidden;">
         <!-- Off-canvas Chapter Drawer -->
         <div id="chapter-drawer" style="position:fixed; top:0; left:-350px; width:350px; height:100vh; background-color:#1e293b; color:#cbd5e1; z-index:9999; transition:left 0.3s ease; display:flex; flex-direction:column; box-shadow: 2px 0 10px rgba(0,0,0,0.5);">
             <div style="padding:16px; background-color:#334155; display:flex; flex-direction:column; gap:12px;">
@@ -261,7 +262,17 @@ get_header();
             <?php endif; ?>
             <!-- Chapter Text (Dynamic loading for protection) -->
             <div class="reader-text-wrap" style="min-height: 400px; padding: 20px 0;">
-                <div class="reader-text" id="reader-text" data-chapter-id="<?php echo $chapter_id; ?>" style="font-size:1.125rem; line-height:1.8; color:var(--text-main);">
+                <div class="reader-text" id="reader-text"
+                     data-chapter-id="<?php echo $chapter_id; ?>"
+                     data-novel-id="<?php echo $novel_id; ?>"
+                     data-chapter-number="<?php echo $chapter_number; ?>"
+                     data-chapter-volume="<?php echo $volume_number; ?>"
+                     data-chapter-url="<?php echo esc_attr(get_permalink($chapter_id)); ?>"
+                     data-next-id="<?php echo $next_chapter ? $next_chapter->ID : ''; ?>"
+                     data-next-url="<?php echo $next_chapter ? esc_attr(get_permalink($next_chapter->ID)) : ''; ?>"
+                     data-prev-id="<?php echo $prev_chapter ? $prev_chapter->ID : ''; ?>"
+                     data-prev-url="<?php echo $prev_chapter ? esc_attr(get_permalink($prev_chapter->ID)) : ''; ?>"
+                     style="font-size:1.125rem; line-height:1.8; color:var(--text-main);">
                     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 0; color:var(--text-dim);">
                         <div style="width:48px; height:48px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; margin-bottom:16px;"></div>
                         <p>Bölüm içeriği güvenli bir şekilde yükleniyor...</p>
@@ -278,6 +289,15 @@ get_header();
         </div>
     </div>
 
+    </div><!-- /#infinite-chapters-container -->
+
+    <!-- Infinite scroll sentinel + loader -->
+    <div id="infinite-scroll-sentinel" style="height:1px;"></div>
+    <div id="infinite-scroll-loader" style="display:none; text-align:center; padding:40px 0; color:var(--text-dim);">
+        <div style="width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 12px;"></div>
+        <p style="font-size:14px;">Sonraki bölüm yükleniyor...</p>
+    </div>
+
     <!-- Comments Section -->
     <div class="nt-card">
         <div class="nt-card-body" style="padding: 32px 24px;">
@@ -289,6 +309,41 @@ get_header();
 
 <style>
 @keyframes spin { 100% { transform: rotate(360deg); } }
+.chapter-separator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 0 8px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.chapter-separator::before, .chapter-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.infinite-chapter-block .chapter-block-title {
+    text-align: center;
+    padding: 24px 24px 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+}
+.infinite-chapter-block .chapter-block-title p {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+.infinite-chapter-block .chapter-block-title h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
 /* Remove scrollbar for the drawer */
 #drawer-chapter-list::-webkit-scrollbar { width: 6px; }
 #drawer-chapter-list::-webkit-scrollbar-thumb { background: #475569; border-radius:3px; }

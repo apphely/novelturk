@@ -2648,19 +2648,57 @@ function webnovel_get_latest_chapter_number($novel_id) {
 // ============================================
 function webnovel_ajax_get_chapter_content() {
     check_ajax_referer('webnovel_reader_nonce', 'nonce');
-    
+
     $chapter_id = intval($_POST['chapter_id']);
     $chapter = get_post($chapter_id);
-    
+
     if (!$chapter || $chapter->post_type !== 'chapter' || $chapter->post_status !== 'publish') {
         wp_send_json_error('İçerik bulunamadı.');
     }
-    
+
     $content = apply_filters('the_content', $chapter->post_content);
-    
-    // Base64 encode for basic obfuscation
+
+    $novel_id      = get_post_meta($chapter_id, '_chapter_novel_id', true);
+    $chapter_num   = get_post_meta($chapter_id, '_chapter_number', true);
+    $volume_num    = get_post_meta($chapter_id, '_chapter_volume', true);
+
+    $next_chapter  = $novel_id ? webnovel_get_adjacent_chapter($novel_id, $chapter_num, 'next') : null;
+    $prev_chapter  = $novel_id ? webnovel_get_adjacent_chapter($novel_id, $chapter_num, 'prev') : null;
+
+    $next_data = null;
+    if ($next_chapter) {
+        $next_num = get_post_meta($next_chapter->ID, '_chapter_number', true);
+        $next_vol = get_post_meta($next_chapter->ID, '_chapter_volume', true);
+        $next_data = array(
+            'id'     => $next_chapter->ID,
+            'url'    => get_permalink($next_chapter->ID),
+            'title'  => get_the_title($next_chapter->ID),
+            'number' => $next_num,
+            'volume' => $next_vol,
+        );
+    }
+
+    $prev_data = null;
+    if ($prev_chapter) {
+        $prev_num = get_post_meta($prev_chapter->ID, '_chapter_number', true);
+        $prev_vol = get_post_meta($prev_chapter->ID, '_chapter_volume', true);
+        $prev_data = array(
+            'id'     => $prev_chapter->ID,
+            'url'    => get_permalink($prev_chapter->ID),
+            'title'  => get_the_title($prev_chapter->ID),
+            'number' => $prev_num,
+            'volume' => $prev_vol,
+        );
+    }
+
     wp_send_json_success(array(
-        'content' => base64_encode($content),
+        'content'  => base64_encode($content),
+        'title'    => get_the_title($chapter_id),
+        'number'   => $chapter_num,
+        'volume'   => $volume_num,
+        'url'      => get_permalink($chapter_id),
+        'next'     => $next_data,
+        'prev'     => $prev_data,
     ));
 }
 add_action('wp_ajax_webnovel_get_chapter', 'webnovel_ajax_get_chapter_content');

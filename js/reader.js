@@ -884,6 +884,217 @@
     }
 
     // ============================================
+    // Infinite Scroll Between Chapters
+    // ============================================
+    var infiniteScroll = {
+        loading: false,
+        loadedIds: {},
+
+        init: function () {
+            var firstBlock = document.getElementById('reader-text');
+            if (!firstBlock) return;
+            this.loadedIds[firstBlock.dataset.chapterId] = true;
+            this.observe();
+        },
+
+        observe: function () {
+            var _this = this;
+            var sentinel = document.getElementById('infinite-scroll-sentinel');
+            if (!sentinel) return;
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting && !_this.loading) {
+                        _this.loadNext();
+                    }
+                });
+            }, { rootMargin: '0px 0px 400px 0px' });
+
+            observer.observe(sentinel);
+        },
+
+        getLastBlock: function () {
+            var blocks = document.querySelectorAll('[data-chapter-id]');
+            return blocks[blocks.length - 1] || null;
+        },
+
+        loadNext: function () {
+            var _this = this;
+            var lastBlock = this.getLastBlock();
+            if (!lastBlock) return;
+
+            var nextId = lastBlock.dataset.nextId;
+            if (!nextId || this.loadedIds[nextId]) return;
+
+            if (typeof webnovelReader === 'undefined') return;
+
+            this.loading = true;
+            var loader = document.getElementById('infinite-scroll-loader');
+            if (loader) loader.style.display = 'block';
+
+            var formData = new FormData();
+            formData.append('action', 'webnovel_get_chapter');
+            formData.append('chapter_id', nextId);
+            formData.append('nonce', webnovelReader.nonce);
+
+            fetch(webnovelReader.ajaxUrl, { method: 'POST', body: formData })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (loader) loader.style.display = 'none';
+                    _this.loading = false;
+
+                    if (!data.success) return;
+
+                    _this.loadedIds[nextId] = true;
+                    _this.appendChapter(nextId, data.data);
+                })
+                .catch(function () {
+                    if (loader) loader.style.display = 'none';
+                    _this.loading = false;
+                });
+        },
+
+        appendChapter: function (chapterId, chData) {
+            var container = document.getElementById('infinite-chapters-container');
+            if (!container) return;
+
+            // Separator
+            var sep = document.createElement('div');
+            sep.className = 'chapter-separator';
+            sep.textContent = chData.volume ? 'Cilt ' + chData.volume + ' · Bölüm ' + chData.number : 'Bölüm ' + chData.number;
+            container.appendChild(sep);
+
+            // New chapter card
+            var card = document.createElement('div');
+            card.className = 'nt-card infinite-chapter-block';
+            card.style.overflow = 'hidden';
+
+            var titleHtml = '';
+            if (chData.volume) {
+                titleHtml += '<p>Cilt ' + chData.volume + '</p>';
+            }
+            titleHtml += '<h2>' + chData.title + '</h2>';
+
+            var nextId  = chData.next ? chData.next.id  : '';
+            var nextUrl = chData.next ? chData.next.url : '';
+            var prevId  = chData.prev ? chData.prev.id  : '';
+            var prevUrl = chData.prev ? chData.prev.url : '';
+
+            card.innerHTML =
+                '<div class="chapter-block-title">' + titleHtml + '</div>' +
+                '<div class="nt-card-body" style="padding:24px 24px 32px;">' +
+                    '<div class="reader-text-wrap" style="padding:20px 0;">' +
+                        '<div class="reader-text" data-chapter-id="' + chapterId + '"' +
+                            ' data-next-id="' + nextId + '"' +
+                            ' data-next-url="' + nextUrl + '"' +
+                            ' data-prev-id="' + prevId + '"' +
+                            ' data-prev-url="' + prevUrl + '"' +
+                            ' data-chapter-url="' + (chData.url || '') + '"' +
+                            '>' +
+                            b64DecodeUnicode(chData.content) +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+            container.appendChild(card);
+
+            // Apply reading preferences to new block
+            var newBlock = card.querySelector('.reader-text');
+            if (newBlock) {
+                var KEYS2 = { font: 'webnovel-font-size', family: 'webnovel-font-family', align: 'webnovel-text-align', weight: 'webnovel-font-weight', style: 'webnovel-font-style', height: 'webnovel-line-height' };
+                newBlock.style.fontSize   = localStorage.getItem(KEYS2.font)   || '18px';
+                newBlock.style.fontFamily = localStorage.getItem(KEYS2.family) || 'inherit';
+                newBlock.style.textAlign  = localStorage.getItem(KEYS2.align)  || 'left';
+                newBlock.style.fontWeight = localStorage.getItem(KEYS2.weight) || 'normal';
+                newBlock.style.fontStyle  = localStorage.getItem(KEYS2.style)  || 'normal';
+                newBlock.style.lineHeight = localStorage.getItem(KEYS2.height) || '1.8';
+                newBlock.style.color      = 'var(--text-main)';
+            }
+
+            // Paragraph copy buttons for new block
+            this.setupParagraphCopyForBlock(card.querySelector('.reader-text'));
+
+            // URL & nav update via IntersectionObserver
+            this.watchChapterVisibility(card, chData);
+        },
+
+        setupParagraphCopyForBlock: function (rt) {
+            if (!rt) return;
+            rt.querySelectorAll('p').forEach(function (p) {
+                if (p.innerText.trim().length < 2) return;
+                var btn = document.createElement('button');
+                btn.className = 'copy-p-btn';
+                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+                btn.title = 'Paragrafı Kopyala';
+                btn.onclick = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var text = p.innerText.replace(/[​-‍﻿]/g, '').trim();
+                    navigator.clipboard.writeText(text).then(function () {
+                        btn.classList.add('copied');
+                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg>';
+                        setTimeout(function () {
+                            btn.classList.remove('copied');
+                            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+                        }, 2000);
+                    });
+                };
+                p.style.position = 'relative';
+                p.appendChild(btn);
+            });
+        },
+
+        watchChapterVisibility: function (card, chData) {
+            var visObs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        // Update browser URL
+                        if (chData.url) {
+                            history.replaceState(null, '', chData.url);
+                        }
+                        // Update nav bar prev/next links
+                        var navPrev = document.querySelector('[rel="prev"]');
+                        var navNext = document.querySelector('[rel="next"]');
+
+                        if (navPrev) {
+                            if (chData.prev) {
+                                navPrev.href = chData.prev.url;
+                                navPrev.style.opacity = '';
+                                navPrev.style.cursor = '';
+                            } else {
+                                navPrev.removeAttribute('href');
+                                navPrev.style.opacity = '0.5';
+                                navPrev.style.cursor = 'not-allowed';
+                            }
+                        }
+                        if (navNext) {
+                            if (chData.next) {
+                                navNext.href = chData.next.url;
+                                navNext.style.opacity = '';
+                                navNext.style.cursor = '';
+                            } else {
+                                navNext.removeAttribute('href');
+                                navNext.style.opacity = '0.5';
+                                navNext.style.cursor = 'not-allowed';
+                            }
+                        }
+
+                        // Update drawer active state
+                        document.querySelectorAll('.drawer-ch-item').forEach(function (item) {
+                            var isActive = item.href && item.href.indexOf(chData.url) !== -1;
+                            item.classList.toggle('is-active', isActive);
+                            item.style.backgroundColor = isActive ? '#2563eb' : 'transparent';
+                            item.style.color = isActive ? '#ffffff' : '#cbd5e1';
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            visObs.observe(card);
+        }
+    };
+
+    // ============================================
     // Copy Protection
     // ============================================
     var readerContainer = document.getElementById('reader-container');
@@ -920,6 +1131,9 @@
     webnovelHistory.init();
     setupDropdowns();
     setupReadingProgress();
-    if (document.getElementById('reader-text')) fetchChapterContent();
+    if (document.getElementById('reader-text')) {
+        fetchChapterContent();
+        infiniteScroll.init();
+    }
 
 })();
