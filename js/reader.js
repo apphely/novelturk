@@ -1128,6 +1128,17 @@
     webnovelHistory.init();
     setupDropdowns();
     setupReadingProgress();
+
+    var progressWrap = document.getElementById('reader-progress-wrap');
+    if (progressWrap) {
+        progressWrap.style.cursor = 'pointer';
+        progressWrap.addEventListener('click', function () {
+            var target = currentChapterId
+                ? document.querySelector('.reader-text[data-chapter-id="' + currentChapterId + '"]')
+                : document.getElementById('reader-text');
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
     if (document.getElementById('reader-text')) {
         fetchChapterContent();
         infiniteScroll.init();
