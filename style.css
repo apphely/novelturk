@@ -859,12 +859,13 @@ img {
 #bottom-bar {
     position: fixed;
     bottom: 20px;
+    left: 15px;
     right: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
     z-index: 9998;
-    max-width: calc(100vw - 40px);
 }
 .pop-up-yorum {
     border: 0;
