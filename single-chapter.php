@@ -247,28 +247,28 @@ get_header();
             });
         });
 
-        // Comments Drawer
-        const commentsDrawer = document.getElementById('comments-drawer');
-        const commentsOverlay = document.getElementById('comments-drawer-overlay');
-        function openCommentsDrawer() {
-            commentsDrawer.style.right = '0';
-            commentsOverlay.style.display = 'block';
-            document.getElementById('chapter-drawer').style.left = '-350px';
-        }
-        function closeCommentsDrawer() {
-            commentsDrawer.style.right = '-480px';
-            commentsOverlay.style.display = 'none';
-        }
-        document.getElementById('comments-drawer-close').addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeCommentsDrawer();
-        });
-        commentsDrawer.addEventListener('click', function(e) { e.stopPropagation(); });
-        commentsOverlay.addEventListener('click', closeCommentsDrawer);
-        document.addEventListener('click', function(e) {
-            if (commentsDrawer.style.right === '0px' && !commentsDrawer.contains(e.target)) {
-                closeCommentsDrawer();
+        // Comments Drawer — listeners attached after full DOM load
+        document.addEventListener('DOMContentLoaded', function() {
+            var commentsDrawer = document.getElementById('comments-drawer');
+            var commentsOverlay = document.getElementById('comments-drawer-overlay');
+            if (!commentsDrawer) return;
+
+            function closeCommentsDrawer() {
+                commentsDrawer.style.right = '-480px';
+                commentsOverlay.style.display = 'none';
             }
+
+            document.getElementById('comments-drawer-close').addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeCommentsDrawer();
+            });
+            commentsDrawer.addEventListener('click', function(e) { e.stopPropagation(); });
+            commentsOverlay.addEventListener('click', closeCommentsDrawer);
+            document.addEventListener('click', function(e) {
+                if (commentsDrawer.style.right === '0px' && !commentsDrawer.contains(e.target)) {
+                    closeCommentsDrawer();
+                }
+            });
         });
         </script>
 
