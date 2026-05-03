@@ -893,7 +893,7 @@ img {
     align-items: center;
     overflow: hidden;
     position: relative;
-    padding: 0 14px 0 32px;
+    padding: 0 14px 0 24px;
     flex: 1;
     min-width: 0;
     max-width: 300px;
@@ -901,12 +901,12 @@ img {
 .bolum-baslik.hidden { display: none !important; }
 .bolum-baslik-close {
     position: absolute;
-    left: 8px;
+    left: 6px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    width: 18px;
-    height: 18px;
+    width: 11px;
+    height: 11px;
     flex-shrink: 0;
     z-index: 10;
     opacity: 0.7;
