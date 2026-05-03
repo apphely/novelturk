@@ -796,8 +796,8 @@ img {
 /* Reader Controls (Fixed Bottom Right) */
 .reader-controls {
     position: fixed;
-    right: 24px;
-    bottom: 24px;
+    right: 20px;
+    bottom: 68px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -875,10 +875,6 @@ img {
     transition: opacity 0.2s;
 }
 .pop-up-yorum:hover { opacity: 0.85; }
-@media (min-width: 768px) {
-    .pop-up-yorum { bottom: 110px !important; right: 20px !important; }
-}
-
 @media (max-width: 768px) {
     .reader-controls {
         right: 20px;
