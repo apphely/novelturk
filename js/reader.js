@@ -569,12 +569,19 @@
             progressRing.style.strokeDashoffset = circumference;
 
             window.addEventListener('scroll', function () {
-                var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                var scrolled = (winScroll / height) * 100;
+                var wrap = document.querySelector('.reader-text-wrap');
+                var scrolled = 0;
+                if (wrap) {
+                    var rect = wrap.getBoundingClientRect();
+                    var wrapTop = rect.top + window.scrollY;
+                    var wrapHeight = wrap.offsetHeight;
+                    var winScroll = window.scrollY;
+                    var viewH = window.innerHeight;
+                    var progress = (winScroll + viewH - wrapTop) / (wrapHeight + viewH);
+                    scrolled = Math.min(100, Math.max(0, progress * 100));
+                }
 
                 if (progressText) progressText.innerText = Math.round(scrolled) + '%';
-
                 var offset = circumference - (scrolled / 100) * circumference;
                 progressRing.style.strokeDashoffset = offset;
             });
