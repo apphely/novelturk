@@ -568,16 +568,17 @@
             progressRing.style.strokeDasharray = circumference + ' ' + circumference;
             progressRing.style.strokeDashoffset = circumference;
 
-            var wrap = document.querySelector('.reader-text-wrap');
+            var _wrap = null;
+            var _titleEl = null;
             window.addEventListener('scroll', function () {
+                if (!_wrap) _wrap = document.querySelector('.reader-text-wrap');
+                if (!_titleEl) _titleEl = document.querySelector('.nt-card-body h1');
                 var scrolled = 0;
-                if (wrap) {
-                    var rect = wrap.getBoundingClientRect();
-                    var wrapAbsTop = rect.top + window.scrollY;
+                if (_wrap && _titleEl) {
                     var viewH = window.innerHeight;
-                    var buffer = 0.20 * viewH;
-                    var scrollStart = wrapAbsTop + buffer;
-                    var scrollEnd = wrapAbsTop + wrap.offsetHeight - viewH - buffer;
+                    var scrollStart = _titleEl.getBoundingClientRect().top + window.scrollY;
+                    var wrapAbsTop = _wrap.getBoundingClientRect().top + window.scrollY;
+                    var scrollEnd = wrapAbsTop + _wrap.offsetHeight * 1.10 - viewH;
                     if (scrollEnd > scrollStart) {
                         scrolled = Math.min(100, Math.max(0, (window.scrollY - scrollStart) / (scrollEnd - scrollStart) * 100));
                     }
