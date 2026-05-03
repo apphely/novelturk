@@ -563,19 +563,6 @@
     function setupReadingProgress() {
         var progressRing = document.getElementById('reader-progress-ring');
         var progressText = document.getElementById('reader-progress-text');
-        var btnJumpComments = document.getElementById('btn-jump-comments');
-
-        if (btnJumpComments) {
-            btnJumpComments.onclick = function () {
-                var commentsDrawer = document.getElementById('comments-drawer');
-                var commentsOverlay = document.getElementById('comments-drawer-overlay');
-                if (commentsDrawer) {
-                    commentsDrawer.style.right = '0';
-                    if (commentsOverlay) commentsOverlay.style.display = 'block';
-                }
-            };
-        }
-
         if (progressRing) {
             var radius = 22;
             var circumference = 2 * Math.PI * radius;

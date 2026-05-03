@@ -253,21 +253,32 @@ get_header();
         });
 
         // Comments Drawer
+        const commentsDrawer = document.getElementById('comments-drawer');
+        const commentsOverlay = document.getElementById('comments-drawer-overlay');
         function openCommentsDrawer() {
-            document.getElementById('comments-drawer').style.right = '0';
-            document.getElementById('comments-drawer-overlay').style.display = 'block';
+            commentsDrawer.style.right = '0';
+            commentsOverlay.style.display = 'block';
             document.getElementById('chapter-drawer').style.left = '-350px';
         }
         function closeCommentsDrawer() {
-            document.getElementById('comments-drawer').style.right = '-480px';
-            document.getElementById('comments-drawer-overlay').style.display = 'none';
+            commentsDrawer.style.right = '-480px';
+            commentsOverlay.style.display = 'none';
         }
         document.getElementById('btn-comments').addEventListener('click', function(e) {
             e.stopPropagation();
             openCommentsDrawer();
         });
-        document.getElementById('comments-drawer-close').addEventListener('click', closeCommentsDrawer);
-        document.getElementById('comments-drawer-overlay').addEventListener('click', closeCommentsDrawer);
+        document.getElementById('comments-drawer-close').addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeCommentsDrawer();
+        });
+        commentsDrawer.addEventListener('click', function(e) { e.stopPropagation(); });
+        commentsOverlay.addEventListener('click', closeCommentsDrawer);
+        document.addEventListener('click', function(e) {
+            if (commentsDrawer.style.right === '0px' && !commentsDrawer.contains(e.target)) {
+                closeCommentsDrawer();
+            }
+        });
         </script>
 
         <div class="nt-card-body" style="padding: 32px 24px;">
@@ -514,9 +525,6 @@ select {
 }
 </style>
 <div id="reader-controls" class="reader-controls">
-    <button id="btn-jump-comments" class="reader-control-btn" title="Yorumlara Git">
-        <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12c0 2.02.6 3.9 1.63 5.48L2 22l4.52-1.63C7.1 21.4 8.98 22 11 22h1c5.53 0 10-4.47 10-10S17.53 2 12 2zm0 18c-1.74 0-3.37-.5-4.75-1.37l-.25-.13l-3 1.08l1.08-3l-.13-.25C4.33 14.87 3.84 13.48 3.84 12c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16c0 4.51-3.66 8.16-8.16 8.16zM13 11V9l-1 2-1-2v2H9v1.5h1.5V14h1.5v-1.5h1.5V11h-1.5z"/></svg>
-    </button>
     <div id="reader-progress-wrap" class="reader-progress-wrap">
         <svg class="progress-ring" width="50" height="50">
             <circle class="progress-ring-bg" stroke="#334155" stroke-width="3" fill="transparent" r="22" cx="25" cy="25"/>
