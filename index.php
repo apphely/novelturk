@@ -239,10 +239,10 @@
                     <!-- Durum + Tür -->
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                         <div>
-                            <label style="display:block; font-size:10px; font-weight:700; color:#4b5563; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">📋 Durum</label>
+                            <label style="display:block; font-size:10px; font-weight:700; color:#9ca3af; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">📋 Durum</label>
                             <div style="position:relative;">
                                 <?php $current_nstatus = $_GET['nstatus'] ?? ''; ?>
-                                <select name="nstatus" onchange="this.style.color=this.value?'var(--text-main)':'#9ca3af'" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:<?php echo $current_nstatus ? 'var(--text-main)' : '#9ca3af'; ?>; font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <select name="nstatus" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
                                     <option value="">Tümü</option>
                                     <?php foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
                                         <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
@@ -252,10 +252,10 @@
                             </div>
                         </div>
                         <div>
-                            <label style="display:block; font-size:10px; font-weight:700; color:#4b5563; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">🏷️ Tür</label>
+                            <label style="display:block; font-size:10px; font-weight:700; color:#9ca3af; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">🏷️ Tür</label>
                             <div style="position:relative;">
                                 <?php $current_novel_type = $_GET['novel_type'] ?? ''; ?>
-                                <select name="novel_type" onchange="this.style.color=this.value?'var(--text-main)':'#9ca3af'" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:<?php echo $current_novel_type ? 'var(--text-main)' : '#9ca3af'; ?>; font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <select name="novel_type" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
                                     <option value="">Tümü</option>
                                     <?php
                                     $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
@@ -275,10 +275,10 @@
                     <!-- Ülke + Kategori -->
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                         <div>
-                            <label style="display:block; font-size:10px; font-weight:700; color:#4b5563; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">🌐 Ülke</label>
+                            <label style="display:block; font-size:10px; font-weight:700; color:#9ca3af; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">🌐 Ülke</label>
                             <div style="position:relative;">
                                 <?php $current_novel_origin = $_GET['novel_origin'] ?? ''; ?>
-                                <select name="novel_origin" onchange="this.style.color=this.value?'var(--text-main)':'#9ca3af'" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:<?php echo $current_novel_origin ? 'var(--text-main)' : '#9ca3af'; ?>; font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
                                     <option value="">Tümü</option>
                                     <?php
                                     $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
@@ -294,7 +294,7 @@
                             </div>
                         </div>
                         <div style="position:relative;">
-                            <label style="display:block; font-size:10px; font-weight:700; color:#4b5563; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">📁 Kategori</label>
+                            <label style="display:block; font-size:10px; font-weight:700; color:#9ca3af; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">📁 Kategori</label>
                             <?php
                             $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
                             $selected_genres = (array)($_GET['novel_genre'] ?? []);
@@ -310,7 +310,7 @@
                                 $genre_btn_label = $sel_count . ' kategori seçildi';
                             }
                             ?>
-                            <button type="button" id="nt-genre-btn" onclick="ntToggleGenreDropdown()" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:<?php echo $sel_count ? 'var(--text-main)' : '#9ca3af'; ?>; font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; display:flex; justify-content:space-between; align-items:center; text-align:left;">
+                            <button type="button" id="nt-genre-btn" onclick="ntToggleGenreDropdown()" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; display:flex; justify-content:space-between; align-items:center; text-align:left;">
                                 <span id="nt-genre-label"><?php echo $genre_btn_label; ?></span>
                                 <svg id="nt-genre-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0; transition:transform 0.2s;"><path d="m6 9 6 6 6-6"/></svg>
                             </button>
