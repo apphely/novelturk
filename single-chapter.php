@@ -30,8 +30,7 @@ get_header();
         }
     }
     $_novel_name  = $novel_id ? get_the_title($novel_id) : '';
-    $_ch_num_label = 'Bölüm ' . $chapter_number . ($_ch_inner ? ' ' . $_ch_inner : '');
-    $_baslik_text = 'Novel Türk' . ($_novel_name ? ' > ' . $_novel_name : '') . ' > ' . $_ch_num_label;
+    $_baslik_text = 'Novel Türk' . ($_novel_name ? ' > ' . $_novel_name : '') . ' > Bölüm ' . $chapter_number . ' ' . $_ch_inner;
 ?>
 
 <!-- Reader Nav Styles -->
