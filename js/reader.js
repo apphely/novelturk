@@ -476,7 +476,7 @@
     // ============================================
     var webnovelHistory = {
         key: 'webnovel_history',
-        maxItems: 10,
+        maxItems: 20,
         items: [],
         init: function () {
             try {
