@@ -279,7 +279,7 @@
 
                 <!-- Sidebar Genre Tabs / Pills -->
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; margin-bottom:16px;">
-                    <div class="sidebar-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <div class="sidebar-tabs" id="sidebar-genre-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
                         <?php
                         // Pull 3 random genres as tabs
                         $sidebar_tab_genres = array();
@@ -289,7 +289,7 @@
                                 $sidebar_tab_genres[] = $genres[$k];
                             }
                         }
-                        
+
                         foreach($sidebar_tab_genres as $index => $g) {
                             $isActive = ($index === 0);
                             $bg = $isActive ? 'background:#3b82f6; color:#fff;' : 'background:transparent; color:var(--text-dim);';
@@ -297,13 +297,13 @@
                         }
                         ?>
                     </div>
-                    <button type="button" onclick="location.reload()" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
+                    <button type="button" id="btn-refresh-genres" onclick="ntRefreshGenres(this)" style="background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Yenile">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                     </button>
                 </div>
 
                 <!-- Recent Novels Mini Cards Array (Tab Contents) -->
-                <div class="sidebar-tab-contents">
+                <div class="sidebar-tab-contents" id="sidebar-genre-contents">
                     <?php
                     foreach($sidebar_tab_genres as $index => $g):
                         $isActive = ($index === 0);
@@ -672,31 +672,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Sidebar Tab Logic
-document.addEventListener('DOMContentLoaded', function() {
-    const tabBtns = document.querySelectorAll('.sidebar-tab-btn');
-    const tabLists = document.querySelectorAll('.sidebar-novel-list');
+function bindSidebarTabs() {
+    const tabBtns = document.querySelectorAll('#sidebar-genre-tabs .sidebar-tab-btn');
+    const tabLists = document.querySelectorAll('#sidebar-genre-contents .sidebar-novel-list');
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('data-target');
 
-            // Hide all
             tabLists.forEach(list => list.style.display = 'none');
-            // Deactivate all buttons
             tabBtns.forEach(b => {
                 b.style.background = 'transparent';
                 b.style.color = 'var(--text-dim)';
             });
 
-            // Activate current
             const target = document.getElementById(targetId);
-            if(target) target.style.display = 'flex';
-            this.style.background = '#3b82f6'; // Match Romantizm active state style
+            if (target) target.style.display = 'flex';
+            this.style.background = '#3b82f6';
             this.style.color = '#fff';
         });
     });
-});
+}
+
+function ntRefreshGenres(btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+
+    const formData = new URLSearchParams();
+    formData.append('action', 'refresh_sidebar_categories');
+    formData.append('nonce', webnovelReader.nonce);
+
+    fetch(webnovelReader.ajaxUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+    })
+    .then(r => r.text())
+    .then(html => {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        const newTabs = tmp.querySelector('.sidebar-tabs');
+        const newContents = tmp.querySelector('.sidebar-tab-contents');
+
+        if (newTabs) document.getElementById('sidebar-genre-tabs').innerHTML = newTabs.innerHTML;
+        if (newContents) document.getElementById('sidebar-genre-contents').innerHTML = newContents.innerHTML;
+
+        bindSidebarTabs();
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', bindSidebarTabs);
 </script>
 
 <?php get_footer(); ?>
