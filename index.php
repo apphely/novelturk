@@ -241,7 +241,7 @@
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Durum</label>
                             <select name="nstatus" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">Tümü</option>
+                                <option value="">📋 Durum</option>
                                 <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
                                     <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
                                 <?php endforeach; ?>
@@ -250,7 +250,7 @@
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Tür</label>
                             <select name="novel_type" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">Tümü</option>
+                                <option value="">🏷️ Tür</option>
                                 <?php
                                 $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
                                 if (!is_wp_error($types)) {
@@ -269,7 +269,7 @@
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Ülke</label>
                             <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">Tümü</option>
+                                <option value="">🌐 Ülke</option>
                                 <?php
                                 $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
                                 if (!is_wp_error($origins)) {
@@ -288,7 +288,7 @@
                             $selected_genres = (array)($_GET['novel_genre'] ?? []);
                             $sel_count = count($selected_genres);
                             if ($sel_count === 0) {
-                                $genre_btn_label = 'Kategori 📁';
+                                $genre_btn_label = '📁 Kategori';
                             } elseif ($sel_count === 1 && !is_wp_error($genres)) {
                                 $matched = array_values(array_filter((array)$genres, function($g) use ($selected_genres) {
                                     return $g->slug === $selected_genres[0];
@@ -788,7 +788,7 @@ function ntUpdateGenreLabel() {
     var checked = document.querySelectorAll('#nt-genre-dropdown input[type="checkbox"]:checked');
     var label = document.getElementById('nt-genre-label');
     if (checked.length === 0) {
-        label.textContent = 'Kategori 📁';
+        label.textContent = '📁 Kategori';
     } else if (checked.length === 1) {
         label.textContent = checked[0].closest('label').textContent.trim();
     } else {
