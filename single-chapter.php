@@ -30,7 +30,9 @@ get_header();
         }
     }
     $_novel_name  = $novel_id ? get_the_title($novel_id) : '';
-    $_baslik_text = 'Novel Türk' . ($_novel_name ? ' > ' . $_novel_name : '') . ' > Bölüm ' . $chapter_number . ' ' . $_ch_inner;
+    $_bpos        = mb_strpos($_ch_title, 'Bölüm ');
+    $_bolum_part  = $_bpos !== false ? mb_substr($_ch_title, $_bpos) : ('Bölüm ' . $chapter_number . ($_ch_inner ? ' – ' . $_ch_inner : ''));
+    $_baslik_text = 'Novel Türk' . ($_novel_name ? ' > ' . $_novel_name : '') . ' > ' . $_bolum_part;
 ?>
 
 <!-- Reader Nav Styles -->

@@ -1099,7 +1099,7 @@
         var novelTitle  = (block.dataset.novelTitle || novelTitleGlobal || '');
         var chNum       = block.dataset.chapterNumber || '';
         var innerTitle  = block.dataset.chapterTitle  || '';
-        var display     = 'Novel Türk > ' + (novelTitle ? novelTitle + ' > ' : '') + 'Bölüm ' + chNum + ' ' + innerTitle;
+        var display     = 'Novel Türk > ' + (novelTitle ? novelTitle + ' > ' : '') + 'Bölüm ' + chNum + (innerTitle ? ' – ' + innerTitle : '');
         if (!display.trim()) return;
         textEl.textContent = display;
         var baslikDiv = document.getElementById('bolumBaslikDiv');
