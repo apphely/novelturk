@@ -83,6 +83,30 @@
 (function() {
     'use strict';
 
+    // --- NSFW Toggle ---
+    (function() {
+        var btn      = document.getElementById('nsfw-toggle-btn');
+        var badgeOff = btn ? btn.querySelector('.nsfw-badge-off') : null;
+        var badgeOn  = btn ? btn.querySelector('.nsfw-badge-on')  : null;
+        var isOn     = localStorage.getItem('nsfw-mode') === 'on';
+
+        function applyNsfw(state) {
+            document.documentElement.classList.toggle('nsfw-enabled', state);
+            if (badgeOff) badgeOff.style.display = state ? 'none'         : 'inline-block';
+            if (badgeOn)  badgeOn.style.display  = state ? 'inline-block' : 'none';
+        }
+
+        applyNsfw(isOn);
+
+        if (btn) {
+            btn.addEventListener('click', function() {
+                isOn = !isOn;
+                localStorage.setItem('nsfw-mode', isOn ? 'on' : 'off');
+                applyNsfw(isOn);
+            });
+        }
+    })();
+
     // --- Dark Mode Toggle ---
     var themeToggleBtn = document.getElementById('theme-toggle');
     var darkIcon = document.getElementById('theme-toggle-dark-icon');

@@ -697,6 +697,43 @@ img {
     color: var(--text-dim);
 }
 
+.header-dropdown .nsfw-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 0.875rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+}
+.header-dropdown .nsfw-toggle:hover {
+    background: var(--bg-card-hover);
+}
+.header-dropdown .nsfw-toggle svg {
+    flex-shrink: 0;
+    color: var(--text-dim);
+}
+.nsfw-badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    background: #dcfce7;
+    color: #166534;
+}
+.dark .nsfw-badge {
+    background: #14532d;
+    color: #86efac;
+}
+
 .dropdown-divider {
     border: none;
     border-top: 1px solid var(--border);
