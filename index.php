@@ -122,6 +122,15 @@
         <!-- Hızlı Erişim Pills -->
         <?php
         $quick_access_buttons = get_option('webnovel_homepage_quick_access', array());
+        if (empty($quick_access_buttons)) {
+            $quick_access_buttons = array(
+                array('label' => 'Destek/Bağış',   'url' => '#'),
+                array('label' => 'En Popülerler',  'url' => '#'),
+                array('label' => 'Filtreleme',     'url' => '/#Filtreleme'),
+                array('label' => 'Site Yorumları', 'url' => '/#SiteYorumlari'),
+                array('label' => 'Son Yorumlar',   'url' => '/#SonYorumlar'),
+            );
+        }
         if (!empty($quick_access_buttons) && is_array($quick_access_buttons)) : ?>
         <div class="nt-flex nt-flex-wrap nt-gap-2 nt-mb-6" style="justify-content:center;">
             <?php foreach ($quick_access_buttons as $btn) :
