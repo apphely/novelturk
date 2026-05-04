@@ -264,45 +264,39 @@
                         </div>
                     </div>
 
-                    <!-- Ülke -->
-                    <div>
-                        <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Ülke</label>
-                        <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                            <option value="">Tümü</option>
-                            <?php
-                            $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
-                            if (!is_wp_error($origins)) {
-                                foreach($origins as $o) {
-                                    $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                    <!-- Ülke + Kategori -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Ülke</label>
+                            <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <option value="">Tümü</option>
+                                <?php
+                                $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
+                                if (!is_wp_error($origins)) {
+                                    foreach($origins as $o) {
+                                        $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
+                                        echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                                    }
                                 }
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-                    <!-- Kategori — Çoklu Seçim -->
-                    <div>
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.6px;">Kategori</label>
-                            <span style="font-size:10px; color:var(--text-dim);">çoklu seçim</span>
+                                ?>
+                            </select>
                         </div>
-                        <div style="border:1.5px solid var(--border); border-radius:8px; padding:8px; display:flex; flex-wrap:wrap; gap:5px; max-height:130px; overflow-y:auto;">
-                            <?php
-                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                            $selected_genres = (array)($_GET['novel_genre'] ?? []);
-                            if (!is_wp_error($genres) && !empty($genres)) :
-                                foreach($genres as $g) :
-                                    $is_on = in_array($g->slug, $selected_genres);
-                                    $pill_bg     = $is_on ? 'var(--accent)' : 'var(--bg-base)';
-                                    $pill_color  = $is_on ? '#fff'          : 'var(--text-dim)';
-                                    $pill_border = $is_on ? 'var(--accent)' : 'var(--border)';
-                            ?>
-                            <label style="display:inline-flex; align-items:center; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; background:<?php echo $pill_bg; ?>; color:<?php echo $pill_color; ?>; border:1px solid <?php echo $pill_border; ?>; user-select:none;">
-                                <input type="checkbox" name="novel_genre[]" value="<?php echo esc_attr($g->slug); ?>" <?php checked($is_on); ?> style="display:none;" onchange="ntToggleGenrePill(this)">
-                                <?php echo esc_html($g->name); ?>
-                            </label>
-                            <?php endforeach; endif; ?>
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Kategori</label>
+                            <div style="width:100%; background:var(--bg-card); border:1.5px solid var(--border); border-radius:8px; max-height:120px; overflow-y:auto;">
+                                <?php
+                                $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                                $selected_genres = (array)($_GET['novel_genre'] ?? []);
+                                if (!is_wp_error($genres) && !empty($genres)) :
+                                    foreach($genres as $g) :
+                                        $is_on = in_array($g->slug, $selected_genres);
+                                ?>
+                                <label style="display:flex; align-items:center; gap:7px; padding:5px 10px; cursor:pointer; font-size:12px; color:<?php echo $is_on ? 'var(--accent)' : 'var(--text-main)'; ?>; font-weight:<?php echo $is_on ? '700' : '400'; ?>;">
+                                    <input type="checkbox" name="novel_genre[]" value="<?php echo esc_attr($g->slug); ?>" <?php checked($is_on); ?> style="width:13px; height:13px; accent-color:var(--accent); cursor:pointer; flex-shrink:0;">
+                                    <?php echo esc_html($g->name); ?>
+                                </label>
+                                <?php endforeach; endif; ?>
+                            </div>
                         </div>
                     </div>
 
@@ -769,18 +763,6 @@ function ntRefreshGenres(btn) {
 
 document.addEventListener('DOMContentLoaded', bindSidebarTabs);
 
-function ntToggleGenrePill(input) {
-    var label = input.parentElement;
-    if (input.checked) {
-        label.style.background = 'var(--accent)';
-        label.style.color = '#fff';
-        label.style.borderColor = 'var(--accent)';
-    } else {
-        label.style.background = 'var(--bg-base)';
-        label.style.color = 'var(--text-dim)';
-        label.style.borderColor = 'var(--border)';
-    }
-}
 </script>
 
 <?php get_footer(); ?>
