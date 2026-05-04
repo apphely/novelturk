@@ -240,27 +240,33 @@
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Durum</label>
-                            <select name="nstatus" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">📋 Durum</option>
-                                <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
-                                    <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <div style="position:relative;">
+                                <select name="nstatus" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                    <option value="">📋 Durum</option>
+                                    <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
+                                        <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <svg style="position:absolute; right:9px; top:50%; transform:translateY(-50%); pointer-events:none; color:var(--text-dim);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
                         </div>
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Tür</label>
-                            <select name="novel_type" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">🏷️ Tür</option>
-                                <?php
-                                $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
-                                if (!is_wp_error($types)) {
-                                    foreach($types as $t) {
-                                        $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
-                                        echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
+                            <div style="position:relative;">
+                                <select name="novel_type" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                    <option value="">🏷️ Tür</option>
+                                    <?php
+                                    $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
+                                    if (!is_wp_error($types)) {
+                                        foreach($types as $t) {
+                                            $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
+                                            echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
+                                        }
                                     }
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
+                                <svg style="position:absolute; right:9px; top:50%; transform:translateY(-50%); pointer-events:none; color:var(--text-dim);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
                         </div>
                     </div>
 
@@ -268,18 +274,21 @@
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                         <div>
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Ülke</label>
-                            <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
-                                <option value="">🌐 Ülke</option>
-                                <?php
-                                $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
-                                if (!is_wp_error($origins)) {
-                                    foreach($origins as $o) {
-                                        $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
-                                        echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                            <div style="position:relative;">
+                                <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 28px 8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                    <option value="">🌐 Ülke</option>
+                                    <?php
+                                    $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
+                                    if (!is_wp_error($origins)) {
+                                        foreach($origins as $o) {
+                                            $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
+                                            echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                                        }
                                     }
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
+                                <svg style="position:absolute; right:9px; top:50%; transform:translateY(-50%); pointer-events:none; color:var(--text-dim);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
                         </div>
                         <div style="position:relative;">
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Kategori</label>
