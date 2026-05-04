@@ -1031,7 +1031,7 @@
                             ' data-prev-url="' + prevUrl + '"' +
                             ' data-chapter-url="' + (chData.url || '') + '"' +
                             ' data-chapter-number="' + (chData.number || '') + '"' +
-                            ' data-chapter-title="' + (function(t){var i=t?t.indexOf(' - '):-1;return(i!==-1?t.substring(i+3):t||'').replace(/"/g,'&quot;');})(chData.title||'') + '"' +
+                            ' data-chapter-title="' + (function(t){var i=t?t.indexOf(' – '):-1;if(i===-1)i=t?t.indexOf(' — '):-1;if(i===-1)i=t?t.indexOf(' - '):-1;return(i!==-1?t.substring(i+3):t||'').replace(/"/g,'&quot;');})(chData.title||'') + '"' +
                             ' data-novel-title="' + (novelTitleGlobal||'').replace(/"/g,'&quot;') + '"' +
                             '>' +
                             b64DecodeUnicode(chData.content) +
@@ -1098,8 +1098,10 @@
         if (!textEl) return;
         var novelTitle  = (block.dataset.novelTitle || novelTitleGlobal || '');
         var chNum       = block.dataset.chapterNumber || '';
-        var innerTitle  = block.dataset.chapterTitle  || '';
-        var display     = 'Novel Türk > ' + (novelTitle ? novelTitle + ' > ' : '') + 'Bölüm ' + chNum + (innerTitle ? ' – ' + innerTitle : '');
+        var fullTitle   = block.dataset.chapterTitle  || '';
+        var bIdx        = fullTitle.indexOf('Bölüm ');
+        var bolumPart   = bIdx !== -1 ? fullTitle.slice(bIdx) : ('Bölüm ' + chNum + (fullTitle ? ' – ' + fullTitle : ''));
+        var display     = 'Novel Türk > ' + (novelTitle ? novelTitle + ' > ' : '') + bolumPart;
         if (!display.trim()) return;
         textEl.textContent = display;
         var baslikDiv = document.getElementById('bolumBaslikDiv');
