@@ -726,6 +726,22 @@ img {
 .header-dropdown .dropdown-list {
     max-height: 400px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg-surface);
+}
+.header-dropdown .dropdown-list::-webkit-scrollbar {
+    width: 4px;
+}
+.header-dropdown .dropdown-list::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+    border-radius: 4px;
+}
+.header-dropdown .dropdown-list::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+.header-dropdown .dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
 }
 
 .header-dropdown .empty-msg {
