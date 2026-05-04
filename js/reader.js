@@ -1202,10 +1202,17 @@
     if (progressWrap) {
         progressWrap.style.cursor = 'pointer';
         progressWrap.addEventListener('click', function () {
-            var target = currentChapterId
+            var rt = currentChapterId
                 ? document.querySelector('.reader-text[data-chapter-id="' + currentChapterId + '"]')
                 : document.getElementById('reader-text');
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (rt) {
+                var wrap = rt.closest('.reader-text-wrap');
+                var parent = wrap ? (wrap.closest('.infinite-chapter-block') || wrap.closest('.nt-card-body')) : null;
+                var titleEl = parent ? parent.querySelector('h1, h2') : null;
+                var scrollTarget = titleEl || rt;
+                var top = scrollTarget.getBoundingClientRect().top + window.scrollY - 70;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+            }
         });
     }
     if (document.getElementById('reader-text')) {
