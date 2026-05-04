@@ -743,6 +743,20 @@ img {
 .header-dropdown .dropdown-list::-webkit-scrollbar-thumb:hover {
     background: var(--accent-hover);
 }
+.dropdown-footer-link {
+    display: block;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: center;
+    text-decoration: none;
+    border-top: 1px solid var(--border);
+    transition: background 0.15s;
+}
+.dropdown-footer-link:hover {
+    background: var(--bg-surface);
+}
 
 .header-dropdown .empty-msg {
     padding: 20px;

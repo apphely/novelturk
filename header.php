@@ -94,6 +94,7 @@
                     <div id="history-list" class="dropdown-list">
                         <p class="empty-msg">Henüz geçmiş yok.</p>
                     </div>
+                    <a href="<?php echo home_url('/gecmis/'); ?>" class="dropdown-footer-link">Gelişmiş Geçmiş</a>
                 </div>
             </div>
 
