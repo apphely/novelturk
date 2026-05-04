@@ -699,14 +699,10 @@ function ntRefreshGenres(btn) {
     btn.disabled = true;
     btn.style.opacity = '0.4';
 
-    const formData = new URLSearchParams();
-    formData.append('action', 'refresh_sidebar_categories');
-    formData.append('nonce', webnovelReader.nonce);
-
-    fetch(webnovelReader.ajaxUrl, {
+    fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString()
+        body: 'action=refresh_sidebar_categories'
     })
     .then(r => r.text())
     .then(html => {
