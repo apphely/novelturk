@@ -1629,8 +1629,6 @@ a.nt-badge:hover {
 .site-announcement {
     text-align: center;
     padding: 8px 16px;
-    margin: 0 auto;
-    max-width: 1200px;
     font-size: 14px;
     line-height: 1.5;
     background: rgba(255, 75, 75, 0.1);
