@@ -281,18 +281,31 @@
                                 ?>
                             </select>
                         </div>
-                        <div>
+                        <div style="position:relative;">
                             <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Kategori</label>
-                            <div style="width:100%; background:var(--bg-card); border:1.5px solid var(--border); border-radius:8px; max-height:120px; overflow-y:auto;">
-                                <?php
-                                $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                                $selected_genres = (array)($_GET['novel_genre'] ?? []);
-                                if (!is_wp_error($genres) && !empty($genres)) :
-                                    foreach($genres as $g) :
-                                        $is_on = in_array($g->slug, $selected_genres);
-                                ?>
-                                <label style="display:flex; align-items:center; gap:7px; padding:5px 10px; cursor:pointer; font-size:12px; color:<?php echo $is_on ? 'var(--accent)' : 'var(--text-main)'; ?>; font-weight:<?php echo $is_on ? '700' : '400'; ?>;">
-                                    <input type="checkbox" name="novel_genre[]" value="<?php echo esc_attr($g->slug); ?>" <?php checked($is_on); ?> style="width:13px; height:13px; accent-color:var(--accent); cursor:pointer; flex-shrink:0;">
+                            <?php
+                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                            $selected_genres = (array)($_GET['novel_genre'] ?? []);
+                            $sel_count = count($selected_genres);
+                            if ($sel_count === 0) {
+                                $genre_btn_label = 'Kategori 📁';
+                            } elseif ($sel_count === 1 && !is_wp_error($genres)) {
+                                $matched = array_values(array_filter((array)$genres, function($g) use ($selected_genres) {
+                                    return $g->slug === $selected_genres[0];
+                                }));
+                                $genre_btn_label = !empty($matched) ? esc_html($matched[0]->name) : '1 seçildi';
+                            } else {
+                                $genre_btn_label = $sel_count . ' kategori seçildi';
+                            }
+                            ?>
+                            <button type="button" id="nt-genre-btn" onclick="ntToggleGenreDropdown()" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-dim); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; display:flex; justify-content:space-between; align-items:center; text-align:left;">
+                                <span id="nt-genre-label"><?php echo $genre_btn_label; ?></span>
+                                <svg id="nt-genre-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0; transition:transform 0.2s;"><path d="m6 9 6 6 6-6"/></svg>
+                            </button>
+                            <div id="nt-genre-dropdown" style="display:none; position:absolute; top:calc(100% + 2px); left:0; right:0; z-index:200; background:var(--bg-card); border:1.5px solid var(--border); border-radius:8px; max-height:200px; overflow-y:auto; box-shadow:var(--shadow-sm);">
+                                <?php if (!is_wp_error($genres) && !empty($genres)) : foreach($genres as $g) : $is_on = in_array($g->slug, $selected_genres); ?>
+                                <label style="display:flex; align-items:center; gap:8px; padding:6px 10px; cursor:pointer; font-size:13px; color:var(--text-main);" onmouseover="this.style.background='var(--bg-base)'" onmouseout="this.style.background='transparent'">
+                                    <input type="checkbox" name="novel_genre[]" value="<?php echo esc_attr($g->slug); ?>" <?php checked($is_on); ?> style="width:13px; height:13px; accent-color:var(--accent); cursor:pointer; flex-shrink:0;" onchange="ntUpdateGenreLabel()">
                                     <?php echo esc_html($g->name); ?>
                                 </label>
                                 <?php endforeach; endif; ?>
@@ -762,6 +775,35 @@ function ntRefreshGenres(btn) {
 }
 
 document.addEventListener('DOMContentLoaded', bindSidebarTabs);
+
+function ntToggleGenreDropdown() {
+    var dd = document.getElementById('nt-genre-dropdown');
+    var chevron = document.getElementById('nt-genre-chevron');
+    var open = dd.style.display !== 'none';
+    dd.style.display = open ? 'none' : 'block';
+    chevron.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+function ntUpdateGenreLabel() {
+    var checked = document.querySelectorAll('#nt-genre-dropdown input[type="checkbox"]:checked');
+    var label = document.getElementById('nt-genre-label');
+    if (checked.length === 0) {
+        label.textContent = 'Kategori 📁';
+    } else if (checked.length === 1) {
+        label.textContent = checked[0].closest('label').textContent.trim();
+    } else {
+        label.textContent = checked.length + ' kategori seçildi';
+    }
+}
+
+document.addEventListener('click', function(e) {
+    var dd = document.getElementById('nt-genre-dropdown');
+    var btn = document.getElementById('nt-genre-btn');
+    if (dd && btn && !dd.contains(e.target) && !btn.contains(e.target)) {
+        dd.style.display = 'none';
+        document.getElementById('nt-genre-chevron').style.transform = '';
+    }
+});
 
 </script>
 
