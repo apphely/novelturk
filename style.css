@@ -59,6 +59,18 @@ Text Domain: NovelTurk
     text-shadow: none !important;
 }
 
+/* Chapter end ornament */
+.chapter-ornament {
+    text-align: center;
+    padding: 28px 0 8px;
+    color: var(--text-dim);
+}
+.chapter-ornament svg {
+    width: 100%;
+    max-width: 520px;
+    height: 28px;
+}
+
 /* Paragraph Copy Button Styles */
 .reader-text p {
     position: relative;

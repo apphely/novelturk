@@ -354,6 +354,22 @@ get_header();
             
             <?php webnovel_render_ad('after_content'); ?>
 
+            <div class="chapter-ornament">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 28" preserveAspectRatio="xMidYMid meet">
+                    <line x1="0" y1="14" x2="240" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="240" y1="14" x2="255" y2="6"  stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="255" y1="6"  x2="270" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="270" y1="14" x2="285" y2="22" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="285" y1="22" x2="300" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <path d="M300,7 L307,14 L300,21 L293,14 Z" fill="currentColor" opacity="0.5"/>
+                    <line x1="300" y1="14" x2="315" y2="6"  stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="315" y1="6"  x2="330" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="330" y1="14" x2="345" y2="22" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="345" y1="22" x2="360" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                    <line x1="360" y1="14" x2="600" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                </svg>
+            </div>
+
         </div>
     </div>
 
