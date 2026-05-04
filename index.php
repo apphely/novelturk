@@ -130,6 +130,7 @@
                 array('label' => 'Site Yorumları', 'url' => '/#SiteYorumlari'),
                 array('label' => 'Son Yorumlar',   'url' => '/#SonYorumlar'),
             );
+            update_option('webnovel_homepage_quick_access', $quick_access_buttons);
         }
         if (!empty($quick_access_buttons) && is_array($quick_access_buttons)) : ?>
         <div class="nt-flex nt-flex-wrap nt-gap-2 nt-mb-6" style="justify-content:center;">
