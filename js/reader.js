@@ -518,11 +518,20 @@
             }
             var html = '';
             this.items.forEach(function (item) {
+                var timeStr = '';
+                if (item.time) {
+                    var d = new Date(item.time);
+                    var pad = function(n) { return n < 10 ? '0' + n : n; };
+                    timeStr = d.getDate() + ' ' +
+                        ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'][d.getMonth()] +
+                        ' ' + d.getFullYear() + ', ' +
+                        pad(d.getHours()) + ':' + pad(d.getMinutes());
+                }
                 html += `
                     <a href="${item.url}" class="dropdown-item">
                         <div class="item-info">
                             <span class="item-title">${item.title}</span>
-                            <span class="item-meta">Son okunan</span>
+                            <span class="item-meta">${timeStr}</span>
                         </div>
                     </a>
                 `;
