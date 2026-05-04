@@ -757,6 +757,18 @@ img {
 .dropdown-footer-link:hover {
     background: var(--bg-surface);
 }
+.kitaplik-new-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-weight: 700;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 4px;
+    vertical-align: middle;
+    line-height: 1.4;
+}
 
 .header-dropdown .empty-msg {
     padding: 20px;

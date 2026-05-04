@@ -159,6 +159,7 @@
             this.setupListeners();
             this.renderBtn();
             this.renderList();
+            this.renderDropdown();
             this.updateNotifUI();
 
             // Periodically check for updates (only if follows exist)
@@ -271,6 +272,7 @@
             }
             this.save();
             this.renderBtn();
+            this.renderDropdown();
             this.updateNotifUI();
         },
         save: function () {
@@ -324,6 +326,42 @@
                 `;
                 grid.appendChild(card);
             });
+        },
+        renderDropdown: function () {
+            var list  = document.getElementById('kitaplik-list');
+            var badge = document.getElementById('bookmark-count-badge');
+            var ids   = Object.keys(this.items);
+
+            if (badge) {
+                if (ids.length > 0) {
+                    badge.textContent = ids.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            if (!list) return;
+
+            if (ids.length === 0) {
+                list.innerHTML = '<p class="empty-msg">Henüz takip yok.</p>';
+                return;
+            }
+
+            var html = '';
+            ids.forEach(function (id) {
+                var item = webnovelFollow.items[id];
+                var url  = item.url || '/novel/' + id;
+                var meta = item.latest_ch_title || (item.last_seen_ch ? 'Bölüm ' + item.last_seen_ch : '');
+                var badge_html = item.has_update ? '<span class="kitaplik-new-badge">YENİ</span>' : '';
+                html += '<a href="' + url + '" class="dropdown-item">'
+                      + '<div class="item-info">'
+                      + '<span class="item-title">' + item.title + badge_html + '</span>'
+                      + (meta ? '<span class="item-meta">' + meta + '</span>' : '')
+                      + '</div>'
+                      + '</a>';
+            });
+            list.innerHTML = html;
         },
         updateNotifUI: function () {
             var badge = document.getElementById('notif-badge');
