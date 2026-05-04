@@ -1654,32 +1654,32 @@ a.nt-badge:hover {
    ============================================ */
 .nt-quick-btn {
     display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    background: var(--bg-surface);
-    color: var(--accent);
-    border: 1.5px solid var(--accent);
+    padding: 8px 20px;
+    border-radius: 8px;
+    background: var(--accent-gradient);
+    color: #fff;
+    border: none;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    transition: background 0.18s, color 0.18s;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(34, 65, 147, 0.35);
+    transition: filter 0.18s, transform 0.18s, box-shadow 0.18s;
 }
 
 .nt-quick-btn:hover {
-    background: var(--accent);
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(34, 65, 147, 0.45);
     color: #fff;
 }
 
 .dark .nt-quick-btn {
-    background: var(--bg-surface);
-    color: var(--text-main);
-    border-color: var(--border-hover);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .dark .nt-quick-btn:hover {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
 }
 
 /* ============================================
