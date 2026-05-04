@@ -1657,7 +1657,7 @@ a.nt-badge:hover {
     padding: 8px 20px;
     border-radius: 8px;
     background: var(--accent-gradient);
-    color: #fff;
+    color: #DF3C5F;
     border: none;
     font-size: 13px;
     font-weight: 700;
@@ -1671,7 +1671,7 @@ a.nt-badge:hover {
     filter: brightness(1.15);
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(34, 65, 147, 0.45);
-    color: #fff;
+    color: #DF3C5F;
 }
 
 .dark .nt-quick-btn {
