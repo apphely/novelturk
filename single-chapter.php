@@ -355,18 +355,15 @@ get_header();
             <?php webnovel_render_ad('after_content'); ?>
 
             <div class="chapter-ornament">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 28" preserveAspectRatio="xMidYMid meet">
-                    <line x1="0" y1="14" x2="240" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="240" y1="14" x2="255" y2="6"  stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="255" y1="6"  x2="270" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="270" y1="14" x2="285" y2="22" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="285" y1="22" x2="300" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <path d="M300,7 L307,14 L300,21 L293,14 Z" fill="currentColor" opacity="0.5"/>
-                    <line x1="300" y1="14" x2="315" y2="6"  stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="315" y1="6"  x2="330" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="330" y1="14" x2="345" y2="22" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="345" y1="22" x2="360" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
-                    <line x1="360" y1="14" x2="600" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 24" preserveAspectRatio="xMidYMid meet">
+                    <line x1="0" y1="12" x2="190" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.28"/>
+                    <path d="M190,12 Q202,4 214,12 Q226,20 238,12 Q250,4 262,12" fill="none" stroke="currentColor" stroke-width="0.85" opacity="0.4"/>
+                    <line x1="262" y1="12" x2="280" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                    <circle cx="300" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+                    <circle cx="300" cy="12" r="2" fill="currentColor" opacity="0.5"/>
+                    <line x1="320" y1="12" x2="338" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                    <path d="M338,12 Q350,4 362,12 Q374,20 386,12 Q398,4 410,12" fill="none" stroke="currentColor" stroke-width="0.85" opacity="0.4"/>
+                    <line x1="410" y1="12" x2="600" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.28"/>
                 </svg>
             </div>
 
