@@ -175,6 +175,87 @@
             badge.style.display = 'none';
         }
     } catch(e) {}
+
+    // --- Live Search ---
+    var liveSearchInput   = document.querySelector('.header-search-wrap input[name="s"]');
+    var liveSearchResults = document.getElementById('live-search-results');
+    var liveSearchTimer   = null;
+    var liveLastQuery     = '';
+    var liveActiveIndex   = -1;
+    var liveRestUrl       = '<?php echo esc_js(rest_url("wp/v2/novel")); ?>';
+
+    function fetchLiveSearch(q) {
+        fetch(liveRestUrl + '?search=' + encodeURIComponent(q) + '&per_page=6&_fields=id,title,link&orderby=relevance')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { renderLiveSearch(data, q); })
+            .catch(function() { closeLiveSearch(); });
+    }
+
+    function renderLiveSearch(items, q) {
+        if (!liveSearchResults) return;
+        if (!items || items.length === 0) {
+            liveSearchResults.innerHTML = '<div class="live-search-empty">Sonuç bulunamadı</div>';
+            liveSearchResults.removeAttribute('hidden');
+            return;
+        }
+        var esc = function(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+        var re  = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        var html = '';
+        items.forEach(function(item) {
+            var title = (item.title && item.title.rendered) ? item.title.rendered : '';
+            var link  = item.link || '#';
+            html += '<a href="' + esc(link) + '" class="live-search-item">'
+                  + esc(title).replace(re, '<mark>$1</mark>')
+                  + '</a>';
+        });
+        liveSearchResults.innerHTML = html;
+        liveSearchResults.removeAttribute('hidden');
+        liveActiveIndex = -1;
+    }
+
+    function closeLiveSearch() {
+        if (liveSearchResults) liveSearchResults.setAttribute('hidden', '');
+        liveActiveIndex = -1;
+    }
+
+    if (liveSearchInput && liveSearchResults) {
+        liveSearchInput.addEventListener('input', function() {
+            var q = this.value.trim();
+            clearTimeout(liveSearchTimer);
+            if (q.length < 2) { closeLiveSearch(); liveLastQuery = ''; return; }
+            if (q === liveLastQuery) return;
+            liveLastQuery = q;
+            liveSearchTimer = setTimeout(function() { fetchLiveSearch(q); }, 300);
+        });
+
+        liveSearchInput.addEventListener('keydown', function(e) {
+            var items = liveSearchResults.querySelectorAll('.live-search-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                liveActiveIndex = Math.min(liveActiveIndex + 1, items.length - 1);
+                items.forEach(function(el, i) { el.classList.toggle('is-active', i === liveActiveIndex); });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                liveActiveIndex = Math.max(liveActiveIndex - 1, -1);
+                items.forEach(function(el, i) { el.classList.toggle('is-active', i === liveActiveIndex); });
+            } else if (e.key === 'Enter' && liveActiveIndex >= 0) {
+                e.preventDefault();
+                if (items[liveActiveIndex]) items[liveActiveIndex].click();
+            } else if (e.key === 'Escape') {
+                closeLiveSearch();
+            }
+        });
+
+        liveSearchInput.addEventListener('focus', function() {
+            var q = this.value.trim();
+            if (q.length >= 2 && q !== liveLastQuery) fetchLiveSearch(q);
+            else if (q.length >= 2) liveSearchResults.removeAttribute('hidden');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.header-search-wrap')) closeLiveSearch();
+        });
+    }
 })();
 </script>
 
