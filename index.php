@@ -74,6 +74,7 @@
         </div>
 
         <style>
+            @keyframes nt-spin { to { transform: rotate(360deg); } }
             .nt-featured-slider { margin-bottom: 24px; }
             .slider-track { overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg-surface); }
             .slider-track::-webkit-scrollbar { height: 8px; }
@@ -696,30 +697,33 @@ function bindSidebarTabs() {
 }
 
 function ntRefreshGenres(btn) {
+    const svg = btn.querySelector('svg');
     btn.disabled = true;
-    btn.style.opacity = '0.4';
+    if (svg) svg.style.animation = 'nt-spin 0.7s linear infinite';
 
-    fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+    fetch(<?php echo json_encode(admin_url('admin-ajax.php')); ?>, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: 'action=refresh_sidebar_categories'
     })
-    .then(r => r.text())
-    .then(html => {
+    .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+    })
+    .then(function(html) {
+        if (!html || html.trim() === '0' || html.trim() === '') return;
         const tmp = document.createElement('div');
         tmp.innerHTML = html;
-
-        const newTabs = tmp.querySelector('.sidebar-tabs');
+        const newTabs     = tmp.querySelector('.sidebar-tabs');
         const newContents = tmp.querySelector('.sidebar-tab-contents');
-
-        if (newTabs) document.getElementById('sidebar-genre-tabs').innerHTML = newTabs.innerHTML;
+        if (newTabs)     document.getElementById('sidebar-genre-tabs').innerHTML     = newTabs.innerHTML;
         if (newContents) document.getElementById('sidebar-genre-contents').innerHTML = newContents.innerHTML;
-
         bindSidebarTabs();
     })
-    .finally(() => {
+    .catch(function(err) { console.warn('Genre refresh failed:', err); })
+    .then(function() {
         btn.disabled = false;
-        btn.style.opacity = '1';
+        if (svg) svg.style.animation = '';
     });
 }
 
