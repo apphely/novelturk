@@ -1656,22 +1656,22 @@ a.nt-badge:hover {
     display: inline-block;
     padding: 8px 20px;
     border-radius: 8px;
-    background: var(--accent-gradient);
-    color: #DF3C5F;
+    background: var(--accent);
+    color: #fff;
     border: none;
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(34, 65, 147, 0.35);
+    box-shadow: 0 2px 8px rgba(34, 65, 147, 0.3);
     transition: filter 0.18s, transform 0.18s, box-shadow 0.18s;
 }
 
 .nt-quick-btn:hover {
-    filter: brightness(1.15);
+    filter: brightness(1.2);
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(34, 65, 147, 0.45);
-    color: #DF3C5F;
+    color: #fff;
 }
 
 .dark .nt-quick-btn {
