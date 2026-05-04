@@ -416,6 +416,43 @@
             </div>
         </div>
 
+        <!-- Destek / Bağış -->
+        <div id="Destek-Bagis" class="nt-card" style="border-top:3px solid #e11d48; border-radius:8px; overflow:hidden;">
+            <div class="nt-card-body">
+
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                    <div style="width:36px; height:36px; border-radius:8px; background:#e11d48; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <div>
+                        <h3 style="font-size:15px; font-weight:800; color:var(--text-main); margin:0; line-height:1.2;">Destek / Bağış</h3>
+                        <span style="font-size:11px; color:var(--text-dim);">Siteyi destekle</span>
+                    </div>
+                </div>
+
+                <p style="font-size:13px; color:var(--text-dim); margin:0 0 14px; line-height:1.6;">
+                    Destek olmak için aşağıdaki platformları kullanabilir ya da bana özelden yazabilirsiniz.
+                </p>
+
+                <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+                    <li>
+                        <a onclick='copyText("TR200006400000134281049931")' style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; border-radius:8px; padding:12px; background:#014993; cursor:pointer; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                            <img src="https://i.imgur.com/yadUxIK.jpeg" style="max-width:110px; border-radius:4px;" alt="Ziraat Bankası">
+                            <span style="font-size:12px; font-weight:700; color:#fff; text-align:center; line-height:1.5;">TR20 0006 4000 0013 4281 0499 31<br>Yusuf Emre Tanyıldızı</span>
+                            <span style="background:#fff; color:#6b7280; font-size:11px; font-weight:600; padding:3px 10px; border-radius:4px;">Tıkla ve Kopyala <strong>(Vergi Levhalı)</strong></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.buymeacoffee.com/apphely" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; border-radius:8px; padding:12px 16px; background:#ffdd00; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                            <img src="https://cdn.buymeacoffee.com/assets/img/home-page-v3/bmc-new-logo.png" style="height:20px;" alt="Buy Me a Coffee">
+                            <span style="background:#fff; color:#6b7280; font-size:11px; font-weight:600; padding:3px 10px; border-radius:4px;">Yeni</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
         <?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
             <?php dynamic_sidebar( 'sidebar-1' ); ?>
         <?php endif; ?>
@@ -788,6 +825,14 @@ function ntRefreshGenres(btn) {
 
 document.addEventListener('DOMContentLoaded', bindSidebarTabs);
 
+function copyText(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        var n = document.getElementById('nt-copy-notification');
+        n.style.display = 'block';
+        setTimeout(function() { n.style.display = 'none'; }, 1500);
+    }).catch(function(err) { console.error('Kopyalama hatası:', err); });
+}
+
 function ntToggleGenreDropdown() {
     var dd = document.getElementById('nt-genre-dropdown');
     var chevron = document.getElementById('nt-genre-chevron');
@@ -818,5 +863,9 @@ document.addEventListener('click', function(e) {
 });
 
 </script>
+
+<div id="nt-copy-notification" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#94bb44; color:#fff; padding:10px 20px; border-radius:8px; font-size:15px; font-weight:600; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+    ✓ Kopyalandı!
+</div>
 
 <?php get_footer(); ?>
