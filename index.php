@@ -159,7 +159,7 @@
             <!-- Devam Edenler Tab -->
             <div id="tab-devam" class="novels-tab-content nt-novels-grid is-visible">
                 <?php
-                $args_devam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'ongoing')));
+                $args_devam = array('post_type' => 'novel', 'posts_per_page' => 28, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'ongoing')));
                 $query_devam = new WP_Query($args_devam);
                 if ($query_devam->have_posts()) :
                     while ($query_devam->have_posts()) : $query_devam->the_post();
@@ -172,7 +172,7 @@
             <!-- Tamamlananlar -->
             <div id="tab-tamamlandi" class="novels-tab-content nt-novels-grid">
                 <?php
-                $args_tamam = array('post_type' => 'novel', 'posts_per_page' => 15, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'completed')));
+                $args_tamam = array('post_type' => 'novel', 'posts_per_page' => 28, 'meta_query' => array(array('key' => '_novel_status', 'value' => 'completed')));
                 $query_tamam = new WP_Query($args_tamam);
                 if ($query_tamam->have_posts()) :
                     while ($query_tamam->have_posts()) : $query_tamam->the_post();
@@ -186,8 +186,8 @@
             <div id="tab-diger" class="novels-tab-content nt-novels-grid">
                 <?php
                 $args_all = array(
-                    'post_type' => 'novel', 
-                    'posts_per_page' => 15,
+                    'post_type' => 'novel',
+                    'posts_per_page' => 28,
                     'tax_query' => array(
                         array(
                             'taxonomy' => 'novel_origin',
@@ -824,6 +824,86 @@ function ntRefreshGenres(btn) {
 }
 
 document.addEventListener('DOMContentLoaded', bindSidebarTabs);
+
+(function() {
+    var MOBILE_LIMIT  = 12;
+    var DESKTOP_LIMIT = 28;
+    var tabPages = { devam: 1, tamamlandi: 1, diger: 1 };
+
+    function getLimit() {
+        return window.innerWidth < 768 ? MOBILE_LIMIT : DESKTOP_LIMIT;
+    }
+
+    function renderPagination(tabId) {
+        var tab = document.getElementById('tab-' + tabId);
+        if (!tab) return;
+
+        var cards = Array.prototype.slice.call(tab.querySelectorAll('.bookItem'));
+        if (!cards.length) return;
+
+        var limit       = getLimit();
+        var total       = cards.length;
+        var totalPages  = Math.ceil(total / limit);
+        var cur         = tabPages[tabId] = Math.min(tabPages[tabId] || 1, totalPages);
+        var start       = (cur - 1) * limit;
+
+        cards.forEach(function(c, i) {
+            c.style.display = (i >= start && i < start + limit) ? '' : 'none';
+        });
+
+        var old = tab.querySelector('.nt-tab-pager');
+        if (old) old.remove();
+        if (totalPages <= 1) return;
+
+        var pag = document.createElement('div');
+        pag.className = 'nt-tab-pager';
+        pag.style.cssText = 'grid-column:1/-1;display:flex;justify-content:center;align-items:center;gap:4px;padding-top:12px;flex-wrap:wrap;';
+
+        function btn(label, page, active, disabled) {
+            var b = document.createElement('button');
+            b.textContent = label;
+            b.disabled = disabled;
+            b.style.cssText = 'padding:5px 10px;border-radius:6px;font-size:13px;font-weight:600;cursor:' + (disabled ? 'default' : 'pointer') + ';opacity:' + (disabled ? '.35' : '1') + ';border:1.5px solid ' + (active ? 'var(--accent)' : 'var(--border)') + ';background:' + (active ? 'var(--accent)' : 'var(--bg-card)') + ';color:' + (active ? '#fff' : 'var(--text-main)') + ';';
+            if (!disabled) {
+                b.addEventListener('click', function() {
+                    tabPages[tabId] = page;
+                    renderPagination(tabId);
+                    document.querySelector('.tabbed-novels').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+            return b;
+        }
+
+        pag.appendChild(btn('‹', cur - 1, false, cur === 1));
+        for (var p = 1; p <= totalPages; p++) {
+            pag.appendChild(btn(p, p, p === cur, false));
+        }
+        pag.appendChild(btn('›', cur + 1, false, cur === totalPages));
+
+        tab.appendChild(pag);
+    }
+
+    function initAll() {
+        Object.keys(tabPages).forEach(function(id) { renderPagination(id); });
+    }
+
+    document.addEventListener('DOMContentLoaded', initAll);
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            Object.keys(tabPages).forEach(function(id) { tabPages[id] = 1; renderPagination(id); });
+        }, 300);
+    });
+
+    // Tab değişince aktif sekmenin sayfalandırmasını yenile
+    var _showTab = window.showTab;
+    window.showTab = function(tabId, el) {
+        _showTab(tabId, el);
+        renderPagination(tabId);
+    };
+})();
 
 function copyText(text) {
     navigator.clipboard.writeText(text).then(function() {
