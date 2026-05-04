@@ -211,71 +211,103 @@
 
     <!-- Sidebar Widget Area (NovelTurk specific Filtreleme) -->
     <aside class="nt-sidebar">
-        <div id="Filtreleme" class="nt-card" style="background-color: var(--bg-surface); border:none;">
+        <div id="Filtreleme" class="nt-card" style="background-color:var(--bg-surface); border:none; border-top:3px solid var(--accent); border-radius:8px; overflow:hidden;">
             <div class="nt-card-body">
-                <h3 class="nt-text-xl nt-font-bold nt-mb-4" style="color:var(--text-main);">Novel Filtreleme</h3>
-                
-                <form action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:12px;">
+
+                <!-- Başlık -->
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
+                    <div style="width:36px; height:36px; border-radius:8px; background:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    </div>
+                    <div>
+                        <h3 style="font-size:15px; font-weight:800; color:var(--text-main); margin:0; line-height:1.2;">Novel Filtreleme</h3>
+                        <span style="font-size:11px; color:var(--text-dim);">Aradığını bul</span>
+                    </div>
+                </div>
+
+                <form action="<?php echo home_url(); ?>" method="get" style="display:flex; flex-direction:column; gap:10px;">
                     <input type="hidden" name="post_type" value="novel">
-                    
-                    <!-- Text Search -->
+
+                    <!-- Metin Arama -->
                     <div style="position:relative;">
-                        <input type="text" name="s" placeholder="Novel/Bölüm ARA" value="<?php echo get_search_query(); ?>" style="width:100%; padding:10px 16px 10px 40px; background:var(--bg-card); border:1px solid var(--border); color:var(--text-main); border-radius:24px; outline:none; font-size:14px;">
-                        <svg style="position:absolute; left:14px; top:12px; color:var(--text-dim);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" name="s" placeholder="Novel veya bölüm ara..." value="<?php echo get_search_query(); ?>"
+                               style="width:100%; padding:9px 14px 9px 38px; background:var(--bg-card); border:1.5px solid var(--border); color:var(--text-main); border-radius:8px; outline:none; font-size:13px; box-sizing:border-box; transition:border-color 0.2s;"
+                               onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+                        <svg style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     </div>
 
-                    <!-- Dropdowns x 2 Columns -->
-                    <div style="display:flex; gap:12px;">
-                        <select name="nstatus" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Durum 📋</option>
-                            <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
-                                <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <select name="novel_type" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Tür 🏷️</option>
-                            <?php 
-                            $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
-                            if (!is_wp_error($types)) {
-                                foreach($types as $t) {
-                                    $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
+                    <!-- Durum + Tür -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Durum</label>
+                            <select name="nstatus" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <option value="">Tümü</option>
+                                <?php $current_nstatus = $_GET['nstatus'] ?? ''; foreach (webnovel_get_novel_statuses() as $skey => $slabel) : ?>
+                                    <option value="<?php echo esc_attr($skey); ?>" <?php selected($current_nstatus, $skey); ?>><?php echo esc_html($slabel); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Tür</label>
+                            <select name="novel_type" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <option value="">Tümü</option>
+                                <?php
+                                $types = get_terms(array('taxonomy' => 'novel_type', 'hide_empty' => false));
+                                if (!is_wp_error($types)) {
+                                    foreach($types as $t) {
+                                        $selected = (isset($_GET['novel_type']) && $_GET['novel_type'] == $t->slug) ? 'selected' : '';
+                                        echo '<option value="'.esc_attr($t->slug).'" '.$selected.'>'.esc_html($t->name).'</option>';
+                                    }
                                 }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div style="display:flex; gap:12px;">
-                        <select name="novel_origin" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Ülke 🌐</option>
-                            <?php 
-                            $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
-                            if (!is_wp_error($origins)) {
-                                foreach($origins as $o) {
-                                    $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                        <select name="novel_genre" style="flex:1; background:var(--bg-card); padding:8px; border-radius:24px; text-align:center; color:var(--text-dim); font-size:14px; border:1px solid var(--border); cursor:pointer; outline:none; -webkit-appearance:none; -moz-appearance:none; appearance:none;">
-                            <option value="">Kategori 📁</option>
-                            <?php 
-                            $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
-                            if (!is_wp_error($genres)) {
-                                foreach($genres as $g) {
-                                    $selected = (isset($_GET['novel_genre']) && $_GET['novel_genre'] == $g->slug) ? 'selected' : '';
-                                    echo '<option value="'.esc_attr($g->slug).'" '.$selected.'>'.esc_html($g->name).'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
+                                ?>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Submit -->
-                    <button type="submit" style="width:100%; padding:12px; border-radius:24px; background:linear-gradient(to right, #6366f1, #3b82f6); color:#fff; border:none; font-weight:bold; font-size:16px; cursor:pointer; margin-top:8px;">
-                        🔍 Filtrele
-                    </button>
+                    <!-- Ülke + Kategori -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Ülke</label>
+                            <select name="novel_origin" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <option value="">Tümü</option>
+                                <?php
+                                $origins = get_terms(array('taxonomy' => 'novel_origin', 'hide_empty' => false));
+                                if (!is_wp_error($origins)) {
+                                    foreach($origins as $o) {
+                                        $selected = (isset($_GET['novel_origin']) && $_GET['novel_origin'] == $o->slug) ? 'selected' : '';
+                                        echo '<option value="'.esc_attr($o->slug).'" '.$selected.'>'.esc_html($o->name).'</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:10px; font-weight:700; color:var(--text-dim); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.6px;">Kategori</label>
+                            <select name="novel_genre" style="width:100%; background:var(--bg-card); padding:8px 10px; border-radius:8px; color:var(--text-main); font-size:13px; border:1.5px solid var(--border); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none;">
+                                <option value="">Tümü</option>
+                                <?php
+                                $genres = get_terms(array('taxonomy' => 'novel_genre', 'hide_empty' => false));
+                                if (!is_wp_error($genres)) {
+                                    foreach($genres as $g) {
+                                        $selected = (isset($_GET['novel_genre']) && $_GET['novel_genre'] == $g->slug) ? 'selected' : '';
+                                        echo '<option value="'.esc_attr($g->slug).'" '.$selected.'>'.esc_html($g->name).'</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Filtrele + Temizle -->
+                    <div style="display:flex; gap:8px; margin-top:4px; align-items:stretch;">
+                        <button type="submit" style="flex:1; padding:10px 14px; border-radius:8px; background:var(--accent); color:#fff; border:none; font-weight:700; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            Filtrele
+                        </button>
+                        <a href="<?php echo home_url('/'); ?>" title="Filtreleri Temizle" style="padding:10px 12px; border-radius:8px; background:var(--bg-card); border:1.5px solid var(--border); color:var(--text-dim); display:flex; align-items:center; justify-content:center; text-decoration:none; flex-shrink:0;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text-dim)'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        </a>
+                    </div>
                 </form>
 
                 <!-- Sidebar Genre Tabs / Pills -->
