@@ -352,7 +352,7 @@
             ids.forEach(function (id) {
                 var item = webnovelFollow.items[id];
                 var url  = item.url || '/novel/' + id;
-                var meta = item.latest_ch_title || (item.last_seen_ch ? 'Bölüm ' + item.last_seen_ch : '');
+                var meta = item.latest_ch_title || '';
                 var badge_html = item.has_update ? '<span class="kitaplik-new-badge">YENİ</span>' : '';
                 html += '<a href="' + url + '" class="dropdown-item">'
                       + '<div class="item-info">'
