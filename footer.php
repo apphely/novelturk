@@ -99,7 +99,8 @@
         applyNsfw(isOn);
 
         if (btn) {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
                 isOn = !isOn;
                 localStorage.setItem('nsfw-mode', isOn ? 'on' : 'off');
                 applyNsfw(isOn);
