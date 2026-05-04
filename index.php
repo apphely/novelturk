@@ -120,13 +120,17 @@
         ?>
 
         <!-- Hızlı Erişim Pills -->
+        <?php
+        $quick_access_buttons = get_option('webnovel_homepage_quick_access', array());
+        if (!empty($quick_access_buttons) && is_array($quick_access_buttons)) : ?>
         <div class="nt-flex nt-flex-wrap nt-gap-2 nt-mb-6" style="justify-content:center;">
-            <a href="#" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Destek/Bağış</a>
-            <a href="#" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">En Popülerler</a>
-            <a href="/#Fİltreleme" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Filtreleme</a>
-            <a href="/#SiteYorumlari" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Site Yorumları</a>
-            <a href="/#SonYorumlar" style="background:#5eead4; color:#0f766e; font-weight:bold; padding:6px 16px; border-radius:4px; text-decoration:none; font-size:13px;">Son Yorumlar</a>
+            <?php foreach ($quick_access_buttons as $btn) :
+                if (empty(trim($btn['label'])) || empty(trim($btn['url']))) continue;
+            ?>
+            <a href="<?php echo esc_attr($btn['url']); ?>" class="nt-quick-btn"><?php echo esc_html($btn['label']); ?></a>
+            <?php endforeach; ?>
         </div>
+        <?php endif; ?>
 
         <!-- Tabbed Novels Grid -->
         <section class="tabbed-novels">

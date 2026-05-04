@@ -1650,6 +1650,39 @@ a.nt-badge:hover {
  }
 
 /* ============================================
+   Hızlı Erişim Butonları (.nt-quick-btn)
+   ============================================ */
+.nt-quick-btn {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: var(--bg-surface);
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s;
+}
+
+.nt-quick-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.dark .nt-quick-btn {
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border-color: var(--border-hover);
+}
+
+.dark .nt-quick-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/* ============================================
    Sidebar: Derecelendirme + Kütüphane butonu kartı
    ============================================ */
 .nt-rating-follow-card .nt-card-body {
